@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>英文單字練習 (A-Z 排序版)</title>
+  <style>
+    body {
+      font-family: "Microsoft JhengHei", sans-serif;
+      background-color: #fcf9f2;
+      color: #333;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: top;
+    }
+    th {
+      background-color: #f0e6d2;
+      font-weight: bold;
+      color: #5a4a42;
+    }
+    .word-cell {
+      font-size: 1.2em;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    .syl-1 { color: #d32f2f; }
+    .syl-2 { color: #1976d2; }
+    .syl-3 { color: #388e3c; }
+    .syl-4 { color: #f57c00; }
+    .syl-5 { color: #7b1fa2; }
+    .separator {
+      color: #b0bec5;
+      margin: 0 2px;
+      font-weight: normal;
+    }
+    .btn-audio {
+      background: none;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      padding: 2px 6px;
+      margin-left: 8px;
+      font-size: 0.85em;
+      transition: background 0.2s;
+    }
+    .btn-audio:hover {
+      background-color: #f0f0f0;
+    }
+    .kk-text {
+      color: #555;
+      font-family: Arial, sans-serif;
+      white-space: nowrap;
+    }
+    .meaning-text {
+      color: #333;
+    }
+    .pos-text {
+      color: #777;
+      font-style: italic;
+      margin-right: 5px;
+    }
+    .sentence-text {
+      color: #1a5276;
+      font-size: 0.9em;
+      line-height: 1.4;
+    }
+    .mnemonic-text {
+      font-size: 0.9em;
+      line-height: 1.5;
+      color: #4a4a4a;
+    }
+    .mnemonic-tag {
+      display: inline-block;
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      margin-right: 5px;
+      font-weight: bold;
+    }
+    .mnemonic-tag.sound {
+      background-color: #fff3e0;
+      color: #ef6c00;
+    }
+    .mnemonic-tag.creative {
+      background-color: #e3f2fd;
+      color: #1565c0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>📖 單字表 (依 A-Z 排序版)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th width="5%">序號</th>
+        <th width="18%">單字</th>
+        <th width="12%">KK音標</th>
+        <th width="15%">中文意思</th>
+        <th width="25%">記憶法</th>
+        <th width="25%">英文例句</th>
+      </tr>
+    </thead>
+    <tbody id="word-list">
+      <!-- 單字將會載入這裡 -->
+    </tbody>
+  </table>
+</div>
+
+<!-- 【資料區】 -->
+<script type="application/json" id="words-json">
+[
+  {"序號": 1, "單字": "sensitive", "詞性": "adj.", "中文意思": "敏感的", "KK音標": "[`sɛnsətɪv]", "音節": ["sen", "si", "tive"], "例句": "Kelly is very sensitive to flavors. She can taste any food or drink and name it without seeing it.", "記憶法": "[字根記法] sens (感覺) + -itive (形容詞尾) -> 對感覺敏銳的"},
+  {"序號": 2, "單字": "keen", "詞性": "adj.", "中文意思": "敏銳的；渴望的；熱衷的", "KK音標": "[kin]", "音節": ["keen"], "例句": "The owl has such a keen sense of hearing that it can hunt animals in the dark.", "記憶法": "[諧音記法] 聽起來像「金」 -> 老鷹有雙「金」色的眼睛，非常「敏銳」"},
+  {"序號": 3, "單字": "detect", "詞性": "vt.", "中文意思": "偵測到；察覺", "KK音標": "[dɪ`tɛkt]", "音節": ["de", "tect"], "例句": "For most people, it is not easy to detect a small change in temperature.", "記憶法": "[字根記法] de- (去除) + tect (覆蓋) -> 拿掉覆蓋物 -> 察覺/偵測"},
+  {"序號": 4, "單字": "item", "詞性": "n.", "中文意思": "一項物品", "KK音標": "[`aɪtəm]", "音節": ["i", "tem"], "例句": "More than half of the items in the clothing store were on sale for one day only.", "記憶法": "[諧音記法] 「挨疼」 -> 為了買這「項物品」花很多錢，心裡挨疼"},
+  {"序號": 5, "單字": "accomplish", "詞性": "vt.", "中文意思": "達成", "KK音標": "[ə`kɑmplɪʃ]", "音節": ["ac", "com", "plish"], "例句": "Albert respects those who have accomplished something great in their lives.", "記憶法": "[字根記法] ac- (加強) + compl (滿的) + -ish (動詞) -> 努力達到圓滿 -> 達成"},
+  {"序號": 6, "單字": "accomplishment", "詞性": "n.", "中文意思": "成就", "KK音標": "[ə`kɑmplɪʃmənt]", "音節": ["ac", "com", "plish", "ment"], "例句": "Marc felt that leading his basketball team to the city final was his greatest accomplishment of the year.", "記憶法": "[字根記法] accomplish (達成) + -ment (名詞尾) -> 達成的「成就」"},
+  {"序號": 7, "單字": "disease", "詞性": "n.", "中文意思": "疾病", "KK音標": "[dɪ`ziz]", "音節": ["dis", "ease"], "例句": "Washing your hands often is a good way to stop the spread of disease.", "記憶法": "[字根記法] dis- (不) + ease (舒適) -> 身體不舒適 -> 疾病"},
+  {"序號": 8, "單字": "infected", "詞性": "adj.", "中文意思": "遭感染的", "KK音標": "[ɪn`fɛktɪd]", "音節": ["in", "fect", "ed"], "例句": "Several passengers were found to have the disease after they took the same flight as an infected person.", "記憶法": "[字根記法] infect (感染) + -ed (形容詞尾) -> 遭感染的"},
+  {"序號": 9, "單字": "infect", "詞性": "vt.", "中文意思": "感染", "KK音標": "[ɪn`fɛkt]", "音節": ["in", "fect"], "例句": "More than 70 million people have been infected with AIDS in the last 50 years.", "記憶法": "[字根記法] in- (進入) + fect (做/發生) -> 病毒進入體內作用 -> 感染"},
+  {"序號": 10, "單字": "infection", "詞性": "n.", "中文意思": "感染", "KK音標": "[ɪn`fɛkʃən]", "音節": ["in", "fec", "tion"], "例句": "The boy developed a serious infection on his leg because he didn’t clean the wound after he fell.", "記憶法": "[字根記法] infect (感染) + -ion (名詞尾) -> 感染"},
+  {"序號": 11, "單字": "locate", "詞性": "vt.", "中文意思": "找到……（的位置）", "KK音標": "[lo`ket]", "音節": ["lo", "cate"], "例句": "These days, most taxi drivers use GPS to locate places they don’t know how to drive to.", "記憶法": "[字根記法] loc (地方) + -ate (動詞尾) -> 定位、找到地點"},
+  {"序號": 12, "單字": "location", "詞性": "n.", "中文意思": "地點", "KK音標": "[lo`keʃən]", "音節": ["lo", "ca", "tion"], "例句": "This hotel is very expensive because it is in a good location right beside a beach.", "記憶法": "[字根記法] loc (地方) + -ation (名詞尾) -> 地點"},
+  {"序號": 13, "單字": "reward", "詞性": "n., vt.", "中文意思": "獎勵；報酬；獎賞", "KK音標": "[rɪ`wɔrd]", "音節": ["re", "ward"], "例句": "Janice was given a reward of $2,000 for informing the police of the address of the man they were searching for.", "記憶法": "[字根記法] re- (回) + ward (方向) -> 回報給對方的方向 -> 獎勵/報酬"},
+  {"序號": 14, "單字": "ability", "詞性": "n.", "中文意思": "能力", "KK音標": "[ə`bɪlətɪ]", "音節": ["a", "bil", "i", "ty"], "例句": "Eagles have the ability to fly without landing for over three hours.", "記憶法": "[字根記法] able (有能力的) 字尾變化 + -ity (名詞) -> 能力"},
+  {"序號": 15, "單字": "predict", "詞性": "vt.", "中文意思": "預測", "KK音標": "[prɪ`dɪkt]", "音節": ["pre", "dict"], "例句": "The weatherperson predicted that it would start raining around 6:00 p.m., and she was correct.", "記憶法": "[字根記法] pre- (預先) + dict (說) -> 事情還沒發生就預先說出來 -> 預測"},
+  {"序號": 16, "單字": "manage", "詞性": "vt., vi.", "中文意思": "設法成功做到；能夠應付；管理", "KK音標": "[`mænɪdʒ]", "音節": ["man", "age"], "例句": "Kyle managed to lose twenty pounds by exercising every day and eating less junk food.", "記憶法": "[字根記法] man (手) + -age (動作) -> 雙手親自操作 -> 設法應付/管理"},
+  {"序號": 17, "單字": "management", "詞性": "n.", "中文意思": "管理", "KK音標": "[`mænɪdʒmənt]", "音節": ["man", "age", "ment"], "例句": "For busy people like the president of a country, good time management is of great importance.", "記憶法": "[字根記法] manage (管理) + -ment (名詞尾) -> 管理"},
+  {"序號": 18, "單字": "create", "詞性": "vt.", "中文意思": "創造；產生出", "KK音標": "[krɪ`et]", "音節": ["cre", "ate"], "例句": "The inventor of the telephone, Antonio Meucci, created a new way for humans to communicate.", "記憶法": "[字根記法] cre (製造) + -ate (動詞尾) -> 製造出來 -> 創造"},
+  {"序號": 19, "單字": "creation", "詞性": "n.", "中文意思": "創造；創建", "KK音標": "[krɪ`eʃən]", "音節": ["cre", "a", "tion"], "例句": "After the creation of the movie theater’s website, few people called to find out what movies were playing.", "記憶法": "[字根記法] create 去 e + -ation (名詞尾) -> 創造"},
+  {"序號": 20, "單字": "creative", "詞性": "adj.", "中文意思": "有創意的", "KK音標": "[krɪ`etɪv]", "音節": ["cre", "a", "tive"], "例句": "Nicole always has interesting new ideas, and she shows that in her creative paintings and drawings.", "記憶法": "[字根記法] create 去 e + -tive (形容詞尾) -> 有創意的"},
+  {"序號": 21, "單字": "creativity", "詞性": "n.", "中文意思": "創意", "KK音標": "[ˏkrie`tɪvətɪ]", "音節": ["cre", "a", "tiv", "i", "ty"], "例句": "The students in the class showed great creativity in the wide range of topics they chose for their articles.", "記憶法": "[字根記法] creative 去 e + -ity (名詞尾) -> 創意"},
+  {"序號": 22, "單字": "expose", "詞性": "vt.", "中文意思": "使接觸；使體驗；使暴露於", "KK音標": "[ɪk`spoz]", "音節": ["ex", "pose"], "例句": "By reading these articles, students will be exposed to different opinions about the topic.", "記憶法": "[字根記法] ex- (向外) + pose (放) -> 放在外面 -> 使暴露/接觸"},
+  {"序號": 23, "單字": "exposure", "詞性": "n.", "中文意思": "暴露", "KK音標": "[ɪk`spoʒɚ]", "音節": ["ex", "po", "sure"], "例句": "Too much exposure to the sun and wind caused the paint on the building to come off.", "記憶法": "[字根記法] expose 去 e + -ure (名詞尾) -> 暴露"},
+  {"序號": 24, "單字": "perform", "詞性": "vt., vi.", "中文意思": "做某事；表演", "KK音標": "[pɚ`fɔrm]", "音節": ["per", "form"], "例句": "After Mrs. Checknita fell ill, her family hired someone to help her perform daily tasks.", "記憶法": "[字根記法] per- (完全) + form (形式) -> 將形式完整呈現出來 -> 表演/執行"},
+  {"序號": 25, "單字": "performance", "詞性": "n.", "中文意思": "表演", "KK音標": "[pɚ`fɔrməns]", "音節": ["per", "form", "ance"], "例句": "The magician will give a performance of his best tricks at the end of the evening show.", "記憶法": "[字根記法] perform (表演) + -ance (名詞尾) -> 表演"},
+  {"序號": 26, "單字": "behavior", "詞性": "n.", "中文意思": "行為", "KK音標": "[bɪ`hevjɚ]", "音節": ["be", "hav", "ior"], "例句": "Animal behavior can tell us a lot about what a creature is thinking about or wants.", "記憶法": "[字根記法] behave (表現) 去 e + -ior (名詞尾) -> 行為"},
+  {"序號": 27, "單字": "behave", "詞性": "vi.", "中文意思": "表現", "KK音標": "[bɪ`hev]", "音節": ["be", "have"], "例句": "All the guests were impressed by how little Mandy behaved like an adult.", "記憶法": "[創意記法] be (成為) + have (有) -> 讓自己成為一個「有」規矩的人 -> 表現"},
+  {"序號": 28, "單字": "alert", "詞性": "n., adj.", "中文意思": "警示；警覺的", "KK音標": "[ə`lɝt]", "音節": ["a", "lert"], "例句": "Everybody was asked to leave the mall due to a bomb alert in one of the stores.", "記憶法": "[諧音記法] 「阿勒！」 -> 突然勒緊馬韁，保持「警覺的」"},
+  {"序號": 29, "單字": "complete", "詞性": "adj., vt.", "中文意思": "已完成的；完整的；完成", "KK音標": "[kəm`plit]", "音節": ["com", "plete"], "例句": "The race is not complete until every runner from every team crosses the finish line.", "記憶法": "[字根記法] com- (共同/完全) + plete (滿的) -> 完全裝滿 -> 完成/完整的"},
+  {"序號": 30, "單字": "assign", "詞性": "vt.", "中文意思": "指派", "KK音標": "[ə`saɪn]", "音節": ["as", "sign"], "例句": "Craig was assigned the task of giving the new students a tour of the school.", "記憶法": "[字根記法] as- (朝向) + sign (簽名/記號) -> 簽名並交辦給某人 -> 指派"},
+  {"序號": 31, "單字": "assignment", "詞性": "n.", "中文意思": "（分派的）作業；工作", "KK音標": "[ə`saɪnmənt]", "音節": ["as", "sign", "ment"], "例句": "The students are going to Tainan on an assignment for history class.", "記憶法": "[字根記法] assign (指派) + -ment (名詞尾) -> 指派的作業/工作"},
+  {"序號": 32, "單字": "specific", "詞性": "adj.", "中文意思": "特定的", "KK音標": "[spɪ`sɪfɪk]", "音節": ["spe", "cif", "ic"], "例句": "There wasn’t any specific reason why Jason didn’t attend the performance with his friends. He just didn’t feel like it.", "記憶法": "[字根記法] speci (種類/外觀) + -fic (做...的) -> 針對單一種類做的 -> 特定的"}
+]
+</script>
+
+<!-- 【程式區】自動讀取上方資料、排序並畫出表格 -->
+<script>
+  try {
+    // 讀取 JSON 資料
+    const jsonText = document.getElementById('words-json').textContent;
+    const wordsData = JSON.parse(jsonText);
+    const tbody = document.getElementById('word-list');
+
+    // 💡 關鍵更新：依據單字英文字母 (A 到 Z) 進行排序
+    wordsData.sort((a, b) => a.單字.localeCompare(b.單字));
+
+    wordsData.forEach((item, index) => {
+      const tr = document.createElement('tr');
+      
+      // 處理音節與顏色
+      let syllablesHtml = '';
+      const syllables = item.音節 || [];
+      syllables.forEach((syl, i) => {
+        let colorClass = `syl-${(i % 5) + 1}`; 
+        syllablesHtml += `<span class="${colorClass}">${syl}</span>`;
+        if (i < syllables.length - 1) {
+          syllablesHtml += `<span class="separator">·</span>`;
+        }
+      });
+
+      // 處理記憶法標籤
+      let mnemonic = item.記憶法 || "";
+      if (mnemonic.includes('[字根記法]')) {
+        mnemonic = mnemonic.replace('[字根記法]', '<span class="mnemonic-tag">字根</span>');
+      } else if (mnemonic.includes('[諧音記法]')) {
+        mnemonic = mnemonic.replace('[諧音記法]', '<span class="mnemonic-tag sound">諧音</span>');
+      } else if (mnemonic.includes('[創意記法]')) {
+        mnemonic = mnemonic.replace('[創意記法]', '<span class="mnemonic-tag creative">創意</span>');
+      }
+
+      // 將資料塞入表格，並將序號改為動態產生 (index + 1)
+      tr.innerHTML = `
+        <td>${index + 1}</td>
+        <td class="word-cell">
+          ${syllablesHtml}
+          <button class="btn-audio play-word" data-text="${item.單字}" title="單字發音">🔊</button>
+        </td>
+        <td class="kk-text">${item.KK音標}</td>
+        <td class="meaning-text"><span class="pos-text">${item.詞性}</span>${item.中文意思}</td>
+        <td class="mnemonic-text">${mnemonic}</td>
+        <td class="sentence-text">
+          ${item.例句} 
+          <button class="btn-audio play-sentence" data-text="${item.例句}" title="例句發音">🔊</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    // 綁定發音事件
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('play-word')) {
+        speakText(e.target.getAttribute('data-text'), 0.9);
+      } else if (e.target.classList.contains('play-sentence')) {
+        speakText(e.target.getAttribute('data-text'), 1.0);
+      }
+    });
+
+    function speakText(text, rate) {
+      if (!text) return;
+      window.speechSynthesis.cancel();
+      let utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US'; 
+      utterance.rate = rate; 
+      window.speechSynthesis.speak(utterance);
+    }
+
+  } catch (error) {
+    alert("資料載入發生錯誤！請確認這份程式碼是不是有完整「全選、複製、貼上」喔！詳細錯誤：" + error);
+  }
+</script>
+
+</body>
+</html>
