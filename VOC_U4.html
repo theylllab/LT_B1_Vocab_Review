@@ -10,6 +10,7 @@
       background-color: #fcf9f2;
       color: #333;
       padding: 20px;
+      margin: 0;
     }
     .container {
       max-width: 1200px;
@@ -61,8 +62,8 @@
       border: 1px solid #ccc;
       border-radius: 4px;
       cursor: pointer;
-      padding: 2px 6px;
-      margin-left: 8px;
+      padding: 3px 8px;
+      margin-left: 6px;
       font-size: 0.85em;
       transition: background 0.2s;
     }
@@ -118,6 +119,81 @@
       text-align: center;
       padding: 15px;
       letter-spacing: 2px;
+    }
+
+    /* 手機螢幕 RWD 自適應卡片樣式 */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px 8px;
+      }
+      h2 {
+        font-size: 1.25rem;
+        margin: 10px 4px;
+        text-align: center;
+      }
+      .table-wrapper {
+        box-shadow: none;
+        overflow-x: visible;
+      }
+      table {
+        min-width: 100% !important;
+        display: block;
+      }
+      thead {
+        display: none;
+      }
+      tbody, tr, td {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      tr {
+        background: #ffffff;
+        margin-bottom: 12px;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        border: 1px solid #ebe5d8;
+        padding: 12px;
+      }
+      td {
+        border-bottom: none;
+        padding: 4px 0;
+      }
+      td.col-id {
+        display: inline-block;
+        background-color: #f0e6d2;
+        color: #795548;
+        font-size: 0.75rem;
+        font-weight: bold;
+        padding: 2px 8px;
+        border-radius: 12px;
+        margin-bottom: 4px;
+      }
+      td.col-word {
+        font-size: 1.3em;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      td.col-kk {
+        font-size: 0.9em;
+        color: #666;
+        padding-bottom: 6px;
+      }
+      td.col-meaning {
+        font-size: 1.05em;
+        color: #212121;
+        font-weight: 500;
+        padding-bottom: 8px;
+        border-bottom: 1px dashed #eee;
+      }
+      .section-title {
+        border-radius: 8px;
+        margin-bottom: 12px;
+        font-size: 1.05em;
+        padding: 10px;
+      }
     }
   </style>
 </head>
@@ -393,15 +469,15 @@
       }
 
       tr.innerHTML = `
-        <td>${globalIndex++}</td>
-        <td class="word-cell">
+        <td class="col-id">#${globalIndex++}</td>
+        <td class="word-cell col-word">
           ${syllablesHtml}
           <button class="btn-audio play-word" data-text="${item.單字}" title="發音">🔊</button>
         </td>
-        <td class="kk-text">${item.KK音標}</td>
-        <td class="meaning-text">${posHtml}${item.中文意思}</td>
-        <td class="mnemonic-text">${mnemonic}</td>
-        <td class="sentence-text">
+        <td class="kk-text col-kk">${item.KK音標}</td>
+        <td class="meaning-text col-meaning">${posHtml}${item.中文意思}</td>
+        <td class="mnemonic-text col-mnemonic">${mnemonic}</td>
+        <td class="sentence-text col-sentence">
           ${item.例句} 
           ${item.例句 ? `<button class="btn-audio play-sentence" data-text="${item.例句}" title="例句發音">🔊</button>` : ''}
         </td>
