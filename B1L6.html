@@ -195,6 +195,10 @@
         padding: 10px;
       }
     }
+      .sentence-text b {
+      color: #0d47a1;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -592,10 +596,16 @@
     function createRow(item) {
       const tr = document.createElement('tr');
       
+      const word = item.單字 || item.word || item.Vocab || "";
+      const kk = item.KK音標 || item.kk || item.KK || "";
+      const pos = item.詞性 || item.pos || item.POS || "";
+      const meaning = item.中文意思 || item.meaning || item.Chinese || "";
+      let mnemonic = item.記憶法 || item.mnemonic || item.Mnemonic || "";
+      const sentence = item.例句 || item.sentence || item.Example || "";
+      const syllables = item.音節 || item.syllables || item.Syllables || [];
+
       let syllablesHtml = '';
-      const syllables = item.音節 || [];
-      
-      if (syllables.length > 0) {
+      if (Array.isArray(syllables) && syllables.length > 0) {
         syllables.forEach((syl, i) => {
           let colorClass = `syl-${(i % 5) + 1}`; 
           syllablesHtml += `<span class="${colorClass}">${syl}</span>`;
@@ -604,12 +614,11 @@
           }
         });
       } else {
-        syllablesHtml = `<span class="phrase-text">${item.單字}</span>`;
+        syllablesHtml = `<span class="phrase-text">${word}</span>`;
       }
 
-      let posHtml = item.詞性 ? `<span class="pos-text">${item.詞性}</span>` : '';
+      let posHtml = pos ? `<span class="pos-text">${pos}</span>` : '';
 
-      let mnemonic = item.記憶法 || "";
       if (mnemonic.includes('[字根記法]')) {
         mnemonic = mnemonic.replace('[字根記法]', '<span class="mnemonic-tag">字根</span>');
       } else if (mnemonic.includes('[諧音記法]')) {
@@ -618,18 +627,30 @@
         mnemonic = mnemonic.replace('[創意記法]', '<span class="mnemonic-tag creative">創意</span>');
       }
 
+      // 例句單字粗體化（安全不崩潰處理）
+      let highlightedSentence = sentence;
+      if (sentence && word) {
+        try {
+          const target = word.trim().split(" ")[0]; // 若為片語先抓第一個核心字或全字
+          const reg = new RegExp(`\\b(${target}[a-zA-Z]*)\\b`, 'gi');
+          highlightedSentence = sentence.replace(reg, '<b>$1</b>');
+        } catch (err) {
+          highlightedSentence = sentence;
+        }
+      }
+
       tr.innerHTML = `
         <td class="col-id">#${globalIndex++}</td>
         <td class="word-cell col-word">
           ${syllablesHtml}
-          <button class="btn-audio play-word" data-text="${item.單字}" title="發音">🔊</button>
+          <button class="btn-audio play-word" data-text="${word}" title="發音">🔊</button>
         </td>
-        <td class="kk-text col-kk">${item.KK音標}</td>
-        <td class="meaning-text col-meaning">${posHtml}${item.中文意思}</td>
+        <td class="kk-text col-kk">${kk}</td>
+        <td class="meaning-text col-meaning">${posHtml}${meaning}</td>
         <td class="mnemonic-text col-mnemonic">${mnemonic}</td>
         <td class="sentence-text col-sentence">
-          ${item.例句} 
-          ${item.例句 ? `<button class="btn-audio play-sentence" data-text="${item.例句}" title="例句發音">🔊</button>` : ''}
+          ${highlightedSentence} 
+          ${sentence ? `<button class="btn-audio play-sentence" data-text="${sentence}" title="例句發音">🔊</button>` : ''}
         </td>
       `;
       return tr;
