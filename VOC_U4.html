@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>高頻單字</title>
+  <style>
+    body {
+      font-family: "Microsoft JhengHei", sans-serif;
+      background-color: #fcf9f2;
+      color: #333;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      min-width: 800px;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: top;
+    }
+    th {
+      background-color: #f0e6d2;
+      font-weight: bold;
+      color: #5a4a42;
+    }
+    .word-cell {
+      font-size: 1.2em;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    .syl-1 { color: #d32f2f; }
+    .syl-2 { color: #1976d2; }
+    .syl-3 { color: #388e3c; }
+    .syl-4 { color: #f57c00; }
+    .syl-5 { color: #7b1fa2; }
+    .separator {
+      color: #b0bec5;
+      margin: 0 2px;
+      font-weight: normal;
+    }
+    .phrase-text {
+      color: #1565c0;
+    }
+    .btn-audio {
+      background: none;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      padding: 2px 6px;
+      margin-left: 8px;
+      font-size: 0.85em;
+      transition: background 0.2s;
+    }
+    .btn-audio:hover {
+      background-color: #f0f0f0;
+    }
+    .kk-text {
+      color: #555;
+      font-family: Arial, sans-serif;
+      white-space: nowrap;
+    }
+    .meaning-text {
+      color: #333;
+    }
+    .pos-text {
+      color: #777;
+      font-style: italic;
+      margin-right: 5px;
+    }
+    .sentence-text {
+      color: #1a5276;
+      font-size: 0.9em;
+      line-height: 1.4;
+    }
+    .mnemonic-text {
+      font-size: 0.9em;
+      line-height: 1.5;
+      color: #4a4a4a;
+    }
+    .mnemonic-tag {
+      display: inline-block;
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      margin-right: 5px;
+      font-weight: bold;
+    }
+    .mnemonic-tag.sound {
+      background-color: #fff3e0;
+      color: #ef6c00;
+    }
+    .mnemonic-tag.creative {
+      background-color: #e3f2fd;
+      color: #1565c0;
+    }
+    .section-title {
+      background-color: #bbdefb;
+      color: #0d47a1;
+      font-size: 1.2em;
+      font-weight: bold;
+      text-align: center;
+      padding: 15px;
+      letter-spacing: 2px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>📖 高頻單字學習表</h2>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th width="5%">序號</th>
+          <th width="18%">單字 / 片語</th>
+          <th width="12%">KK音標</th>
+          <th width="15%">中文意思</th>
+          <th width="25%">記憶法 / 備註</th>
+          <th width="25%">英文例句</th>
+        </tr>
+      </thead>
+      <!-- 單字區塊 -->
+      <tbody id="word-list"></tbody>
+      
+      <!-- 片語區塊標題 -->
+      <tbody>
+        <tr>
+          <td colspan="6" class="section-title">✨ Idioms and Phrases ✨</td>
+        </tr>
+      </tbody>
+      
+      <!-- 片語區塊 -->
+      <tbody id="phrase-list"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  // 【單字與片語資料】
+  const allData = [
+    {
+      "序號": 1,
+      "單字": "latitude",
+      "詞性": "n. [C, U]",
+      "中文意思": "緯度",
+      "KK音標": "[`lætəˌtjud]",
+      "音節": ["lat", "i", "tude"],
+      "例句": "Paris and Vancouver share the same latitude.",
+      "記憶法": "[字根記法] lat (寬/廣) + i + tude (度/狀態) -> 地球橫向寬度的測量（緯度）"
+    },
+    {
+      "序號": 2,
+      "單字": "abundance",
+      "詞性": "n. sing., [U]",
+      "中文意思": "豐富；大量",
+      "KK音標": "[ə`bʌndəns]",
+      "音節": ["a", "bun", "dance"],
+      "例句": "We have an abundance of food, so eat as much as you want.",
+      "記憶法": "[字根記法] ab (遠離/大量) + und (波浪/溢出) + ance -> 如波浪般湧現溢出 -> 豐富"
+    },
+    {
+      "序號": 3,
+      "單字": "resource",
+      "詞性": "n. [C]",
+      "中文意思": "資源；財富；財力",
+      "KK音標": "[`riˌsɔrs]",
+      "音節": ["re", "source"],
+      "例句": "The workers in the company are its best resource.",
+      "記憶法": "[字根記法] re (再/重新) + source (源頭) -> 一再湧現的源泉 -> 資源"
+    },
+    {
+      "序號": 4,
+      "單字": "extremely",
+      "詞性": "adv.",
+      "中文意思": "非常；極度地；極端地",
+      "KK音標": "[ɪk`strimli]",
+      "音節": ["ex", "treme", "ly"],
+      "例句": "Although the movie was extremely long, it was still fun to watch.",
+      "記憶法": "[字根記法] extreme (極端的) + ly (副詞字尾) -> 極度地"
+    },
+    {
+      "序號": 5,
+      "單字": "budget",
+      "詞性": "n. [C, U], vt., adj.",
+      "中文意思": "預算；把……編入預算；價格低廉的",
+      "KK音標": "[`bʌdʒɪt]",
+      "音節": ["bud", "get"],
+      "例句": "Their budget did not cover the cost of staying in an expensive hotel.",
+      "記憶法": "[創意記法] 規劃好荷包（皮袋）裡的每一筆開銷 -> 預算"
+    },
+    {
+      "序號": 6,
+      "單字": "folklore",
+      "詞性": "n. [U]",
+      "中文意思": "民間故事；民間傳說",
+      "KK音標": "[`fokˌlɔr]",
+      "音節": ["folk", "lore"],
+      "例句": "Many of the stories in this book come from the country's folklore.",
+      "記憶法": "[字根記法] folk (民間/民眾) + lore (知識/傳說) -> 民間世代相傳的傳說"
+    },
+    {
+      "序號": 7,
+      "單字": "broaden",
+      "詞性": "vt., vi.",
+      "中文意思": "（使）增加；擴大；（使）變寬",
+      "KK音標": "[`brɔdn]",
+      "音節": ["broad", "en"],
+      "例句": "The company broadened its search to find qualified employees.",
+      "記憶法": "[字根記法] broad (寬廣的) + en (使...) -> 使變得更寬廣"
+    },
+    {
+      "序號": 8,
+      "單字": "sightseeing",
+      "詞性": "n. [U]",
+      "中文意思": "觀光；遊覽",
+      "KK音標": "[`saɪtˌsiɪŋ]",
+      "音節": ["sight", "see", "ing"],
+      "例句": "Jade spent her vacation shopping and sightseeing.",
+      "記憶法": "[字根記法] sight (景象) + see (看) + ing -> 瀏覽風景 -> 觀光"
+    },
+    {
+      "序號": 9,
+      "單字": "take in",
+      "詞性": "phr.",
+      "中文意思": "參觀；欣賞；觀看（亦有吸收、領會之意）",
+      "KK音標": "[tek] [ɪn]",
+      "音節": [],
+      "例句": "We drove along the coast and took in the views.",
+      "記憶法": "[創意記法] 把美景收入眼底 -> 欣賞、參觀"
+    },
+    {
+      "序號": 10,
+      "單字": "ferry",
+      "詞性": "n. [C], vt., vi.",
+      "中文意思": "渡輪；（船）來往擺渡；運送",
+      "KK音標": "[`fɛri]",
+      "音節": ["fer", "ry"],
+      "例句": "No one could ferry to the island that day due to the harsh weather.",
+      "記憶法": "[字根記法] fer (運送/攜帶) + ry -> 負責來往運送的渡輪"
+    },
+    {
+      "序號": 11,
+      "單字": "inland",
+      "詞性": "adv., adj.",
+      "中文意思": "往內陸地；在內陸地；內陸的",
+      "KK音標": "[`ɪnˌlænd]",
+      "音節": ["in", "land"],
+      "例句": "After spending time at the coast, the tour traveled inland to the mountains.",
+      "記憶法": "[字根記法] in (往內) + land (陸地) -> 往陸地內部深入"
+    },
+    {
+      "序號": 12,
+      "單字": "steep",
+      "詞性": "adj.",
+      "中文意思": "陡峭的；急遽的；（價格）過高的",
+      "KK音標": "[stip]",
+      "音節": ["steep"],
+      "例句": "Climbing up the steep hill tired us out.",
+      "記憶法": "[創意記法] 坡度筆直向上、令人難以攀爬的"
+    },
+    {
+      "序號": 13,
+      "單字": "awe-inspiring",
+      "詞性": "adj.",
+      "中文意思": "令人嘆為觀止的；令人驚嘆的",
+      "KK音標": "[ɔˌɪnspaɪrɪŋ]",
+      "音節": ["awe-", "in", "spir", "ing"],
+      "例句": "The view from the top of the mountain was awe-inspiring.",
+      "記憶法": "[字根記法] awe (敬畏) + inspire (激發) + ing -> 激發敬畏之心的 -> 令人驚嘆的"
+    },
+    {
+      "序號": 14,
+      "單字": "cliff",
+      "詞性": "n. [C]",
+      "中文意思": "懸崖；峭壁",
+      "KK音標": "[klɪf]",
+      "音節": ["cliff"],
+      "例句": "We stood on the mountain cliff and looked down at the sea.",
+      "記憶法": "[創意記法] 海邊或山邊險峻筆立的岩壁"
+    },
+    {
+      "序號": 15,
+      "單字": "glacier",
+      "詞性": "n. [C]",
+      "中文意思": "冰河；冰川",
+      "KK音標": "[`gleʃɚ]",
+      "音節": ["gla", "cier"],
+      "例句": "Thousands of years ago, Canada was covered by glaciers.",
+      "記憶法": "[字根記法] glac (冰) + ier -> 巨量的冰體流動 -> 冰川"
+    },
+    {
+      "序號": 16,
+      "單字": "rural",
+      "詞性": "adj.",
+      "中文意思": "鄉村的；郊區的",
+      "KK音標": "[`rʊrəl]",
+      "音節": ["ru", "ral"],
+      "例句": "The rural area did not have many stores, but the air was clean and the people were friendly.",
+      "記憶法": "[字根記法] rur (鄉村/田野) + al (形容詞字尾) -> 鄉野田園的"
+    },
+    {
+      "序號": 17,
+      "單字": "civilization",
+      "詞性": "n. [C, U]",
+      "中文意思": "文明；文明地區；文明社會",
+      "KK音標": "[ˌsɪvələ`zeʃən]",
+      "音節": ["civ", "i", "li", "za", "tion"],
+      "例句": "Jacob read a book about the ancient Egyptian civilization.",
+      "記憶法": "[字根記法] civil (公民/城市) + ize + ation -> 人類社會聚集發展出的高度文明"
+    },
+    {
+      "序號": 18,
+      "單字": "isolated",
+      "詞性": "adj.",
+      "中文意思": "孤立的；偏僻的",
+      "KK音標": "[`aɪsəˌletɪd]",
+      "音節": ["i", "so", "lat", "ed"],
+      "例句": "Because Vince didn't understand the language, he often felt isolated.",
+      "記憶法": "[字根記法] isolate (使孤立) + ed -> 像島嶼一樣單獨被隔絕的"
+    },
+    {
+      "序號": 19,
+      "單字": "heavenly",
+      "詞性": "adj.",
+      "中文意思": "美好的；天堂的",
+      "KK音標": "[`hɛvənli]",
+      "音節": ["heav", "en", "ly"],
+      "例句": "Two weeks in Tahiti sounds heavenly.",
+      "記憶法": "[字根記法] heaven (天堂) + ly (形容詞字尾) -> 如同天堂般無比美好的"
+    }
+  ];
+
+  try {
+    // 依詞性區分單字與片語
+    const wordsData = allData.filter(item => !item.詞性.includes('phr'));
+    const phrasesData = allData.filter(item => item.詞性.includes('phr'));
+
+    // 進行 A 到 Z 排序
+    wordsData.sort((a, b) => a.單字.localeCompare(b.單字));
+    phrasesData.sort((a, b) => a.單字.localeCompare(b.單字));
+
+    const wordList = document.getElementById('word-list');
+    const phraseList = document.getElementById('phrase-list');
+
+    let globalIndex = 1;
+
+    // 建立表格列
+    function createRow(item) {
+      const tr = document.createElement('tr');
+      
+      let syllablesHtml = '';
+      const syllables = item.音節 || [];
+      
+      if (syllables.length > 0) {
+        syllables.forEach((syl, i) => {
+          let colorClass = `syl-${(i % 5) + 1}`; 
+          syllablesHtml += `<span class="${colorClass}">${syl}</span>`;
+          if (i < syllables.length - 1) {
+            syllablesHtml += `<span class="separator">·</span>`;
+          }
+        });
+      } else {
+        syllablesHtml = `<span class="phrase-text">${item.單字}</span>`;
+      }
+
+      let posHtml = item.詞性 ? `<span class="pos-text">${item.詞性}</span>` : '';
+
+      let mnemonic = item.記憶法 || "";
+      if (mnemonic.includes('[字根記法]')) {
+        mnemonic = mnemonic.replace('[字根記法]', '<span class="mnemonic-tag">字根</span>');
+      } else if (mnemonic.includes('[諧音記法]')) {
+        mnemonic = mnemonic.replace('[諧音記法]', '<span class="mnemonic-tag sound">諧音</span>');
+      } else if (mnemonic.includes('[創意記法]')) {
+        mnemonic = mnemonic.replace('[創意記法]', '<span class="mnemonic-tag creative">創意</span>');
+      }
+
+      tr.innerHTML = `
+        <td>${globalIndex++}</td>
+        <td class="word-cell">
+          ${syllablesHtml}
+          <button class="btn-audio play-word" data-text="${item.單字}" title="發音">🔊</button>
+        </td>
+        <td class="kk-text">${item.KK音標}</td>
+        <td class="meaning-text">${posHtml}${item.中文意思}</td>
+        <td class="mnemonic-text">${mnemonic}</td>
+        <td class="sentence-text">
+          ${item.例句} 
+          ${item.例句 ? `<button class="btn-audio play-sentence" data-text="${item.例句}" title="例句發音">🔊</button>` : ''}
+        </td>
+      `;
+      return tr;
+    }
+
+    // 1. 渲染單字區
+    wordsData.forEach(item => {
+      wordList.appendChild(createRow(item));
+    });
+
+    // 2. 渲染片語區
+    phrasesData.forEach(item => {
+      phraseList.appendChild(createRow(item));
+    });
+
+    // 點擊事件監聽
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('play-word')) {
+        speakText(e.target.getAttribute('data-text'), 0.9);
+      } else if (e.target.classList.contains('play-sentence')) {
+        speakText(e.target.getAttribute('data-text'), 1.0);
+      }
+    });
+
+    let currentAudio = null;
+
+    function speakText(text, rate) {
+      if (!text) return;
+
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+      }
+      window.speechSynthesis.cancel();
+
+      // Google Translate TTS 介面
+      const encodedText = encodeURIComponent(text.replace(/\.\.\./g, ' '));
+      const googleTtsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en-US&q=${encodedText}`;
+      
+      currentAudio = new Audio(googleTtsUrl);
+      currentAudio.playbackRate = rate;
+
+      currentAudio.onerror = function() {
+        fallbackToSpeech(text, rate);
+      };
+
+      currentAudio.play().catch(function() {
+        fallbackToSpeech(text, rate);
+      });
+    }
+
+    function fallbackToSpeech(text, rate) {
+      window.speechSynthesis.cancel();
+      let utterance = new SpeechSynthesisUtterance(text.replace(/\.\.\./g, ' '));
+      utterance.lang = 'en-US';
+      utterance.rate = rate;
+      window.speechSynthesis.speak(utterance);
+    }
+
+  } catch (error) {
+    alert("執行發生錯誤：" + error);
+  }
+</script>
+
+</body>
+</html>

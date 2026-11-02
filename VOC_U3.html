@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>高頻單字 U3</title>
+  <style>
+    body {
+      font-family: "Microsoft JhengHei", sans-serif;
+      background-color: #fcf9f2;
+      color: #333;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      min-width: 800px;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: top;
+    }
+    th {
+      background-color: #f0e6d2;
+      font-weight: bold;
+      color: #5a4a42;
+    }
+    .word-cell {
+      font-size: 1.2em;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    .syl-1 { color: #d32f2f; }
+    .syl-2 { color: #1976d2; }
+    .syl-3 { color: #388e3c; }
+    .syl-4 { color: #f57c00; }
+    .syl-5 { color: #7b1fa2; }
+    .separator {
+      color: #b0bec5;
+      margin: 0 2px;
+      font-weight: normal;
+    }
+    .phrase-text {
+      color: #1565c0;
+    }
+    .btn-audio {
+      background: none;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      padding: 2px 6px;
+      margin-left: 8px;
+      font-size: 0.85em;
+      transition: background 0.2s;
+    }
+    .btn-audio:hover {
+      background-color: #f0f0f0;
+    }
+    .kk-text {
+      color: #555;
+      font-family: Arial, sans-serif;
+      white-space: nowrap;
+    }
+    .meaning-text {
+      color: #333;
+    }
+    .pos-text {
+      color: #777;
+      font-style: italic;
+      margin-right: 5px;
+    }
+    .sentence-text {
+      color: #1a5276;
+      font-size: 0.9em;
+      line-height: 1.4;
+    }
+    .mnemonic-text {
+      font-size: 0.9em;
+      line-height: 1.5;
+      color: #4a4a4a;
+    }
+    .mnemonic-tag {
+      display: inline-block;
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      margin-right: 5px;
+      font-weight: bold;
+    }
+    .mnemonic-tag.sound {
+      background-color: #fff3e0;
+      color: #ef6c00;
+    }
+    .mnemonic-tag.creative {
+      background-color: #e3f2fd;
+      color: #1565c0;
+    }
+    .section-title {
+      background-color: #bbdefb;
+      color: #0d47a1;
+      font-size: 1.2em;
+      font-weight: bold;
+      text-align: center;
+      padding: 15px;
+      letter-spacing: 2px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>📖 高頻單字 U3</h2>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th width="5%">序號</th>
+          <th width="18%">單字 / 片語</th>
+          <th width="12%">KK音標</th>
+          <th width="15%">中文意思</th>
+          <th width="25%">記憶法 / 備註</th>
+          <th width="25%">英文例句</th>
+        </tr>
+      </thead>
+      <!-- 單字區塊 -->
+      <tbody id="word-list"></tbody>
+      
+      <!-- 片語區塊標題 -->
+      <tbody>
+        <tr>
+          <td colspan="6" class="section-title">✨ Idioms and Phrases ✨</td>
+        </tr>
+      </tbody>
+      
+      <!-- 片語區塊 -->
+      <tbody id="phrase-list"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  // 【高頻單字 U3 資料集】
+  const allData = [
+    {
+      "序號": 1,
+      "單字": "asset",
+      "詞性": "n. [C]",
+      "中文意思": "資產；有價值的人或物",
+      "KK音標": "[`æsɛt]",
+      "音節": ["as", "set"],
+      "例句": "The company mismanaged its assets and the result was a huge financial loss.",
+      "記憶法": "[創意記法] 擁有足夠（enough）的價值就是資產"
+    },
+    {
+      "序號": 2,
+      "單字": "token",
+      "詞性": "n. [C]",
+      "中文意思": "代幣；標記、象徵",
+      "KK音標": "[`tokən]",
+      "音節": ["to", "ken"],
+      "例句": "If you don't have a travel card, you can buy a single journey token from the machine.",
+      "記憶法": "[創意記法] 作為憑證或象徵的標記小物"
+    },
+    {
+      "序號": 3,
+      "單字": "format",
+      "詞性": "n. [C, U], vt.",
+      "中文意思": "格式、形式；為……編排格式",
+      "KK音標": "[`fɔrmæt]",
+      "音節": ["for", "mat"],
+      "例句": "These books are now available in electronic format.",
+      "記憶法": "[字根記法] form (形狀/形式) + at -> 規定的版面或格式"
+    },
+    {
+      "序號": 4,
+      "單字": "embrace",
+      "詞性": "vt., n. [C]",
+      "中文意思": "欣然接受、樂意採納；擁抱",
+      "KK音標": "[ɪm`bres]",
+      "音節": ["em", "brace"],
+      "例句": "The people embraced the new law because it would make the city safer for children.",
+      "記憶法": "[字根記法] em (進入) + brace (手臂) -> 擁入懷中；欣然接納"
+    },
+    {
+      "序號": 5,
+      "單字": "investment",
+      "詞性": "n. [C, U]",
+      "中文意思": "投資；投資額；投資物",
+      "KK音標": "[ɪn`vɛstmənt]",
+      "音節": ["in", "vest", "ment"],
+      "例句": "The government is trying to encourage overseas investment.",
+      "記憶法": "[字根記法] invest (投資) + ment (名詞字尾) -> 投入資金的行為"
+    },
+    {
+      "序號": 6,
+      "單字": "equivalent",
+      "詞性": "adj., n. [C]",
+      "中文意思": "相等的、等值的；相等之物、等值物",
+      "KK音標": "[ɪ`kwɪvələnt]",
+      "音節": ["e", "quiv", "a", "lent"],
+      "例句": "Drinking one glass of this juice is equivalent to eating three servings of raw vegetables.",
+      "記憶法": "[字根記法] equi (相等) + val (價值) + ent (形容詞字尾) -> 價值相等的"
+    },
+    {
+      "序號": 7,
+      "單字": "property",
+      "詞性": "n. [U, C]",
+      "中文意思": "所有物、財產；房地產；特性、特質",
+      "KK音標": "[`prɑpɚti]",
+      "音節": ["prop", "er", "ty"],
+      "例句": "Public parks are city property and are for the enjoyment of everyone.",
+      "記憶法": "[字根記法] proper (合適/自己的) + ty (名詞字尾) -> 屬於自己所有的財產"
+    },
+    {
+      "序號": 8,
+      "單字": "possession",
+      "詞性": "n. [U, C]",
+      "中文意思": "擁有、占有；所有物、財產",
+      "KK音標": "[pə`zɛʃən]",
+      "音節": ["pos", "ses", "sion"],
+      "例句": "The police arrested Dylan for possession of stolen goods.",
+      "記憶法": "[字根記法] possess (擁有) + ion (名詞字尾) -> 佔有、所有物"
+    },
+    {
+      "序號": 9,
+      "單字": "negotiate",
+      "詞性": "vi., vt.",
+      "中文意思": "協商、談判",
+      "KK音標": "[nɪ`goʃiˌet]",
+      "音節": ["ne", "go", "ti", "ate"],
+      "例句": "The government refuses to negotiate with terrorists.",
+      "記憶法": "[字根記法] neg (不) + otium (悠閒) + ate -> 不悠閒、忙於奔走商談"
+    },
+    {
+      "序號": 10,
+      "單字": "transaction",
+      "詞性": "n. [C]",
+      "中文意思": "交易、買賣",
+      "KK音標": "[træn`zækʃən]",
+      "音節": ["trans", "ac", "tion"],
+      "例句": "John checked his receipt after making a transaction at the bank.",
+      "記憶法": "[字根記法] trans (跨越/穿過) + act (行動) + ion -> 雙方之間穿梭進行的交易"
+    },
+    {
+      "序號": 11,
+      "單字": "trail",
+      "詞性": "n. [C], vt., vi.",
+      "中文意思": "痕跡、蹤跡、足跡；（荒野中的）小徑",
+      "KK音標": "[trel]",
+      "音節": ["trail"],
+      "例句": "The hunters followed the trail of footprints in the snow.",
+      "記憶法": "[創意記法] 沿著拖曳或走過留下的痕跡與小徑"
+    },
+    {
+      "序號": 12,
+      "單字": "ensure",
+      "詞性": "vt.",
+      "中文意思": "保證、確保",
+      "KK音標": "[ɪn`ʃʊr]",
+      "音節": ["en", "sure"],
+      "例句": "Exercising every day will ensure deep sleep at night.",
+      "記憶法": "[字根記法] en (使...) + sure (確定) -> 使確定、確保"
+    },
+    {
+      "序號": 13,
+      "單字": "exclusive",
+      "詞性": "adj., n. [C]",
+      "中文意思": "專有的、獨有的；昂貴的、高檔的；獨家新聞",
+      "KK音標": "[ɪks`klusɪv]",
+      "音節": ["ex", "clu", "sive"],
+      "例句": "Residents of this community enjoy the exclusive use of the swimming pool.",
+      "記憶法": "[字根記法] ex (向外) + clud/clus (關閉) + ive -> 把其他人關在外面的 -> 獨家的"
+    },
+    {
+      "序號": 14,
+      "單字": "ownership",
+      "詞性": "n. [U]",
+      "中文意思": "所有權",
+      "KK音標": "[`onɚˌʃɪp]",
+      "音節": ["own", "er", "ship"],
+      "例句": "John now has the documents to show his ownership of the house.",
+      "記憶法": "[字根記法] owner (擁有者) + ship (狀態/身份) -> 擁有者的權利"
+    },
+    {
+      "序號": 15,
+      "單字": "guarantee",
+      "詞性": "vt., n. [C]",
+      "中文意思": "保證、確保；保證、保固",
+      "KK音標": "[ˌgærən`ti]",
+      "音節": ["guar", "an", "tee"],
+      "例句": "I guarantee that you will be successful if you work hard.",
+      "記憶法": "[創意記法] 發誓守護（guard）並做出保證"
+    },
+    {
+      "序號": 16,
+      "單字": "domain name",
+      "詞性": "phr.",
+      "中文意思": "網域名稱",
+      "KK音標": "[do`men] [nem]",
+      "音節": [],
+      "例句": "A business should have its own domain name for the Internet.",
+      "記憶法": "[創意記法] domain (領域/網域) + name (名稱)"
+    }
+  ];
+
+  try {
+    // 依詞性區分單字與片語
+    const wordsData = allData.filter(item => !item.詞性.includes('phr'));
+    const phrasesData = allData.filter(item => item.詞性.includes('phr'));
+
+    // 進行 A 到 Z 排序
+    wordsData.sort((a, b) => a.單字.localeCompare(b.單字));
+    phrasesData.sort((a, b) => a.單字.localeCompare(b.單字));
+
+    const wordList = document.getElementById('word-list');
+    const phraseList = document.getElementById('phrase-list');
+
+    let globalIndex = 1;
+
+    // 建立表格列
+    function createRow(item) {
+      const tr = document.createElement('tr');
+      
+      let syllablesHtml = '';
+      const syllables = item.音節 || [];
+      
+      if (syllables.length > 0) {
+        syllables.forEach((syl, i) => {
+          let colorClass = `syl-${(i % 5) + 1}`; 
+          syllablesHtml += `<span class="${colorClass}">${syl}</span>`;
+          if (i < syllables.length - 1) {
+            syllablesHtml += `<span class="separator">·</span>`;
+          }
+        });
+      } else {
+        syllablesHtml = `<span class="phrase-text">${item.單字}</span>`;
+      }
+
+      let posHtml = item.詞性 ? `<span class="pos-text">${item.詞性}</span>` : '';
+
+      let mnemonic = item.記憶法 || "";
+      if (mnemonic.includes('[字根記法]')) {
+        mnemonic = mnemonic.replace('[字根記法]', '<span class="mnemonic-tag">字根</span>');
+      } else if (mnemonic.includes('[諧音記法]')) {
+        mnemonic = mnemonic.replace('[諧音記法]', '<span class="mnemonic-tag sound">諧音</span>');
+      } else if (mnemonic.includes('[創意記法]')) {
+        mnemonic = mnemonic.replace('[創意記法]', '<span class="mnemonic-tag creative">創意</span>');
+      }
+
+      tr.innerHTML = `
+        <td>${globalIndex++}</td>
+        <td class="word-cell">
+          ${syllablesHtml}
+          <button class="btn-audio play-word" data-text="${item.單字}" title="發音">🔊</button>
+        </td>
+        <td class="kk-text">${item.KK音標}</td>
+        <td class="meaning-text">${posHtml}${item.中文意思}</td>
+        <td class="mnemonic-text">${mnemonic}</td>
+        <td class="sentence-text">
+          ${item.例句} 
+          ${item.例句 ? `<button class="btn-audio play-sentence" data-text="${item.例句}" title="例句發音">🔊</button>` : ''}
+        </td>
+      `;
+      return tr;
+    }
+
+    // 1. 渲染單字區
+    wordsData.forEach(item => {
+      wordList.appendChild(createRow(item));
+    });
+
+    // 2. 渲染片語區
+    phrasesData.forEach(item => {
+      phraseList.appendChild(createRow(item));
+    });
+
+    // 點擊事件監聽
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('play-word')) {
+        speakText(e.target.getAttribute('data-text'), 0.9);
+      } else if (e.target.classList.contains('play-sentence')) {
+        speakText(e.target.getAttribute('data-text'), 1.0);
+      }
+    });
+
+    let currentAudio = null;
+
+    function speakText(text, rate) {
+      if (!text) return;
+
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+      }
+      window.speechSynthesis.cancel();
+
+      // Google Translate TTS 介面
+      const encodedText = encodeURIComponent(text.replace(/\.\.\./g, ' '));
+      const googleTtsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en-US&q=${encodedText}`;
+      
+      currentAudio = new Audio(googleTtsUrl);
+      currentAudio.playbackRate = rate;
+
+      currentAudio.onerror = function() {
+        fallbackToSpeech(text, rate);
+      };
+
+      currentAudio.play().catch(function() {
+        fallbackToSpeech(text, rate);
+      });
+    }
+
+    function fallbackToSpeech(text, rate) {
+      window.speechSynthesis.cancel();
+      let utterance = new SpeechSynthesisUtterance(text.replace(/\.\.\./g, ' '));
+      utterance.lang = 'en-US';
+      utterance.rate = rate;
+      window.speechSynthesis.speak(utterance);
+    }
+
+  } catch (error) {
+    alert("執行發生錯誤：" + error);
+  }
+</script>
+
+</body>
+</html>
