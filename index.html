@@ -3,14 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>英文單字與片語學習首頁</title>
+  <title>英文單字與片語複習首頁</title>
   <style>
+    /* =====================
+       電腦版預設樣式
+       ===================== */
     body {
       font-family: "Microsoft JhengHei", sans-serif;
       background-color: #fcf9f2;
       color: #333;
       padding: 40px 20px;
+      margin: 0;
       text-align: center;
+      box-sizing: border-box;
     }
     .container {
       max-width: 800px;
@@ -19,11 +24,17 @@
       padding: 40px;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      box-sizing: border-box;
     }
     h1 {
       color: #5a4a42;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       letter-spacing: 2px;
+    }
+    .intro-text {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 1rem;
     }
     .menu {
       display: flex;
@@ -39,11 +50,12 @@
       background-color: #f0e6d2;
       color: #5a4a42;
       text-decoration: none;
-      font-size: 1.2em;
+      font-size: 1.15em;
       font-weight: bold;
       border-radius: 8px;
       border: 2px solid transparent;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
+      box-sizing: border-box;
     }
     .tab-link:hover {
       background-color: #e6d8be;
@@ -51,18 +63,55 @@
       transform: translateY(-2px);
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
+    .tab-link:active {
+      transform: translateY(0);
+    }
+
+    /* =========================================================
+       【新增】：手機螢幕自適應排版（螢幕寬度 768px 以下自動生效）
+       ========================================================= */
+    @media (max-width: 768px) {
+      body {
+        padding: 20px 12px; /* 縮減邊距，留給內容更多空間 */
+      }
+      .container {
+        padding: 24px 16px; /* 減少白色卡片內距，避免畫面太長 */
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      }
+      h1 {
+        font-size: 1.35rem; /* 標題縮小，防止手機上拆成多行 */
+        margin-bottom: 15px;
+        letter-spacing: 1px;
+      }
+      .intro-text {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+      }
+      .menu {
+        gap: 12px; /* 按鈕之間的間隔微調 */
+      }
+      .tab-link {
+        width: 100%; /* 按鈕在手機上撐滿卡片，更好點擊 */
+        max-width: none;
+        font-size: 1.05em;
+        padding: 14px 16px;
+      }
+    }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>📚 高中英文單字學習系統</h1>
-  <p>請選擇你要複習的單元（點擊將開啟新分頁）：</p>
+  <h1>📚 高中英文單字複習</h1>
+  <p class="intro-text">請選擇你要複習的單元（點擊開啟新分頁）：</p>
   
   <div class="menu">
     <a href="B1L4.html" class="tab-link" target="_blank">📖 龍騰 B1L4 單字與片語</a>
     <a href="B1L5.html" class="tab-link" target="_blank">📖 龍騰 B1L5 單字與片語</a>
     <a href="B1L6.html" class="tab-link" target="_blank">📖 龍騰 B1L6 單字與片語</a>
+    <a href="VOC_U3.html" class="tab-link" target="_blank">📖 高頻單字 U3 單字與片語</a>
+    <a href="VOC_U4.html" class="tab-link" target="_blank">📖 高頻單字 U4 單字與片語</a>
   </div>
 </div>
 
