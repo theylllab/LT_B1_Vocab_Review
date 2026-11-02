@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>龍騰B1L5單字與片語(A-Z)</title>
+  <style>
+    body {
+      font-family: "Microsoft JhengHei", sans-serif;
+      background-color: #fcf9f2;
+      color: #333;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      min-width: 800px;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: top;
+    }
+    th {
+      background-color: #f0e6d2;
+      font-weight: bold;
+      color: #5a4a42;
+    }
+    .word-cell {
+      font-size: 1.2em;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    .syl-1 { color: #d32f2f; }
+    .syl-2 { color: #1976d2; }
+    .syl-3 { color: #388e3c; }
+    .syl-4 { color: #f57c00; }
+    .syl-5 { color: #7b1fa2; }
+    .separator {
+      color: #b0bec5;
+      margin: 0 2px;
+      font-weight: normal;
+    }
+    .phrase-text {
+      color: #1565c0;
+    }
+    .btn-audio {
+      background: none;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      padding: 2px 6px;
+      margin-left: 8px;
+      font-size: 0.85em;
+      transition: background 0.2s;
+    }
+    .btn-audio:hover {
+      background-color: #f0f0f0;
+    }
+    .kk-text {
+      color: #555;
+      font-family: Arial, sans-serif;
+      white-space: nowrap;
+    }
+    .meaning-text {
+      color: #333;
+    }
+    .pos-text {
+      color: #777;
+      font-style: italic;
+      margin-right: 5px;
+    }
+    .sentence-text {
+      color: #1a5276;
+      font-size: 0.9em;
+      line-height: 1.4;
+    }
+    .mnemonic-text {
+      font-size: 0.9em;
+      line-height: 1.5;
+      color: #4a4a4a;
+    }
+    .mnemonic-tag {
+      display: inline-block;
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      margin-right: 5px;
+      font-weight: bold;
+    }
+    .mnemonic-tag.sound {
+      background-color: #fff3e0;
+      color: #ef6c00;
+    }
+    .mnemonic-tag.creative {
+      background-color: #e3f2fd;
+      color: #1565c0;
+    }
+    .section-title {
+      background-color: #bbdefb;
+      color: #0d47a1;
+      font-size: 1.2em;
+      font-weight: bold;
+      text-align: center;
+      padding: 15px;
+      letter-spacing: 2px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>📖 龍騰B1L5單字與片語(A-Z)</h2>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th width="5%">序號</th>
+          <th width="18%">單字 / 片語</th>
+          <th width="12%">KK音標</th>
+          <th width="15%">中文意思</th>
+          <th width="25%">記憶法 / 備註</th>
+          <th width="25%">英文例句</th>
+        </tr>
+      </thead>
+      <!-- 單字區塊 -->
+      <tbody id="word-list"></tbody>
+      
+      <!-- 片語區塊標題 -->
+      <tbody>
+        <tr>
+          <td colspan="6" class="section-title">✨ Idioms and Phrases ✨</td>
+        </tr>
+      </tbody>
+      
+      <!-- 片語區塊 -->
+      <tbody id="phrase-list"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  // 【從 L05_vocabulary_tags.xlsx 匯入的單字與片語資料】
+  const allData = [
+    {
+      "序號": 1,
+      "單字": "consume",
+      "詞性": "vt.",
+      "中文意思": "吃喝",
+      "KK音標": "[kən`sum]",
+      "音節": ["con", "sume"],
+      "例句": "Driving after you consume too much beer or wine can lead to a car crash.",
+      "記憶法": "[字根記法] con (完全地) + sume (拿取) -> 全部拿進身體裡（吃喝）"
+    },
+    {
+      "序號": 2,
+      "單字": "consume",
+      "詞性": "vt.",
+      "中文意思": "消耗",
+      "KK音標": "[kən`sum]",
+      "音節": ["con", "sume"],
+      "例句": "Finishing his assignments consumes most of Riley’s free time in the evening and on the weekend.",
+      "記憶法": "[字根記法] con (完全地) + sume (拿取) -> 完全拿走、用光（消耗）"
+    },
+    {
+      "序號": 3,
+      "單字": "consumer",
+      "詞性": "n. [C]",
+      "中文意思": "消費者",
+      "KK音標": "[kən`sumɚ]",
+      "音節": ["con", "sum", "er"],
+      "例句": "The study found that our city is the largest consumer of water in the country.",
+      "記憶法": "[字根記法] consume (消耗/消費) + er (人) -> 消費的人"
+    },
+    {
+      "序號": 4,
+      "單字": "convenience",
+      "詞性": "n. [U]",
+      "中文意思": "便利",
+      "KK音標": "[kən`vinjəns]",
+      "音節": ["con", "ven", "ience"],
+      "例句": "Many shops post their business hours on their Facebook pages for the convenience of the public.",
+      "記憶法": "[字根記法] con (一起) + ven (來) + ience (名詞) -> 各種事物聚在一起讓生活變容易"
+    },
+    {
+      "序號": 5,
+      "單字": "crowd",
+      "詞性": "n. [C]",
+      "中文意思": "人群",
+      "KK音標": "[kraʊd]",
+      "音節": ["crowd"],
+      "例句": "The singer performed her three newest songs in front of a crowd of excited fans.",
+      "記憶法": "[創意記法] 聚集在一起的一大群人"
+    },
+    {
+      "序號": 6,
+      "單字": "crowded",
+      "詞性": "adj.",
+      "中文意思": "擁擠的",
+      "KK音標": "[`kraʊdɪd]",
+      "音節": ["crowd", "ed"],
+      "例句": "The bus was so crowded that several passengers had to stand in the aisle.",
+      "記憶法": "[字根記法] crowd (人群) + ed (形容詞) -> 擠滿人群的"
+    },
+    {
+      "序號": 7,
+      "單字": "cultural",
+      "詞性": "adj.",
+      "中文意思": "文化的",
+      "KK音標": "[`kʌltʃərəl]",
+      "音節": ["cul", "tur", "al"],
+      "例句": "Traveling to other countries is a good way to have different cultural experiences.",
+      "記憶法": "[字根記法] culture (文化) + al (形容詞) -> 文化的"
+    },
+    {
+      "序號": 8,
+      "單字": "culture",
+      "詞性": "n. [U, C]",
+      "中文意思": "文化",
+      "KK音標": "[`kʌltʃɚ]",
+      "音節": ["cul", "ture"],
+      "例句": "Pop culture has changed a lot since the start of the Internet.",
+      "記憶法": "[字根記法] cult (耕種/培養) + ure (名詞) -> 心靈精神的耕耘培養 -> 文化"
+    },
+    {
+      "序號": 9,
+      "單字": "differ",
+      "詞性": "vi.",
+      "中文意思": "不同",
+      "KK音標": "[`dɪfɚ]",
+      "音節": ["dif", "fer"],
+      "例句": "English spelling and American spelling differ in a few small ways.",
+      "記憶法": "[字根記法] dif (分開) + fer (帶來/運送) -> 帶到不同方向 -> 有所不同"
+    },
+    {
+      "序號": 10,
+      "單字": "difference",
+      "詞性": "n. [C, U]",
+      "中文意思": "差別",
+      "KK音標": "[`dɪfərəns]",
+      "音節": ["dif", "fer", "ence"],
+      "例句": "There is a 30-degree difference between the day and night temperatures in the desert.",
+      "記憶法": "[字根記法] differ (不同) + ence (名詞) -> 差別"
+    },
+    {
+      "序號": 11,
+      "單字": "disappear",
+      "詞性": "vi.",
+      "中文意思": "消失",
+      "KK音標": "[ˏdɪsə`pɪr]",
+      "音節": ["dis", "ap", "pear"],
+      "例句": "Many animals will disappear from the earth if we don’t do something to protect them.",
+      "記憶法": "[字根記法] dis (不/反向) + appear (出現) -> 不出現 -> 消失"
+    },
+    {
+      "序號": 12,
+      "單字": "dull",
+      "詞性": "adj.",
+      "中文意思": "無聊乏味的",
+      "KK音標": "[dʌl]",
+      "音節": ["dull"],
+      "例句": "Gary stopped watching the television program after 10 minutes because he found it dull.",
+      "記憶法": "[創意記法] 諧音「呆」 -> 呆滯無趣 -> 無聊乏味的"
+    },
+    {
+      "序號": 13,
+      "單字": "gather",
+      "詞性": "vi., vt.",
+      "中文意思": "聚集",
+      "KK音標": "[`gæðɚ]",
+      "音節": ["gath", "er"],
+      "例句": "A lot of people gathered at the airport to see the famous movie star.",
+      "記憶法": "[字根記法] 和 together (一起) 同源 -> 聚在一起"
+    },
+    {
+      "序號": 14,
+      "單字": "major",
+      "詞性": "adj.",
+      "中文意思": "重大的",
+      "KK音標": "[`medʒɚ]",
+      "音節": ["ma", "jor"],
+      "例句": "The lack of money was the major reason why the company had to close.",
+      "記憶法": "[字根記法] maj (較大/重要) + or (比較級) -> 較重大的"
+    },
+    {
+      "序號": 15,
+      "單字": "neighborhood",
+      "詞性": "n. [C]",
+      "中文意思": "鄰近地區",
+      "KK音標": "[`nebɚˏhʊd]",
+      "音節": ["neigh", "bor", "hood"],
+      "例句": "Living in this neighborhood has many advantages, such as nice parks and convenience stores.",
+      "記憶法": "[字根記法] neighbor (鄰居) + hood (群體/狀態) -> 鄰里區域"
+    },
+    {
+      "序號": 16,
+      "單字": "nowadays",
+      "詞性": "adv.",
+      "中文意思": "現今",
+      "KK音標": "[`naʊəˏdez]",
+      "音節": ["now", "a", "days"],
+      "例句": "Most kids prefer to play on cellphones nowadays rather than play in parks.",
+      "記憶法": "[創意記法] now (現在) + a + days (日子) -> 現今的日子"
+    },
+    {
+      "序號": 17,
+      "單字": "offer",
+      "詞性": "vt.",
+      "中文意思": "提供",
+      "KK音標": "[`ɔfɚ]",
+      "音節": ["of", "fer"],
+      "例句": "The company offered me a job with a good salary and free housing.",
+      "記憶法": "[字根記法] of- (朝向) + fer (帶來/呈上) -> 送上前去 -> 提供"
+    },
+    {
+      "序號": 18,
+      "單字": "operate",
+      "詞性": "vt., vi.",
+      "中文意思": "經營",
+      "KK音標": "[`ɑpəˏret]",
+      "音節": ["op", "er", "ate"],
+      "例句": "Mr. Roberts operated a restaurant for many years before he retired.",
+      "記憶法": "[字根記法] oper (工作/運作) + ate (動詞) -> 讓業務持續運轉 -> 經營"
+    },
+    {
+      "序號": 19,
+      "單字": "operation",
+      "詞性": "n. [U]",
+      "中文意思": "營運",
+      "KK音標": "[ˏɑpə`reʃən]",
+      "音節": ["op", "er", "a", "tion"],
+      "例句": "This gym will begin operation on August 1st, and customers can use all the equipment for free on the first day.",
+      "記憶法": "[字根記法] operate (經營) + ion (名詞) -> 營運"
+    },
+    {
+      "序號": 20,
+      "單字": "operator",
+      "詞性": "n. [C]",
+      "中文意思": "經營者",
+      "KK音標": "[`ɑpəˏretɚ]",
+      "音節": ["op", "er", "a", "tor"],
+      "例句": "The owner and operator of the flower shop said that Valentine's Day is her busiest day of the year.",
+      "記憶法": "[字根記法] operate (經營) + or (人) -> 經營者"
+    },
+    {
+      "序號": 21,
+      "單字": "ordinary",
+      "詞性": "adj.",
+      "中文意思": "普通的",
+      "KK音標": "[`ɔrdnˏɛrɪ]",
+      "音節": ["or", "di", "nar", "y"],
+      "例句": "He was just an ordinary worker who didn’t want anything special from life.",
+      "記憶法": "[字根記法] ordin (順序/常規) + ary (形容詞) -> 按照常規的 -> 普通的"
+    },
+    {
+      "序號": 22,
+      "單字": "pack",
+      "詞性": "vt., vi.",
+      "中文意思": "擠滿",
+      "KK音標": "[pæk]",
+      "音節": ["pack"],
+      "例句": "Thousands of runners packed the streets for the Boston Marathon.",
+      "記憶法": "[創意記法] 像打包行李一樣塞滿塞緊 -> 擠滿"
+    },
+    {
+      "序號": 23,
+      "單字": "pack",
+      "詞性": "vt., vi.",
+      "中文意思": "收拾（行李）",
+      "KK音標": "[pæk]",
+      "音節": ["pack"],
+      "例句": "Cindy packed a lot of clothes in her suitcase because she was going on a long trip.",
+      "記憶法": "[創意記法] 把物品塞入箱子背包中 -> 收拾行李"
+    },
+    {
+      "序號": 24,
+      "單字": "prefer",
+      "詞性": "vt.",
+      "中文意思": "偏好",
+      "KK音標": "[prɪ`fɝ]",
+      "音節": ["pre", "fer"],
+      "例句": "Many people prefer to sleep with music playing in the background.",
+      "記憶法": "[字根記法] pre (在前面) + fer (帶來/拿取) -> 先拿在最前面的 -> 偏好"
+    },
+    {
+      "序號": 25,
+      "單字": "preference",
+      "詞性": "n. [C, U]",
+      "中文意思": "偏好",
+      "KK音標": "[`prɛfərəns]",
+      "音節": ["pref", "er", "ence"],
+      "例句": "Between the beach and the mountains, do you have a preference for where we go this weekend?",
+      "記憶法": "[字根記法] prefer (偏好) + ence (名詞) -> 偏好"
+    },
+    {
+      "序號": 26,
+      "單字": "preserve",
+      "詞性": "vt.",
+      "中文意思": "保存",
+      "KK音標": "[prɪ`zɝv]",
+      "音節": ["pre", "serve"],
+      "例句": "It is important for us to preserve our old buildings because they are part of our history.",
+      "記憶法": "[字根記法] pre (預先) + serve (保護/看管) -> 預先看管好 -> 保存"
+    },
+    {
+      "序號": 27,
+      "單字": "relaxing",
+      "詞性": "adj.",
+      "中文意思": "令人放鬆的",
+      "KK音標": "[rɪ`læksɪŋ]",
+      "音節": ["re", "lax", "ing"],
+      "例句": "Going to a spa can be very relaxing after a long week of work.",
+      "記憶法": "[字根記法] relax (放鬆) + ing (令人...的) -> 令人放鬆的"
+    },
+    {
+      "序號": 28,
+      "單字": "site",
+      "詞性": "n. [C]",
+      "中文意思": "地點",
+      "KK音標": "[saɪt]",
+      "音節": ["site"],
+      "例句": "This park is the site of many rock concerts during the summer.",
+      "記憶法": "[創意記法] 音同 sight (景象) -> 觀看景象的地方 -> 地點、場所"
+    },
+    {
+      "序號": 29,
+      "單字": "stall",
+      "詞性": "n. [C]",
+      "中文意思": "攤位",
+      "KK音標": "[stɔl]",
+      "音節": ["stall"],
+      "例句": "My sister likes to buy socks and hairbands from the street stalls around the night market.",
+      "記憶法": "[創意記法] 和 stand (站立) 相關 -> 站立設立在街邊的地方 -> 攤位"
+    },
+    {
+      "序號": 30,
+      "單字": "tasty",
+      "詞性": "adj.",
+      "中文意思": "美味的",
+      "KK音標": "[`testɪ]",
+      "音節": ["tast", "y"],
+      "例句": "The beef noodles at this restaurant are so tasty that people wait in line for hours to eat them.",
+      "記憶法": "[字根記法] taste (味道) + y (形容詞) -> 有美味滋味的"
+    },
+    {
+      "序號": 31,
+      "單字": "traditional",
+      "詞性": "adj.",
+      "中文意思": "傳統的",
+      "KK音標": "[trə`dɪʃənl]",
+      "音節": ["tra", "di", "tion", "al"],
+      "例句": "Dragon boat racing is a traditional Chinese sport with a very long history.",
+      "記憶法": "[字根記法] tradition (傳統) + al (形容詞) -> 傳統的"
+    },
+    {
+      "序號": 32,
+      "單字": "tradition",
+      "詞性": "n. [C, U]",
+      "中文意思": "傳統",
+      "KK音標": "[trə`dɪʃən]",
+      "音節": ["tra", "di", "tion"],
+      "例句": "It is a tradition for many Taiwanese people to eat mooncakes during the Mid-Autumn Festival.",
+      "記憶法": "[字根記法] trans (跨越) + dit (給予) + ion -> 跨世代交接下來的東西 -> 傳統"
+    },
+    {
+      "序號": 33,
+      "單字": "unusual",
+      "詞性": "adj.",
+      "中文意思": "特別的",
+      "KK音標": "[ʌn`juʒʊəl]",
+      "音節": ["un", "u", "su", "al"],
+      "例句": "It is unusual for someone to have red hair and green eyes.",
+      "記憶法": "[字根記法] un (不) + usual (平常的) -> 不尋常的、特別的"
+    },
+    {
+      "序號": 34,
+      "單字": "come along",
+      "詞性": "phr.",
+      "中文意思": "到達；出現",
+      "KK音標": "",
+      "音節": [],
+      "例句": "Jane said she’s not ready to join us yet, but she will come along later.",
+      "記憶法": "-"
+    },
+    {
+      "序號": 35,
+      "單字": "pack...up",
+      "詞性": "phr.",
+      "中文意思": "收拾；打包",
+      "KK音標": "",
+      "音節": [],
+      "例句": "After Mr. Huang got fired, he sadly packed all of his things up and left.",
+      "記憶法": "-"
+    },
+    {
+      "序號": 36,
+      "單字": "on one’s own",
+      "詞性": "phr.",
+      "中文意思": "獨自；靠自己",
+      "KK音標": "",
+      "音節": [],
+      "例句": "Lily loves to go fishing on her own, so she can listen to the sound of the sea.",
+      "記憶法": "-"
+    },
+    {
+      "序號": 37,
+      "單字": "for a while",
+      "詞性": "phr.",
+      "中文意思": "一陣子",
+      "KK音標": "",
+      "音節": [],
+      "例句": "The lion hid behind a tree for a while, waiting for a deer to walk by.",
+      "記憶法": "-"
+    },
+    {
+      "序號": 38,
+      "單字": "end up",
+      "詞性": "phr.",
+      "中文意思": "最後結果是",
+      "KK音標": "",
+      "音節": [],
+      "例句": "The family couldn’t agree on a restaurant to go to, so they ended up staying home and eating pizza.",
+      "記憶法": "-"
+    }
+  ];
+
+  try {
+    // 依詞性區分單字與片語
+    const wordsData = allData.filter(item => !item.詞性.includes('phr'));
+    const phrasesData = allData.filter(item => item.詞性.includes('phr'));
+
+    // 進行 A 到 Z 排序
+    wordsData.sort((a, b) => a.單字.localeCompare(b.單字));
+    phrasesData.sort((a, b) => a.單字.localeCompare(b.單字));
+
+    const wordList = document.getElementById('word-list');
+    const phraseList = document.getElementById('phrase-list');
+
+    let globalIndex = 1;
+
+    // 建立表格列
+    function createRow(item) {
+      const tr = document.createElement('tr');
+      
+      let syllablesHtml = '';
+      const syllables = item.音節 || [];
+      
+      if (syllables.length > 0) {
+        syllables.forEach((syl, i) => {
+          let colorClass = `syl-${(i % 5) + 1}`; 
+          syllablesHtml += `<span class="${colorClass}">${syl}</span>`;
+          if (i < syllables.length - 1) {
+            syllablesHtml += `<span class="separator">·</span>`;
+          }
+        });
+      } else {
+        syllablesHtml = `<span class="phrase-text">${item.單字}</span>`;
+      }
+
+      let posHtml = item.詞性 ? `<span class="pos-text">${item.詞性}</span>` : '';
+
+      let mnemonic = item.記憶法 || "";
+      if (mnemonic.includes('[字根記法]')) {
+        mnemonic = mnemonic.replace('[字根記法]', '<span class="mnemonic-tag">字根</span>');
+      } else if (mnemonic.includes('[諧音記法]')) {
+        mnemonic = mnemonic.replace('[諧音記法]', '<span class="mnemonic-tag sound">諧音</span>');
+      } else if (mnemonic.includes('[創意記法]')) {
+        mnemonic = mnemonic.replace('[創意記法]', '<span class="mnemonic-tag creative">創意</span>');
+      }
+
+      tr.innerHTML = `
+        <td>${globalIndex++}</td>
+        <td class="word-cell">
+          ${syllablesHtml}
+          <button class="btn-audio play-word" data-text="${item.單字}" title="發音">🔊</button>
+        </td>
+        <td class="kk-text">${item.KK音標}</td>
+        <td class="meaning-text">${posHtml}${item.中文意思}</td>
+        <td class="mnemonic-text">${mnemonic}</td>
+        <td class="sentence-text">
+          ${item.例句} 
+          <button class="btn-audio play-sentence" data-text="${item.例句}" title="例句發音">🔊</button>
+        </td>
+      `;
+      return tr;
+    }
+
+    // 1. 渲染單字區
+    wordsData.forEach(item => {
+      wordList.appendChild(createRow(item));
+    });
+
+    // 2. 渲染片語區
+    phrasesData.forEach(item => {
+      phraseList.appendChild(createRow(item));
+    });
+
+    // 點擊事件監聽
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('play-word')) {
+        speakText(e.target.getAttribute('data-text'), 0.9);
+      } else if (e.target.classList.contains('play-sentence')) {
+        speakText(e.target.getAttribute('data-text'), 1.0);
+      }
+    });
+
+    let currentAudio = null;
+
+    function speakText(text, rate) {
+      if (!text) return;
+
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+      }
+      window.speechSynthesis.cancel();
+
+      // Google Translate TTS 介面
+      const encodedText = encodeURIComponent(text.replace(/\.\.\./g, ' '));
+      const googleTtsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en-US&q=${encodedText}`;
+      
+      currentAudio = new Audio(googleTtsUrl);
+      currentAudio.playbackRate = rate;
+
+      currentAudio.onerror = function() {
+        fallbackToSpeech(text, rate);
+      };
+
+      currentAudio.play().catch(function() {
+        fallbackToSpeech(text, rate);
+      });
+    }
+
+    function fallbackToSpeech(text, rate) {
+      window.speechSynthesis.cancel();
+      let utterance = new SpeechSynthesisUtterance(text.replace(/\.\.\./g, ' '));
+      utterance.lang = 'en-US';
+      utterance.rate = rate;
+      window.speechSynthesis.speak(utterance);
+    }
+
+  } catch (error) {
+    alert("執行發生錯誤：" + error);
+  }
+</script>
+
+</body>
+</html>

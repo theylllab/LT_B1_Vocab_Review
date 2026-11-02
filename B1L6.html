@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>龍騰B1L6單字與片語(A-Z)</title>
+  <style>
+    body {
+      font-family: "Microsoft JhengHei", sans-serif;
+      background-color: #fcf9f2;
+      color: #333;
+      padding: 20px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      min-width: 800px;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: top;
+    }
+    th {
+      background-color: #f0e6d2;
+      font-weight: bold;
+      color: #5a4a42;
+    }
+    .word-cell {
+      font-size: 1.2em;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    .syl-1 { color: #d32f2f; }
+    .syl-2 { color: #1976d2; }
+    .syl-3 { color: #388e3c; }
+    .syl-4 { color: #f57c00; }
+    .syl-5 { color: #7b1fa2; }
+    .separator {
+      color: #b0bec5;
+      margin: 0 2px;
+      font-weight: normal;
+    }
+    .phrase-text {
+      color: #1565c0;
+    }
+    .btn-audio {
+      background: none;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      padding: 2px 6px;
+      margin-left: 8px;
+      font-size: 0.85em;
+      transition: background 0.2s;
+    }
+    .btn-audio:hover {
+      background-color: #f0f0f0;
+    }
+    .kk-text {
+      color: #555;
+      font-family: Arial, sans-serif;
+      white-space: nowrap;
+    }
+    .meaning-text {
+      color: #333;
+    }
+    .pos-text {
+      color: #777;
+      font-style: italic;
+      margin-right: 5px;
+    }
+    .sentence-text {
+      color: #1a5276;
+      font-size: 0.9em;
+      line-height: 1.4;
+    }
+    .mnemonic-text {
+      font-size: 0.9em;
+      line-height: 1.5;
+      color: #4a4a4a;
+    }
+    .mnemonic-tag {
+      display: inline-block;
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      margin-right: 5px;
+      font-weight: bold;
+    }
+    .mnemonic-tag.sound {
+      background-color: #fff3e0;
+      color: #ef6c00;
+    }
+    .mnemonic-tag.creative {
+      background-color: #e3f2fd;
+      color: #1565c0;
+    }
+    .section-title {
+      background-color: #bbdefb;
+      color: #0d47a1;
+      font-size: 1.2em;
+      font-weight: bold;
+      text-align: center;
+      padding: 15px;
+      letter-spacing: 2px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>📖 龍騰B1L6單字與片語(A-Z)</h2>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th width="5%">序號</th>
+          <th width="18%">單字 / 片語</th>
+          <th width="12%">KK音標</th>
+          <th width="15%">中文意思</th>
+          <th width="25%">記憶法 / 備註</th>
+          <th width="25%">英文例句</th>
+        </tr>
+      </thead>
+      <!-- 單字區塊 -->
+      <tbody id="word-list"></tbody>
+      
+      <!-- 片語區塊標題 -->
+      <tbody>
+        <tr>
+          <td colspan="6" class="section-title">✨ Idioms and Phrases ✨</td>
+        </tr>
+      </tbody>
+      
+      <!-- 片語區塊 -->
+      <tbody id="phrase-list"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  // 【從 L06_vocabulary_tags.xlsx 匯入的單字與片語資料】
+  const allData = [
+    {
+      "序號": 1,
+      "單字": "ancient",
+      "詞性": "adj.",
+      "中文意思": "古代的；古老的",
+      "KK音標": "[`enʃənt]",
+      "音節": ["an", "cient"],
+      "例句": "The Great Wall was built thousands of years ago to stop ancient China’s enemies from invading.",
+      "記憶法": "[創意記法] 屬於遙遠過去的"
+    },
+    {
+      "序號": 2,
+      "單字": "attract",
+      "詞性": "vt.",
+      "中文意思": "招引；吸引",
+      "KK音標": "[ə`trækt]",
+      "音節": ["at", "tract"],
+      "例句": "Famous sights such as the Eiffel Tower and Louvre Museum attract over 30 million tourists to Paris every year.",
+      "記憶法": "[字根記法] at (朝向) + tract (拉) -> 把注意力拉過來（吸引）"
+    },
+    {
+      "序號": 3,
+      "單字": "attraction",
+      "詞性": "n. [C]",
+      "中文意思": "有吸引力的事物或地點",
+      "KK音標": "[ə`trækʃən]",
+      "音節": ["at", "trac", "tion"],
+      "例句": "Beaches and water sports are the main attractions in Kenting.",
+      "記憶法": "[字根記法] attract (吸引) + ion (名詞字尾) -> 吸引人的事物"
+    },
+    {
+      "序號": 4,
+      "單字": "attractive",
+      "詞性": "adj.",
+      "中文意思": "吸引人的",
+      "KK音標": "[ə`træktɪv]",
+      "音節": ["at", "trac", "tive"],
+      "例句": "Modern buildings are not attractive to Britney because she thinks they are seldom unique.",
+      "記憶法": "[字根記法] attract (吸引) + ive (形容詞字尾) -> 具吸引力的"
+    },
+    {
+      "序號": 5,
+      "單字": "celebrate",
+      "詞性": "vi. vt.",
+      "中文意思": "慶祝",
+      "KK音標": "[`sɛləˏbret]",
+      "音節": ["cel", "e", "brate"],
+      "例句": "The whole country celebrated when their team won the FIFA World Cup for the first time.",
+      "記憶法": "[創意記法] 為了重要事件做些特別的事來「慶祝」"
+    },
+    {
+      "序號": 6,
+      "單字": "celebration",
+      "詞性": "n. [U], [C]",
+      "中文意思": "慶祝；慶祝活動",
+      "KK音標": "[ˏsɛlə`breʃən]",
+      "音節": ["cel", "e", "bra", "tion"],
+      "例句": "Yvonne invited her friends out for dinner in celebration of finishing all of their exams.",
+      "記憶法": "[字根記法] celebrate (慶祝) + ion (名詞字尾) -> 慶祝的動作或活動"
+    },
+    {
+      "序號": 7,
+      "單字": "firm",
+      "詞性": "adj.",
+      "中文意思": "堅硬的；結實的",
+      "KK音標": "[fɝm]",
+      "音節": ["firm"],
+      "例句": "The apples in the basket were all fresh, firm, and perfect for making pie.",
+      "記憶法": "[創意記法] 結構結實、強壯的"
+    },
+    {
+      "序號": 8,
+      "單字": "firmly",
+      "詞性": "adv.",
+      "中文意思": "牢固地；堅定地",
+      "KK音標": "[`fɝmlɪ]",
+      "音節": ["firm", "ly"],
+      "例句": "Jack firmly closed the lid of the jar so that it wouldn’t open accidentally.",
+      "記憶法": "[字根記法] firm (堅固的) + ly (副詞字尾) -> 以堅固的方式"
+    },
+    {
+      "序號": 9,
+      "單字": "freedom",
+      "詞性": "n. [U]",
+      "中文意思": "自由",
+      "KK音標": "[`fridəm]",
+      "音節": ["free", "dom"],
+      "例句": "After Simon turned eighteen, his parents gave him the freedom to watch any movies he wanted to.",
+      "記憶法": "[字根記法] free (自由) + dom (狀態) -> 處於自由的狀態"
+    },
+    {
+      "序號": 10,
+      "單字": "global",
+      "詞性": "adj.",
+      "中文意思": "全球的；全世界的",
+      "KK音標": "[`globḷ]",
+      "音節": ["glo", "bal"],
+      "例句": "Many people believe that global warming is causing a higher number of large storms such as typhoons.",
+      "記憶法": "[字根記法] globe (地球) + al (形容詞字尾) -> 與地球相關的"
+    },
+    {
+      "序號": 11,
+      "單字": "globe",
+      "詞性": "n. sing.",
+      "中文意思": "地球；世界",
+      "KK音標": "[glob]",
+      "音節": ["globe"],
+      "例句": "Many of David Bowie’s fans around the globe posted images or words on Facebook and Instagram in memory of him...",
+      "記憶法": "[創意記法] 代表地球的圓形球體"
+    },
+    {
+      "序號": 12,
+      "單字": "independence",
+      "詞性": "n. [U]",
+      "中文意思": "獨立",
+      "KK音標": "[ˏɪndɪ`pɛndəns]",
+      "音節": ["in", "de", "pen", "dence"],
+      "例句": "India achieved independence from the United Kingdom on August 15, 1947.",
+      "記憶法": "[字根記法] in (不) + depend (依賴) + ence (名詞字尾) -> 不依賴他人的狀態就是獨立"
+    },
+    {
+      "序號": 13,
+      "單字": "independent",
+      "詞性": "adj.",
+      "中文意思": "獨立的",
+      "KK音標": "[ˏɪndɪ`pɛndənt]",
+      "音節": ["in", "de", "pen", "dent"],
+      "例句": "The Philippines has been independent from Spain for over 100 years, but about 3 million people there still speak Spanish.",
+      "記憶法": "[字根記法] in (不) + depend (依賴) + ent (形容詞字尾) -> 不依賴的、獨立的"
+    },
+    {
+      "序號": 14,
+      "單字": "landmark",
+      "詞性": "n. [C]",
+      "中文意思": "地標",
+      "KK音標": "[`lændˏmɑrk]",
+      "音節": ["land", "mark"],
+      "例句": "The Tokyo Tower and the Tokyo Skytree are two of Japan’s most famous landmarks.",
+      "記憶法": "[字根記法] land (土地) + mark (記號) -> 土地上的顯眼記號（地標）"
+    },
+    {
+      "序號": 15,
+      "單字": "monument",
+      "詞性": "n. [C]",
+      "中文意思": "紀念碑",
+      "KK音標": "[`mɑnjəmənt]",
+      "音節": ["mon", "u", "ment"],
+      "例句": "The Taiwan Salt Museum and Qigu Salt Mountain in Tainan are monuments to Taiwan’s salt producing past.",
+      "記憶法": "[字根記法] monu (提醒) + ment (名詞字尾) -> 提醒我們記住過去的事物（紀念碑）"
+    },
+    {
+      "序號": 16,
+      "單字": "remove",
+      "詞性": "vt.",
+      "中文意思": "移除",
+      "KK音標": "[rɪ`muv]",
+      "音節": ["re", "move"],
+      "例句": "Jasmine chewed gum to remove the smell of garlic from her breath.",
+      "記憶法": "[字根記法] re (離開/返回) + move (移動) -> 移開、移除"
+    },
+    {
+      "序號": 17,
+      "單字": "represent",
+      "詞性": "vt.",
+      "中文意思": "作為……的象徵；代表",
+      "KK音標": "[ˏrɛprɪ`zɛnt]",
+      "音節": ["rep", "re", "sent"],
+      "例句": "Roberto was chosen to represent his class in the school performance because he is a good actor.",
+      "記憶法": "[字根記法] re (再次) + present (呈現) -> 再次呈現以代表某人/事"
+    },
+    {
+      "序號": 18,
+      "單字": "representation",
+      "詞性": "n. [U, C]",
+      "中文意思": "表現（形式）；塑像",
+      "KK音標": "[ˏrɛprɪzɛn`teʃən]",
+      "音節": ["rep", "re", "sen", "ta", "tion"],
+      "例句": "The team created a small plastic representation of the tower they were planning to build.",
+      "記憶法": "[字根記法] represent (代表) + ation (名詞字尾) -> 表現形式"
+    },
+    {
+      "序號": 19,
+      "單字": "robe",
+      "詞性": "n. [C]",
+      "中文意思": "長袍；禮袍",
+      "KK音標": "[rob]",
+      "音節": ["robe"],
+      "例句": "",
+      "記憶法": "[創意記法] 長而寬鬆的外衣"
+    },
+    {
+      "序號": 20,
+      "單字": "slave",
+      "詞性": "n. [C]",
+      "中文意思": "奴隸",
+      "KK音標": "[slev]",
+      "音節": ["slave"],
+      "例句": "When Abraham Lincoln ended slavery in the US, many of his friends still owned slaves.",
+      "記憶法": "[創意記法] 被迫為他人工作且被擁有的人"
+    },
+    {
+      "序號": 21,
+      "單字": "slavery",
+      "詞性": "n. [U]",
+      "中文意思": "蓄奴制；奴隸身分",
+      "KK音標": "[`slevərɪ]",
+      "音節": ["slav", "er", "y"],
+      "例句": "This book is about a girl who was sold into slavery and made to work on a farm for years.",
+      "記憶法": "[字根記法] slave (奴隸) + ry (狀態/制度) -> 奴隸制度"
+    },
+    {
+      "序號": 22,
+      "單字": "statue",
+      "詞性": "n. [C]",
+      "中文意思": "雕像",
+      "KK音標": "[`stætʃʊ]",
+      "音節": ["stat", "ue"],
+      "例句": "The island of Hainan in China has a 108-meter statue of the goddess Kuanyin.",
+      "記憶法": "[字根記法] stat (站立) -> 站立不動的東西就是雕像"
+    },
+    {
+      "序號": 23,
+      "單字": "symbol",
+      "詞性": "n. [C]",
+      "中文意思": "象徵",
+      "KK音標": "[`sɪmbḷ]",
+      "音節": ["sym", "bol"],
+      "例句": "In many cultures, the dove is regarded as a symbol of peace.",
+      "記憶法": "[創意記法] 用來代表另一事物的標誌或符號"
+    },
+    {
+      "序號": 24,
+      "單字": "symbolic",
+      "詞性": "adj.",
+      "中文意思": "作為象徵的；象徵性的",
+      "KK音標": "[sɪm`bɑlɪk]",
+      "音節": ["sym", "bol", "ic"],
+      "例句": "The fifty stars on the American flag are symbolic of the country’s fifty states.",
+      "記憶法": "[字根記法] symbol (象徵) + ic (形容詞字尾) -> 象徵性的"
+    },
+    {
+      "序號": 25,
+      "單字": "symbolize",
+      "詞性": "vt.",
+      "中文意思": "象徵；代表",
+      "KK音標": "[`sɪmbḷˏaɪz]",
+      "音節": ["sym", "bol", "ize"],
+      "例句": "In Beauty and the Beast, the dying rose symbolizes the Beast’s chance of becoming human again.",
+      "記憶法": "[字根記法] symbol (象徵) + ize (動詞字尾) -> 作為...的象徵"
+    },
+    {
+      "序號": 26,
+      "單字": "tourism",
+      "詞性": "n. [U]",
+      "中文意思": "旅遊業；觀光業",
+      "KK音標": "[`tʊrɪzəm]",
+      "音節": ["tour", "ism"],
+      "例句": "Tourism in the country grew sharply after it was chosen as this year’s best place to visit by a popular magazine.",
+      "記憶法": "[字根記法] tour (旅遊) + ism (主義/行業) -> 旅遊產業"
+    },
+    {
+      "序號": 27,
+      "單字": "tourist",
+      "詞性": "n. [C]",
+      "中文意思": "遊客",
+      "KK音標": "[`tʊrɪst]",
+      "音節": ["tour", "ist"],
+      "例句": "Mary and John went into the tourist center to ask for information about local hotels.",
+      "記憶法": "[字根記法] tour (旅遊) + ist (人) -> 旅遊的人（遊客）"
+    },
+    {
+      "序號": 28,
+      "單字": "treatment",
+      "詞性": "n. [U]",
+      "中文意思": "對待；待遇",
+      "KK音標": "[`tritmənt]",
+      "音節": ["treat", "ment"],
+      "例句": "The prison was closed after many reports revealed the poor treatment of prisoners there.",
+      "記憶法": "[字根記法] treat (對待) + ment (名詞字尾) -> 對待的方式"
+    },
+    {
+      "序號": 29,
+      "單字": "unfair",
+      "詞性": "adj.",
+      "中文意思": "不公正的；不公平的",
+      "KK音標": "[ʌn`fɛr]",
+      "音節": ["un", "fair"],
+      "例句": "Several players cheated during the game, so everybody agrees that the final score is unfair.",
+      "記憶法": "[字根記法] un (不) + fair (公平的) -> 不公平的"
+    },
+    {
+      "序號": 30,
+      "單字": "even though",
+      "詞性": "phr.",
+      "中文意思": "儘管",
+      "KK音標": "",
+      "音節": [],
+      "例句": "Kyle knows all the words to this song even though he has only heard it a few times before.",
+      "記憶法": ""
+    },
+    {
+      "序號": 31,
+      "單字": "close to",
+      "詞性": "phr.",
+      "中文意思": "將近",
+      "KK音標": "",
+      "音節": [],
+      "例句": "During the performance, close to two thousand people sang along with the band and created an unforgettable memory together.",
+      "記憶法": ""
+    },
+    {
+      "序號": 32,
+      "單字": "over time",
+      "詞性": "phr.",
+      "中文意思": "隨著時間過去",
+      "KK音標": "",
+      "音節": [],
+      "例句": "Janice found the math class really tough at first, but it became easier over time.",
+      "記憶法": ""
+    },
+    {
+      "序號": 33,
+      "單字": "pay a visit to",
+      "詞性": "phr.",
+      "中文意思": "拜訪；參觀",
+      "KK音標": "",
+      "音節": [],
+      "例句": "Tracy decided to pay a visit to Big Ben while she was on a business trip in London.",
+      "記憶法": ""
+    },
+    {
+      "序號": 34,
+      "單字": "as always",
+      "詞性": "phr.",
+      "中文意思": "一直如此",
+      "KK音標": "",
+      "音節": [],
+      "例句": "The noodle shop has a long line of people outside as always because they make the best noodles in town.",
+      "記憶法": ""
+    }
+  ];
+
+  try {
+    // 依詞性區分單字與片語
+    const wordsData = allData.filter(item => !item.詞性.includes('phr'));
+    const phrasesData = allData.filter(item => item.詞性.includes('phr'));
+
+    // 進行 A 到 Z 排序
+    wordsData.sort((a, b) => a.單字.localeCompare(b.單字));
+    phrasesData.sort((a, b) => a.單字.localeCompare(b.單字));
+
+    const wordList = document.getElementById('word-list');
+    const phraseList = document.getElementById('phrase-list');
+
+    let globalIndex = 1;
+
+    // 建立表格列
+    function createRow(item) {
+      const tr = document.createElement('tr');
+      
+      let syllablesHtml = '';
+      const syllables = item.音節 || [];
+      
+      if (syllables.length > 0) {
+        syllables.forEach((syl, i) => {
+          let colorClass = `syl-${(i % 5) + 1}`; 
+          syllablesHtml += `<span class="${colorClass}">${syl}</span>`;
+          if (i < syllables.length - 1) {
+            syllablesHtml += `<span class="separator">·</span>`;
+          }
+        });
+      } else {
+        syllablesHtml = `<span class="phrase-text">${item.單字}</span>`;
+      }
+
+      let posHtml = item.詞性 ? `<span class="pos-text">${item.詞性}</span>` : '';
+
+      let mnemonic = item.記憶法 || "";
+      if (mnemonic.includes('[字根記法]')) {
+        mnemonic = mnemonic.replace('[字根記法]', '<span class="mnemonic-tag">字根</span>');
+      } else if (mnemonic.includes('[諧音記法]')) {
+        mnemonic = mnemonic.replace('[諧音記法]', '<span class="mnemonic-tag sound">諧音</span>');
+      } else if (mnemonic.includes('[創意記法]')) {
+        mnemonic = mnemonic.replace('[創意記法]', '<span class="mnemonic-tag creative">創意</span>');
+      }
+
+      tr.innerHTML = `
+        <td>${globalIndex++}</td>
+        <td class="word-cell">
+          ${syllablesHtml}
+          <button class="btn-audio play-word" data-text="${item.單字}" title="發音">🔊</button>
+        </td>
+        <td class="kk-text">${item.KK音標}</td>
+        <td class="meaning-text">${posHtml}${item.中文意思}</td>
+        <td class="mnemonic-text">${mnemonic}</td>
+        <td class="sentence-text">
+          ${item.例句} 
+          ${item.例句 ? `<button class="btn-audio play-sentence" data-text="${item.例句}" title="例句發音">🔊</button>` : ''}
+        </td>
+      `;
+      return tr;
+    }
+
+    // 1. 渲染單字區
+    wordsData.forEach(item => {
+      wordList.appendChild(createRow(item));
+    });
+
+    // 2. 渲染片語區
+    phrasesData.forEach(item => {
+      phraseList.appendChild(createRow(item));
+    });
+
+    // 點擊事件監聽
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('play-word')) {
+        speakText(e.target.getAttribute('data-text'), 0.9);
+      } else if (e.target.classList.contains('play-sentence')) {
+        speakText(e.target.getAttribute('data-text'), 1.0);
+      }
+    });
+
+    let currentAudio = null;
+
+    function speakText(text, rate) {
+      if (!text) return;
+
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+      }
+      window.speechSynthesis.cancel();
+
+      // Google Translate TTS 介面
+      const encodedText = encodeURIComponent(text.replace(/\.\.\./g, ' '));
+      const googleTtsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en-US&q=${encodedText}`;
+      
+      currentAudio = new Audio(googleTtsUrl);
+      currentAudio.playbackRate = rate;
+
+      currentAudio.onerror = function() {
+        fallbackToSpeech(text, rate);
+      };
+
+      currentAudio.play().catch(function() {
+        fallbackToSpeech(text, rate);
+      });
+    }
+
+    function fallbackToSpeech(text, rate) {
+      window.speechSynthesis.cancel();
+      let utterance = new SpeechSynthesisUtterance(text.replace(/\.\.\./g, ' '));
+      utterance.lang = 'en-US';
+      utterance.rate = rate;
+      window.speechSynthesis.speak(utterance);
+    }
+
+  } catch (error) {
+    alert("執行發生錯誤：" + error);
+  }
+</script>
+
+</body>
+</html>
