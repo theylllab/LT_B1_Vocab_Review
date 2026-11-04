@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>龍騰B1L5單字與片語(A-Z)</title>
+  <title>L05 單字學習表</title>
   <style>
     body {
       font-family: "Microsoft JhengHei", sans-serif;
@@ -87,6 +87,10 @@
       color: #1a5276;
       font-size: 0.9em;
       line-height: 1.4;
+    }
+    .sentence-text b {
+      color: #0d47a1;
+      font-weight: bold;
     }
     .mnemonic-text {
       font-size: 0.9em;
@@ -195,16 +199,12 @@
         padding: 10px;
       }
     }
-      .sentence-text b {
-      color: #0d47a1;
-      font-weight: bold;
-    }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <h2>📖 龍騰B1L5單字與片語(A-Z)</h2>
+  <h2>📖 L05 單字學習表</h2>
   <div class="table-wrapper">
     <table>
       <thead>
@@ -217,406 +217,400 @@
           <th width="25%">英文例句</th>
         </tr>
       </thead>
-      <!-- 單字區塊 -->
       <tbody id="word-list"></tbody>
-      
-      <!-- 片語區塊標題 -->
       <tbody>
         <tr>
           <td colspan="6" class="section-title">✨ Idioms and Phrases ✨</td>
         </tr>
       </tbody>
-      
-      <!-- 片語區塊 -->
       <tbody id="phrase-list"></tbody>
     </table>
   </div>
 </div>
 
 <script>
-  // 【從 L05_vocabulary_tags.xlsx 匯入的單字與片語資料】
   const allData = [
-    {
-      "序號": 1,
-      "單字": "consume",
-      "詞性": "vt.",
-      "中文意思": "吃喝",
-      "KK音標": "[kən`sum]",
-      "音節": ["con", "sume"],
-      "例句": "Driving after you consume too much beer or wine can lead to a car crash.",
-      "記憶法": "[字根記法] con (完全地) + sume (拿取) -> 全部拿進身體裡（吃喝）"
-    },
-    {
-      "序號": 2,
-      "單字": "consume",
-      "詞性": "vt.",
-      "中文意思": "消耗",
-      "KK音標": "[kən`sum]",
-      "音節": ["con", "sume"],
-      "例句": "Finishing his assignments consumes most of Riley’s free time in the evening and on the weekend.",
-      "記憶法": "[字根記法] con (完全地) + sume (拿取) -> 完全拿走、用光（消耗）"
-    },
-    {
-      "序號": 3,
-      "單字": "consumer",
-      "詞性": "n. [C]",
-      "中文意思": "消費者",
-      "KK音標": "[kən`sumɚ]",
-      "音節": ["con", "sum", "er"],
-      "例句": "The study found that our city is the largest consumer of water in the country.",
-      "記憶法": "[字根記法] consume (消耗/消費) + er (人) -> 消費的人"
-    },
-    {
-      "序號": 4,
-      "單字": "convenience",
-      "詞性": "n. [U]",
-      "中文意思": "便利",
-      "KK音標": "[kən`vinjəns]",
-      "音節": ["con", "ven", "ience"],
-      "例句": "Many shops post their business hours on their Facebook pages for the convenience of the public.",
-      "記憶法": "[字根記法] con (一起) + ven (來) + ience (名詞) -> 各種事物聚在一起讓生活變容易"
-    },
-    {
-      "序號": 5,
-      "單字": "crowd",
-      "詞性": "n. [C]",
-      "中文意思": "人群",
-      "KK音標": "[kraʊd]",
-      "音節": ["crowd"],
-      "例句": "The singer performed her three newest songs in front of a crowd of excited fans.",
-      "記憶法": "[創意記法] 聚集在一起的一大群人"
-    },
-    {
-      "序號": 6,
-      "單字": "crowded",
-      "詞性": "adj.",
-      "中文意思": "擁擠的",
-      "KK音標": "[`kraʊdɪd]",
-      "音節": ["crowd", "ed"],
-      "例句": "The bus was so crowded that several passengers had to stand in the aisle.",
-      "記憶法": "[字根記法] crowd (人群) + ed (形容詞) -> 擠滿人群的"
-    },
-    {
-      "序號": 7,
-      "單字": "cultural",
-      "詞性": "adj.",
-      "中文意思": "文化的",
-      "KK音標": "[`kʌltʃərəl]",
-      "音節": ["cul", "tur", "al"],
-      "例句": "Traveling to other countries is a good way to have different cultural experiences.",
-      "記憶法": "[字根記法] culture (文化) + al (形容詞) -> 文化的"
-    },
-    {
-      "序號": 8,
-      "單字": "culture",
-      "詞性": "n. [U, C]",
-      "中文意思": "文化",
-      "KK音標": "[`kʌltʃɚ]",
-      "音節": ["cul", "ture"],
-      "例句": "Pop culture has changed a lot since the start of the Internet.",
-      "記憶法": "[字根記法] cult (耕種/培養) + ure (名詞) -> 心靈精神的耕耘培養 -> 文化"
-    },
-    {
-      "序號": 9,
-      "單字": "differ",
-      "詞性": "vi.",
-      "中文意思": "不同",
-      "KK音標": "[`dɪfɚ]",
-      "音節": ["dif", "fer"],
-      "例句": "English spelling and American spelling differ in a few small ways.",
-      "記憶法": "[字根記法] dif (分開) + fer (帶來/運送) -> 帶到不同方向 -> 有所不同"
-    },
-    {
-      "序號": 10,
-      "單字": "difference",
-      "詞性": "n. [C, U]",
-      "中文意思": "差別",
-      "KK音標": "[`dɪfərəns]",
-      "音節": ["dif", "fer", "ence"],
-      "例句": "There is a 30-degree difference between the day and night temperatures in the desert.",
-      "記憶法": "[字根記法] differ (不同) + ence (名詞) -> 差別"
-    },
-    {
-      "序號": 11,
-      "單字": "disappear",
-      "詞性": "vi.",
-      "中文意思": "消失",
-      "KK音標": "[ˏdɪsə`pɪr]",
-      "音節": ["dis", "ap", "pear"],
-      "例句": "Many animals will disappear from the earth if we don’t do something to protect them.",
-      "記憶法": "[字根記法] dis (不/反向) + appear (出現) -> 不出現 -> 消失"
-    },
-    {
-      "序號": 12,
-      "單字": "dull",
-      "詞性": "adj.",
-      "中文意思": "無聊乏味的",
-      "KK音標": "[dʌl]",
-      "音節": ["dull"],
-      "例句": "Gary stopped watching the television program after 10 minutes because he found it dull.",
-      "記憶法": "[創意記法] 諧音「呆」 -> 呆滯無趣 -> 無聊乏味的"
-    },
-    {
-      "序號": 13,
-      "單字": "gather",
-      "詞性": "vi., vt.",
-      "中文意思": "聚集",
-      "KK音標": "[`gæðɚ]",
-      "音節": ["gath", "er"],
-      "例句": "A lot of people gathered at the airport to see the famous movie star.",
-      "記憶法": "[字根記法] 和 together (一起) 同源 -> 聚在一起"
-    },
-    {
-      "序號": 14,
-      "單字": "major",
-      "詞性": "adj.",
-      "中文意思": "重大的",
-      "KK音標": "[`medʒɚ]",
-      "音節": ["ma", "jor"],
-      "例句": "The lack of money was the major reason why the company had to close.",
-      "記憶法": "[字根記法] maj (較大/重要) + or (比較級) -> 較重大的"
-    },
-    {
-      "序號": 15,
-      "單字": "neighborhood",
-      "詞性": "n. [C]",
-      "中文意思": "鄰近地區",
-      "KK音標": "[`nebɚˏhʊd]",
-      "音節": ["neigh", "bor", "hood"],
-      "例句": "Living in this neighborhood has many advantages, such as nice parks and convenience stores.",
-      "記憶法": "[字根記法] neighbor (鄰居) + hood (群體/狀態) -> 鄰里區域"
-    },
-    {
-      "序號": 16,
-      "單字": "nowadays",
-      "詞性": "adv.",
-      "中文意思": "現今",
-      "KK音標": "[`naʊəˏdez]",
-      "音節": ["now", "a", "days"],
-      "例句": "Most kids prefer to play on cellphones nowadays rather than play in parks.",
-      "記憶法": "[創意記法] now (現在) + a + days (日子) -> 現今的日子"
-    },
-    {
-      "序號": 17,
-      "單字": "offer",
-      "詞性": "vt.",
-      "中文意思": "提供",
-      "KK音標": "[`ɔfɚ]",
-      "音節": ["of", "fer"],
-      "例句": "The company offered me a job with a good salary and free housing.",
-      "記憶法": "[字根記法] of- (朝向) + fer (帶來/呈上) -> 送上前去 -> 提供"
-    },
-    {
-      "序號": 18,
-      "單字": "operate",
-      "詞性": "vt., vi.",
-      "中文意思": "經營",
-      "KK音標": "[`ɑpəˏret]",
-      "音節": ["op", "er", "ate"],
-      "例句": "Mr. Roberts operated a restaurant for many years before he retired.",
-      "記憶法": "[字根記法] oper (工作/運作) + ate (動詞) -> 讓業務持續運轉 -> 經營"
-    },
-    {
-      "序號": 19,
-      "單字": "operation",
-      "詞性": "n. [U]",
-      "中文意思": "營運",
-      "KK音標": "[ˏɑpə`reʃən]",
-      "音節": ["op", "er", "a", "tion"],
-      "例句": "This gym will begin operation on August 1st, and customers can use all the equipment for free on the first day.",
-      "記憶法": "[字根記法] operate (經營) + ion (名詞) -> 營運"
-    },
-    {
-      "序號": 20,
-      "單字": "operator",
-      "詞性": "n. [C]",
-      "中文意思": "經營者",
-      "KK音標": "[`ɑpəˏretɚ]",
-      "音節": ["op", "er", "a", "tor"],
-      "例句": "The owner and operator of the flower shop said that Valentine's Day is her busiest day of the year.",
-      "記憶法": "[字根記法] operate (經營) + or (人) -> 經營者"
-    },
-    {
-      "序號": 21,
-      "單字": "ordinary",
-      "詞性": "adj.",
-      "中文意思": "普通的",
-      "KK音標": "[`ɔrdnˏɛrɪ]",
-      "音節": ["or", "di", "nar", "y"],
-      "例句": "He was just an ordinary worker who didn’t want anything special from life.",
-      "記憶法": "[字根記法] ordin (順序/常規) + ary (形容詞) -> 按照常規的 -> 普通的"
-    },
-    {
-      "序號": 22,
-      "單字": "pack",
-      "詞性": "vt., vi.",
-      "中文意思": "擠滿",
-      "KK音標": "[pæk]",
-      "音節": ["pack"],
-      "例句": "Thousands of runners packed the streets for the Boston Marathon.",
-      "記憶法": "[創意記法] 像打包行李一樣塞滿塞緊 -> 擠滿"
-    },
-    {
-      "序號": 23,
-      "單字": "pack",
-      "詞性": "vt., vi.",
-      "中文意思": "收拾（行李）",
-      "KK音標": "[pæk]",
-      "音節": ["pack"],
-      "例句": "Cindy packed a lot of clothes in her suitcase because she was going on a long trip.",
-      "記憶法": "[創意記法] 把物品塞入箱子背包中 -> 收拾行李"
-    },
-    {
-      "序號": 24,
-      "單字": "prefer",
-      "詞性": "vt.",
-      "中文意思": "偏好",
-      "KK音標": "[prɪ`fɝ]",
-      "音節": ["pre", "fer"],
-      "例句": "Many people prefer to sleep with music playing in the background.",
-      "記憶法": "[字根記法] pre (在前面) + fer (帶來/拿取) -> 先拿在最前面的 -> 偏好"
-    },
-    {
-      "序號": 25,
-      "單字": "preference",
-      "詞性": "n. [C, U]",
-      "中文意思": "偏好",
-      "KK音標": "[`prɛfərəns]",
-      "音節": ["pref", "er", "ence"],
-      "例句": "Between the beach and the mountains, do you have a preference for where we go this weekend?",
-      "記憶法": "[字根記法] prefer (偏好) + ence (名詞) -> 偏好"
-    },
-    {
-      "序號": 26,
-      "單字": "preserve",
-      "詞性": "vt.",
-      "中文意思": "保存",
-      "KK音標": "[prɪ`zɝv]",
-      "音節": ["pre", "serve"],
-      "例句": "It is important for us to preserve our old buildings because they are part of our history.",
-      "記憶法": "[字根記法] pre (預先) + serve (保護/看管) -> 預先看管好 -> 保存"
-    },
-    {
-      "序號": 27,
-      "單字": "relaxing",
-      "詞性": "adj.",
-      "中文意思": "令人放鬆的",
-      "KK音標": "[rɪ`læksɪŋ]",
-      "音節": ["re", "lax", "ing"],
-      "例句": "Going to a spa can be very relaxing after a long week of work.",
-      "記憶法": "[字根記法] relax (放鬆) + ing (令人...的) -> 令人放鬆的"
-    },
-    {
-      "序號": 28,
-      "單字": "site",
-      "詞性": "n. [C]",
-      "中文意思": "地點",
-      "KK音標": "[saɪt]",
-      "音節": ["site"],
-      "例句": "This park is the site of many rock concerts during the summer.",
-      "記憶法": "[創意記法] 音同 sight (景象) -> 觀看景象的地方 -> 地點、場所"
-    },
-    {
-      "序號": 29,
-      "單字": "stall",
-      "詞性": "n. [C]",
-      "中文意思": "攤位",
-      "KK音標": "[stɔl]",
-      "音節": ["stall"],
-      "例句": "My sister likes to buy socks and hairbands from the street stalls around the night market.",
-      "記憶法": "[創意記法] 和 stand (站立) 相關 -> 站立設立在街邊的地方 -> 攤位"
-    },
-    {
-      "序號": 30,
-      "單字": "tasty",
-      "詞性": "adj.",
-      "中文意思": "美味的",
-      "KK音標": "[`testɪ]",
-      "音節": ["tast", "y"],
-      "例句": "The beef noodles at this restaurant are so tasty that people wait in line for hours to eat them.",
-      "記憶法": "[字根記法] taste (味道) + y (形容詞) -> 有美味滋味的"
-    },
-    {
-      "序號": 31,
-      "單字": "traditional",
-      "詞性": "adj.",
-      "中文意思": "傳統的",
-      "KK音標": "[trə`dɪʃənl]",
-      "音節": ["tra", "di", "tion", "al"],
-      "例句": "Dragon boat racing is a traditional Chinese sport with a very long history.",
-      "記憶法": "[字根記法] tradition (傳統) + al (形容詞) -> 傳統的"
-    },
-    {
-      "序號": 32,
-      "單字": "tradition",
-      "詞性": "n. [C, U]",
-      "中文意思": "傳統",
-      "KK音標": "[trə`dɪʃən]",
-      "音節": ["tra", "di", "tion"],
-      "例句": "It is a tradition for many Taiwanese people to eat mooncakes during the Mid-Autumn Festival.",
-      "記憶法": "[字根記法] trans (跨越) + dit (給予) + ion -> 跨世代交接下來的東西 -> 傳統"
-    },
-    {
-      "序號": 33,
-      "單字": "unusual",
-      "詞性": "adj.",
-      "中文意思": "特別的",
-      "KK音標": "[ʌn`juʒʊəl]",
-      "音節": ["un", "u", "su", "al"],
-      "例句": "It is unusual for someone to have red hair and green eyes.",
-      "記憶法": "[字根記法] un (不) + usual (平常的) -> 不尋常的、特別的"
-    },
-    {
-      "序號": 34,
-      "單字": "come along",
-      "詞性": "phr.",
-      "中文意思": "到達；出現",
-      "KK音標": "",
-      "音節": [],
-      "例句": "Jane said she’s not ready to join us yet, but she will come along later.",
-      "記憶法": "-"
-    },
-    {
-      "序號": 35,
-      "單字": "pack...up",
-      "詞性": "phr.",
-      "中文意思": "收拾；打包",
-      "KK音標": "",
-      "音節": [],
-      "例句": "After Mr. Huang got fired, he sadly packed all of his things up and left.",
-      "記憶法": "-"
-    },
-    {
-      "序號": 36,
-      "單字": "on one’s own",
-      "詞性": "phr.",
-      "中文意思": "獨自；靠自己",
-      "KK音標": "",
-      "音節": [],
-      "例句": "Lily loves to go fishing on her own, so she can listen to the sound of the sea.",
-      "記憶法": "-"
-    },
-    {
-      "序號": 37,
-      "單字": "for a while",
-      "詞性": "phr.",
-      "中文意思": "一陣子",
-      "KK音標": "",
-      "音節": [],
-      "例句": "The lion hid behind a tree for a while, waiting for a deer to walk by.",
-      "記憶法": "-"
-    },
-    {
-      "序號": 38,
-      "單字": "end up",
-      "詞性": "phr.",
-      "中文意思": "最後結果是",
-      "KK音標": "",
-      "音節": [],
-      "例句": "The family couldn’t agree on a restaurant to go to, so they ended up staying home and eating pizza.",
-      "記憶法": "-"
-    }
-  ];
+  {
+    "序號": 1,
+    "單字": "consume",
+    "詞性": "vt.",
+    "中文意思": "吃喝",
+    "KK音標": "[kən`sum]",
+    "音節": ["con", "sume"],
+    "例句": "Driving after you consume too much beer or wine can lead to a car crash.",
+    "記憶法": "[字根記法] con (完全地) + sume (拿取) -> 全部拿進身體裡（吃喝）"
+  },
+  {
+    "序號": 2,
+    "單字": "consume",
+    "詞性": "vt.",
+    "中文意思": "消耗",
+    "KK音標": "[kən`sum]",
+    "音節": ["con", "sume"],
+    "例句": "Finishing his assignments consumes most of Riley’s free time in the evening and on the weekend.",
+    "記憶法": "[字根記法] con (完全地) + sume (拿取) -> 完全拿走、用光（消耗）"
+  },
+  {
+    "序號": 3,
+    "單字": "consumer",
+    "詞性": "n. [C]",
+    "中文意思": "消費者",
+    "KK音標": "[kən`sumɚ]",
+    "音節": ["con", "sum", "er"],
+    "例句": "The study found that our city is the largest consumer of water in the country.",
+    "記憶法": "[字根記法] consume (消耗/消費) + er (人) -> 消費的人"
+  },
+  {
+    "序號": 4,
+    "單字": "convenience",
+    "詞性": "n. [U]",
+    "中文意思": "便利",
+    "KK音標": "[kən`vinjəns]",
+    "音節": ["con", "ven", "ience"],
+    "例句": "Many shops post their business hours on their Facebook pages for the convenience of the public.",
+    "記憶法": "[字根記法] con (一起) + ven (來) + ience (名詞) -> 各種事物聚在一起讓生活變容易"
+  },
+  {
+    "序號": 5,
+    "單字": "crowd",
+    "詞性": "n. [C]",
+    "中文意思": "人群",
+    "KK音標": "[kraʊd]",
+    "音節": ["crowd"],
+    "例句": "The singer performed her three newest songs in front of a crowd of excited fans.",
+    "記憶法": "[創意記法] 聚集在一起的一大群人"
+  },
+  {
+    "序號": 6,
+    "單字": "crowded",
+    "詞性": "adj.",
+    "中文意思": "擠滿的；擁擠的",
+    "KK音標": "[`kraʊdɪd]",
+    "音節": ["crowd", "ed"],
+    "例句": "The popular night market was so crowded that we could hardly move.",
+    "記憶法": "[字根記法] crowd (人群) + ed (形容詞) -> 擠滿人群的"
+  },
+  {
+    "序號": 7,
+    "單字": "drift",
+    "詞性": "vi.",
+    "中文意思": "漂流",
+    "KK音標": "[drɪft]",
+    "音節": ["drift"],
+    "例句": "A red balloon drifted slowly up into the cloudless sky.",
+    "記憶法": "[創意記法] 漂浮移動的意象"
+  },
+  {
+    "序號": 8,
+    "單字": "eager",
+    "詞性": "adj.",
+    "中文意思": "渴望的",
+    "KK音標": "[`igɚ]",
+    "音節": ["ea", "ger"],
+    "例句": "The baby was eager for food and burst into tears when she saw her mother preparing milk.",
+    "記憶法": "[諧音記法] 一個 (eager) 人迫不及待想要"
+  },
+  {
+    "序號": 9,
+    "單字": "eagerly",
+    "詞性": "adv.",
+    "中文意思": "渴望地",
+    "KK音標": "[`igɚlɪ]",
+    "音節": ["ea", "ger", "ly"],
+    "例句": "The fans waited eagerly outside the hotel, hoping to see the movie star.",
+    "記憶法": "[字根記法] eager (渴望的) + ly (副詞字尾) -> 渴望地"
+  },
+  {
+    "序號": 10,
+    "單字": "environment",
+    "詞性": "n. sing., [C, U]",
+    "中文意思": "自然環境 / 環境",
+    "KK音標": "[ɪn`vaɪrənmənt]",
+    "音節": ["en", "vi", "ron", "ment"],
+    "例句": "It is every person’s responsibility to save the earth’s natural environment for our sons and daughters.",
+    "記憶法": "[字根記法] en (在...之中) + viron (圈子) + ment -> 包圍著你的生活圈（環境）"
+  },
+  {
+    "序號": 11,
+    "單字": "environmental",
+    "詞性": "adj.",
+    "中文意思": "自然環境的",
+    "KK音標": "[ɪnˏvaɪrən`mɛntḷ]",
+    "音節": ["en", "vi", "ron", "men", "tal"],
+    "例句": "Plastic waste creates serious environmental problems in many parts of the world.",
+    "記憶法": "[字根記法] environment (環境) + al (形容詞字尾) -> 環境的"
+  },
+  {
+    "序號": 12,
+    "單字": "envy",
+    "詞性": "vt.",
+    "中文意思": "羨慕",
+    "KK音標": "[`ɛnvɪ]",
+    "音節": ["en", "vy"],
+    "例句": "Larry’s friends all envy him because he gets to study photography in Paris.",
+    "記憶法": "[字根記法] en (在...上) + vy/vid (看) -> 盯著看別人的好東西（羨慕/嫉妒）"
+  },
+  {
+    "序號": 13,
+    "單字": "envy",
+    "詞性": "n. [U]",
+    "中文意思": "羨慕",
+    "KK音標": "[`ɛnvɪ]",
+    "音節": ["en", "vy"],
+    "例句": "The boy was filled with envy when he saw his classmate’s new bicycle.",
+    "記憶法": "[字根記法] 羨慕之心"
+  },
+  {
+    "序號": 14,
+    "單字": "harm",
+    "詞性": "n. [U]",
+    "中文意思": "傷害",
+    "KK音標": "[hɑrm]",
+    "音節": ["harm"],
+    "例句": "Eating too many sugary snacks can cause harm to your teeth.",
+    "記憶法": "[創意記法] 帶來害處 (harm -> 害)"
+  },
+  {
+    "序號": 15,
+    "單字": "harm",
+    "詞性": "vt.",
+    "中文意思": "傷害",
+    "KK音標": "[hɑrm]",
+    "音節": ["harm"],
+    "例句": "Chemicals from the factory could harm fish living in the nearby river.",
+    "記憶法": "[創意記法] 損害、危害"
+  },
+  {
+    "序號": 16,
+    "單字": "harmful",
+    "詞性": "adj.",
+    "中文意思": "有害的",
+    "KK音標": "[`hɑrmfəl]",
+    "音節": ["harm", "ful"],
+    "例句": "Smoking cigarettes is very harmful to your lungs and overall health.",
+    "記憶法": "[字根記法] harm (傷害) + ful (充滿) -> 充滿傷害的"
+  },
+  {
+    "序號": 17,
+    "單字": "obvious",
+    "詞性": "adj.",
+    "中文意思": "明顯的",
+    "KK音標": "[`ɑbvɪəs]",
+    "音節": ["ob", "vi", "ous"],
+    "例句": "It was obvious from her smile that she had passed the entrance exam.",
+    "記憶法": "[字根記法] ob (迎面) + vi (道路) + ous -> 擋在路當前，一眼就看清"
+  },
+  {
+    "序號": 18,
+    "單字": "obviously",
+    "詞性": "adv.",
+    "中文意思": "顯然",
+    "KK音標": "[`ɑbvɪəslɪ]",
+    "音節": ["ob", "vi", "ous", "ly"],
+    "例句": "Obviously, we cannot finish this project without additional help.",
+    "記憶法": "[字根記法] obvious (明顯的) + ly (副詞字尾) -> 明顯地"
+  },
+  {
+    "序號": 19,
+    "單字": "plastic",
+    "詞性": "adj.",
+    "中文意思": "塑膠（製）的",
+    "KK音標": "[`plæstɪk]",
+    "音節": ["plas", "tic"],
+    "例句": "We should bring our own shopping bags instead of using plastic ones.",
+    "記憶法": "[字根記法] plast (塑形) + ic -> 可塑形的材料"
+  },
+  {
+    "序號": 20,
+    "單字": "plastic",
+    "詞性": "n. [U]",
+    "中文意思": "塑膠",
+    "KK音標": "[`plæstɪk]",
+    "音節": ["plas", "tic"],
+    "例句": "Millions of tons of plastic enter the world’s oceans each year.",
+    "記憶法": "[字根記法] 塑膠材料"
+  },
+  {
+    "序號": 21,
+    "單字": "poison",
+    "詞性": "vt.",
+    "中文意思": "毒害",
+    "KK音標": "[`pɔɪzṇ]",
+    "音節": ["poi", "son"],
+    "例句": "Waste from the chemical plant poisoned the water supply of the entire village.",
+    "記憶法": "[創意記法] 釋放毒素危害"
+  },
+  {
+    "序號": 22,
+    "單字": "poison",
+    "詞性": "n. [C, U]",
+    "中文意思": "毒藥；毒素",
+    "KK音標": "[`pɔɪzṇ]",
+    "音節": ["poi", "son"],
+    "例句": "Keep all cleaning products out of children’s reach because some contain deadly poison.",
+    "記憶法": "[創意記法] 有害生命的毒物"
+  },
+  {
+    "序號": 23,
+    "單字": "poisonous",
+    "詞性": "adj.",
+    "中文意思": "有毒的",
+    "KK音標": "[`pɔɪznəs]",
+    "音節": ["poi", "son", "ous"],
+    "例句": "Some colorful wild mushrooms are extremely poisonous and can cause death if eaten.",
+    "記憶法": "[字根記法] poison (毒) + ous (充滿...的) -> 有毒的"
+  },
+  {
+    "序號": 24,
+    "單字": "produce",
+    "詞性": "vt.",
+    "中文意思": "製造；生產",
+    "KK音標": "[prə`dus]",
+    "音節": ["pro", "duce"],
+    "例句": "The factory produces thousands of smartphones every single day.",
+    "記憶法": "[字根記法] pro (向前) + duce (引導/帶來) -> 引導製造出來"
+  },
+  {
+    "序號": 25,
+    "單字": "product",
+    "詞性": "n. [C]",
+    "中文意思": "產品",
+    "KK音標": "[`prɑdəkt]",
+    "音節": ["prod", "uct"],
+    "例句": "The company launched its newest skincare product last week.",
+    "記憶法": "[字根記法] pro (向前) + duct (引導/產物) -> 生產出來的成果"
+  },
+  {
+    "序號": 26,
+    "單字": "production",
+    "詞性": "n. [U]",
+    "中文意思": "製造",
+    "KK音標": "[prə`dʌkʃən]",
+    "音節": ["pro", "duc", "tion"],
+    "例句": "The factory halted production temporarily due to a severe power outage.",
+    "記憶法": "[字根記法] produce (製造) + tion (名詞字尾) -> 生產製造過程"
+  },
+  {
+    "序號": 27,
+    "單字": "proper",
+    "詞性": "adj.",
+    "中文意思": "適當的",
+    "KK音標": "[`prɑpɚ]",
+    "音節": ["prop", "er"],
+    "例句": "Wearing proper running shoes can help prevent knee injuries.",
+    "記憶法": "[字根記法] prop (合適的/屬於自己的) -> 合宜恰當的"
+  },
+  {
+    "序號": 28,
+    "單字": "properly",
+    "詞性": "adv.",
+    "中文意思": "適當地",
+    "KK音標": "[`prɑpɚlɪ]",
+    "音節": ["prop", "er", "ly"],
+    "例句": "Make sure you follow the instructions properly when setting up the machine.",
+    "記憶法": "[字根記法] proper (適當的) + ly (副詞字尾) -> 適當地"
+  },
+  {
+    "序號": 29,
+    "單字": "recycle",
+    "詞性": "vt.",
+    "中文意思": "回收",
+    "KK音標": "[ri`saɪkḷ]",
+    "音節": ["re", "cy", "cle"],
+    "例句": "Our community collects paper, glass, and cans so they can be recycled.",
+    "記憶法": "[字根記法] re (再次) + cycle (循環) -> 再次進入循環（回收利用）"
+  },
+  {
+    "序號": 30,
+    "單字": "recycling",
+    "詞性": "n. [U]",
+    "中文意思": "回收",
+    "KK音標": "[͵riˋsaɪkḷɪŋ]",
+    "音節": ["re", "cy", "cling"],
+    "例句": "Many schools encourage recycling by placing special bins in every classroom.",
+    "記憶法": "[字根記法] recycle (回收) + ing (動名詞) -> 回收行為"
+  },
+  {
+    "序號": 31,
+    "單字": "substance",
+    "詞性": "n. [C]",
+    "中文意思": "物質",
+    "KK音標": "[`sʌbstəns]",
+    "音節": ["sub", "stance"],
+    "例句": "Scientists discovered an unknown chemical substance inside the sealed container.",
+    "記憶法": "[字根記法] sub (在下面) + stance (站立/存在) -> 支撐在底部的本質基礎（物質）"
+  },
+  {
+    "序號": 32,
+    "單字": "surround",
+    "詞性": "vt.",
+    "中文意思": "圍繞",
+    "KK音標": "[sə`raʊnd]",
+    "音節": ["sur", "round"],
+    "例句": "Tall green mountains surround the peaceful little village.",
+    "記憶法": "[字根記法] sur (在...上) + round (圓/環繞) -> 在四周環繞"
+  },
+  {
+    "序號": 33,
+    "單字": "surroundings",
+    "詞性": "n. pl.",
+    "中文意思": "環境",
+    "KK音標": "[səˋraʊndɪŋz]",
+    "音節": ["sur", "round", "ings"],
+    "例句": "Animals often need some time to get used to their new surroundings in a zoo.",
+    "記憶法": "[字根記法] surround (環繞) + ings (名詞複數) -> 周遭圍繞的一切事物（環境）"
+  },
+  {
+    "序號": 34,
+    "單字": "come along",
+    "詞性": "phr.",
+    "中文意思": "到達；出現",
+    "KK音標": "",
+    "音節": [],
+    "例句": "Jane said she’s not ready to join us yet, but she will come along later.",
+    "記憶法": "[創意記法] 順著路一同前來出現"
+  },
+  {
+    "序號": 35,
+    "單字": "pack...up",
+    "詞性": "phr.",
+    "中文意思": "收拾；打包",
+    "KK音標": "",
+    "音節": [],
+    "例句": "It’s time to pack up our camping gear before it starts to rain.",
+    "記憶法": "[創意記法] 把東西收進袋子或箱子中"
+  },
+  {
+    "序號": 36,
+    "單字": "on one’s own",
+    "詞性": "phr.",
+    "中文意思": "獨自；靠自己",
+    "KK音標": "",
+    "音節": [],
+    "例句": "After graduating from college, David decided to live on his own in Taipei.",
+    "記憶法": "[創意記法] 全憑自己一人"
+  },
+  {
+    "序號": 37,
+    "單字": "for a while",
+    "詞性": "phr.",
+    "中文意思": "一陣子",
+    "KK音標": "",
+    "音節": [],
+    "例句": "Let’s sit down and take a rest for a while after the long hike.",
+    "記憶法": "[創意記法] 持續一段時間"
+  },
+  {
+    "序號": 38,
+    "單字": "end up",
+    "詞性": "phr.",
+    "中文意思": "最後結果是",
+    "KK音標": "",
+    "音節": [],
+    "例句": "If you don’t manage your budget carefully, you may end up heavily in debt.",
+    "記憶法": "[創意記法] 走向最後的結局"
+  }
+];
 
   try {
     // 依詞性區分單字與片語
@@ -667,13 +661,15 @@
         mnemonic = mnemonic.replace('[創意記法]', '<span class="mnemonic-tag creative">創意</span>');
       }
 
-      // 例句單字粗體化（安全不崩潰處理）
+      // 例句單字粗體化
       let highlightedSentence = sentence;
       if (sentence && word) {
         try {
-          const target = word.trim().split(" ")[0]; // 若為片語先抓第一個核心字或全字
-          const reg = new RegExp(`\\b(${target}[a-zA-Z]*)\\b`, 'gi');
-          highlightedSentence = sentence.replace(reg, '<b>$1</b>');
+          const target = word.trim().split(" ")[0].replace(/[^a-zA-Z]/g, '');
+          if (target) {
+            const reg = new RegExp(`\\b(${target}[a-zA-Z]*)\\b`, 'gi');
+            highlightedSentence = sentence.replace(reg, '<b>$1</b>');
+          }
         } catch (err) {
           highlightedSentence = sentence;
         }
