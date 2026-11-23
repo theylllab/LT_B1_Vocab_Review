@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>龍騰B1L4單字與片語(A-Z)</title>
+  <title>B1L4 Sniffing Out More than Just Bones單字與片語</title>
   <style>
     body {
       font-family: "Microsoft JhengHei", sans-serif;
@@ -372,30 +372,53 @@
       }
     });
 
-    // 記錄目前的音檔，避免連續點擊重疊播放
-    let currentAudio = null;
+    // 【新增：手機版音訊全域解鎖與共用播放器機制】
+    const globalAudio = new Audio();
+    let audioUnlocked = false;
+
+    function unlockAudio() {
+      if (audioUnlocked) return;
+      // 默默播放一次空音訊以通過瀏覽器互動限制
+      globalAudio.play().then(() => {
+        globalAudio.pause();
+        globalAudio.currentTime = 0;
+      }).catch(() => {});
+      
+      // 同時解鎖內建的 Web Speech API
+      let unlockSpeech = new SpeechSynthesisUtterance('');
+      window.speechSynthesis.speak(unlockSpeech);
+      
+      audioUnlocked = true;
+      // 解鎖後即可移除監聽
+      document.removeEventListener('touchstart', unlockAudio);
+      document.removeEventListener('click', unlockAudio);
+    }
+
+    // 當使用者在手機上觸碰或點擊螢幕任意處時，立即觸發解鎖
+    document.addEventListener('touchstart', unlockAudio, { once: true });
+    document.addEventListener('click', unlockAudio, { once: true });
 
     function speakText(text, rate) {
       if (!text) return;
 
-      if (currentAudio) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-      }
+      // 停止正在播放的音訊
+      globalAudio.pause();
+      globalAudio.currentTime = 0;
       window.speechSynthesis.cancel();
 
       // 使用 Google Translate TTS 擷取音檔
       const encodedText = encodeURIComponent(text);
       const googleTtsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en-US&q=${encodedText}`;
       
-      currentAudio = new Audio(googleTtsUrl);
-      currentAudio.playbackRate = rate;
+      // 直接把網址餵給共用的 globalAudio 播放器
+      globalAudio.src = googleTtsUrl;
+      globalAudio.playbackRate = rate;
 
-      currentAudio.onerror = function() {
+      globalAudio.onerror = function() {
         fallbackToSpeech(text, rate);
       };
 
-      currentAudio.play().catch(function(error) {
+      globalAudio.play().catch(function(error) {
         fallbackToSpeech(text, rate);
       });
     }
