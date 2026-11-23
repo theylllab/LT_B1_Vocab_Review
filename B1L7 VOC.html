@@ -312,18 +312,15 @@
         mnemonic = mnemonic.replace('[創意記法]', '<span class="mnemonic-tag creative">創意</span>');
       }
 
-      // 純文字安全比對加粗，徹底避免任何正則表達式反斜線轉義錯誤
       let highlightedSentence = sentence;
       if (highlightedSentence && word) {
-        const targetWord = word.trim().split(/\s+/)[0];
-        if (targetWord.length > 0) {
-          const tokens = highlightedSentence.split(/([a-zA-Z]+)/);
-          highlightedSentence = tokens.map(token => {
-            if (token.toLowerCase().startsWith(targetWord.toLowerCase())) {
-              return '<b>' + token + '</b>';
-            }
-            return token;
-          }).join('');
+        try {
+          const targetWord = word.trim().split(/\s+/)[0]; 
+          const escapedWord = targetWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const wordRegex = new RegExp(`\\b(${escapedWord}[a-zA-Z]*)\\b`, 'gi');
+          highlightedSentence = highlightedSentence.replace(wordRegex, '<b>$1</b>');
+        } catch (err) {
+          highlightedSentence = sentence;
         }
       }
 
@@ -347,7 +344,7 @@
     wordsData.forEach(item => { wordList.appendChild(createRow(item)); });
     phrasesData.forEach(item => { phraseList.appendChild(createRow(item)); });
 
-    // --- 手機版原生同步語音引擎 (Web Speech API) ---
+        // --- 手機版原生同步語音引擎 (Web Speech API) ---
     document.addEventListener('click', function(e) {
       if (e.target.classList.contains('play-word')) {
         speakText(e.target.getAttribute('data-text'), 0.9);

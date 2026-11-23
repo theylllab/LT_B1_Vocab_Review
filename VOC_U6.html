@@ -322,25 +322,7 @@
     wordsData.forEach(item => { wordList.appendChild(createRow(item)); });
     phrasesData.forEach(item => { phraseList.appendChild(createRow(item)); });
 
-    // --- 音效處理區塊 (手機解鎖 + 共用 Audio) ---
-    const globalAudio = new Audio();
-    let audioUnlocked = false;
-
-    function unlockAudio() {
-      if (!audioUnlocked) {
-        globalAudio.play().then(() => {
-          globalAudio.pause();
-          globalAudio.currentTime = 0;
-          audioUnlocked = true;
-        }).catch(err => { /* 忽略自動播放阻擋錯誤 */ });
-        document.removeEventListener('touchstart', unlockAudio);
-        document.removeEventListener('click', unlockAudio);
-      }
-    }
-    
-    document.addEventListener('touchstart', unlockAudio, { once: true });
-    document.addEventListener('click', unlockAudio, { once: true });
-
+        // --- 手機版原生同步語音引擎 (Web Speech API) ---
     document.addEventListener('click', function(e) {
       if (e.target.classList.contains('play-word')) {
         speakText(e.target.getAttribute('data-text'), 0.9);
@@ -352,20 +334,7 @@
     function speakText(text, rate) {
       if (!text) return;
       window.speechSynthesis.cancel();
-      
-      const encodedText = encodeURIComponent(text);
-      const googleTtsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en-US&q=${encodedText}`;
-      
-      globalAudio.src = googleTtsUrl;
-      globalAudio.playbackRate = rate;
-      
-      globalAudio.onerror = function() { fallbackToSpeech(text, rate); };
-      globalAudio.play().catch(function(error) { fallbackToSpeech(text, rate); });
-    }
-
-    function fallbackToSpeech(text, rate) {
-      window.speechSynthesis.cancel();
-      let utterance = new SpeechSynthesisUtterance(text);
+      const utterance = new SpeechSynthesisUtterance(text.split('...').join(' '));
       utterance.lang = 'en-US';
       utterance.rate = rate;
       window.speechSynthesis.speak(utterance);
