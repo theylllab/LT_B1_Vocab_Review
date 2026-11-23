@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L07 From Trash to Triumph - 互動單字表</title>
+  <style>
+    body {
+      font-family: "Microsoft JhengHei", sans-serif;
+      background-color: #fcf9f2;
+      color: #333;
+      padding: 20px;
+      margin: 0;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      min-width: 800px;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: top;
+    }
+    th {
+      background-color: #f0e6d2;
+      font-weight: bold;
+      color: #5a4a42;
+    }
+    .word-cell {
+      font-size: 1.2em;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    .syl-1 { color: #d32f2f; }
+    .syl-2 { color: #1976d2; }
+    .syl-3 { color: #388e3c; }
+    .syl-4 { color: #f57c00; }
+    .syl-5 { color: #7b1fa2; }
+    .separator {
+      color: #b0bec5;
+      margin: 0 2px;
+      font-weight: normal;
+    }
+    .phrase-text {
+      color: #1565c0;
+    }
+    .btn-audio {
+      background: none;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      padding: 3px 8px;
+      margin-left: 6px;
+      font-size: 0.85em;
+      transition: background 0.2s;
+    }
+    .btn-audio:hover {
+      background-color: #f0f0f0;
+    }
+    .kk-text {
+      color: #555;
+      font-family: Arial, sans-serif;
+      white-space: nowrap;
+    }
+    .meaning-text {
+      color: #333;
+    }
+    .pos-text {
+      color: #777;
+      font-style: italic;
+      margin-right: 5px;
+    }
+    .sentence-text {
+      color: #1a5276;
+      font-size: 0.9em;
+      line-height: 1.4;
+    }
+    .sentence-text b {
+      color: #0d47a1;
+      font-weight: bold;
+    }
+    .mnemonic-text {
+      font-size: 0.9em;
+      line-height: 1.5;
+      color: #4a4a4a;
+    }
+    .mnemonic-tag {
+      display: inline-block;
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      margin-right: 5px;
+      font-weight: bold;
+    }
+    .mnemonic-tag.sound {
+      background-color: #fff3e0;
+      color: #ef6c00;
+    }
+    .mnemonic-tag.creative {
+      background-color: #e3f2fd;
+      color: #1565c0;
+    }
+    .section-title {
+      background-color: #bbdefb;
+      color: #0d47a1;
+      font-size: 1.2em;
+      font-weight: bold;
+      text-align: center;
+      padding: 15px;
+      letter-spacing: 2px;
+    }
+
+    /* 手機螢幕 RWD 自適應卡片樣式 */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px 8px;
+      }
+      h2 {
+        font-size: 1.25rem;
+        margin: 10px 4px;
+        text-align: center;
+      }
+      .table-wrapper {
+        box-shadow: none;
+        overflow-x: visible;
+      }
+      table {
+        min-width: 100% !important;
+        display: block;
+      }
+      thead {
+        display: none;
+      }
+      tbody, tr, td {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      tr {
+        background: #ffffff;
+        margin-bottom: 12px;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        border: 1px solid #ebe5d8;
+        padding: 12px;
+      }
+      td {
+        border-bottom: none;
+        padding: 4px 0;
+      }
+      td.col-id {
+        display: inline-block;
+        background-color: #f0e6d2;
+        color: #795548;
+        font-size: 0.75rem;
+        font-weight: bold;
+        padding: 2px 8px;
+        border-radius: 12px;
+        margin-bottom: 4px;
+      }
+      td.col-word {
+        font-size: 1.3em;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      td.col-kk {
+        font-size: 0.9em;
+        color: #666;
+        padding-bottom: 6px;
+      }
+      td.col-meaning {
+        font-size: 1.05em;
+        color: #212121;
+        font-weight: 500;
+        padding-bottom: 8px;
+        border-bottom: 1px dashed #eee;
+      }
+      .section-title {
+        border-radius: 8px;
+        margin-bottom: 12px;
+        font-size: 1.05em;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>📖 L07 From Trash to Triumph</h2>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th width="5%">序號</th>
+          <th width="18%">單字 / 片語</th>
+          <th width="12%">KK音標</th>
+          <th width="15%">中文意思</th>
+          <th width="25%">記憶法 / 備註</th>
+          <th width="25%">英文例句</th>
+        </tr>
+      </thead>
+      <tbody id="word-list"></tbody>
+      <tbody>
+        <tr>
+          <td colspan="6" class="section-title">✨ Idioms and Phrases ✨</td>
+        </tr>
+      </tbody>
+      <tbody id="phrase-list"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  const allData = [
+    { "單字": "triumph", "詞性": "n. [U, C]", "KK音標": "[`traɪəmf]", "音節": ["tri", "umph"], "中文意思": "勝利;成就", "例句": "The soccer team's moment of triumph came when the final goal was scored.", "記憶法": "[字根記法] tri (三) + umph -> 勝利" },
+    { "單字": "apply", "詞性": "vi.", "KK音標": "[ə`plaɪ]", "音節": ["ap", "ply"], "中文意思": "申請;報名", "例句": "To apply for the job, Mary had to fill out several forms and send them to the company.", "記憶法": "[字根記法] ap (朝向) + ply (折疊) -> 投身於" },
+    { "單字": "application", "詞性": "n. [U, C]", "KK音標": "[ˌæplə`keʃən]", "音節": ["ap", "pli", "ca", "tion"], "中文意思": "申請;申請書", "例句": "In Joy's letter of application, she explained why she wanted to study at the university.", "記憶法": "[字根記法] apply (申請) + cation (名詞字尾) -> 申請書" },
+    { "單字": "applicant", "詞性": "n. [C]", "KK音標": "[`æpləkənt]", "音節": ["ap", "pli", "cant"], "中文意思": "申請人", "例句": "A suitable applicant for the position of manager will be someone with strong leadership and communication skills.", "記憶法": "[字根記法] apply (申請) + cant (人) -> 申請人" },
+    { "單字": "instrument", "詞性": "n. [C]", "KK音標": "[`ɪnstrəmənt]", "音節": ["in", "stru", "ment"], "中文意思": "樂器;儀器", "例句": "Harry can play several instruments, such as the piano and the trumpet.", "記憶法": "[字根記法] in (內) + stru (建立) + ment (名詞) -> 建立音樂的工具" },
+    { "單字": "somehow", "詞性": "adv.", "KK音標": "[`sʌmˌhaʊ]", "音節": ["some", "how"], "中文意思": "不知怎麼地", "例句": "When Gina lost her keys, her dog somehow knew exactly where to find them.", "記憶法": "[創意記法] some (某個) + how (方式) -> 不知怎麼地" },
+    { "單字": "barely", "詞性": "adv.", "KK音標": "[`bɛrlɪ]", "音節": ["bare", "ly"], "中文意思": "幾乎不", "例句": "Justin and Kate could barely believe their ears when the doctor told them they were going to have twins.", "記憶法": "[字根記法] bare (赤裸的) + ly (副詞) -> 幾乎不" },
+    { "單字": "bare", "詞性": "adj.", "KK音標": "[bɛr]", "音節": ["bare"], "中文意思": "赤裸的", "例句": "It is traditional in Thailand to enter temples in bare feet or socks.", "記憶法": "[創意記法] 身上光溜溜的 -> 赤裸的" },
+    { "單字": "invaluable", "詞性": "adj.", "KK音標": "[ɪn`væljʊəbḷ]", "音節": ["in", "val", "u", "a", "ble"], "中文意思": "非常寶貴的", "例句": "Eric's grandma has a lot of life experience, so her advice is invaluable to him.", "記憶法": "[字根記法] in (無法) + value (估價) + able (可以的) -> 無法估價的 -> 非常寶貴的" },
+    { "單字": "encouragement", "詞性": "n. [U]", "KK音標": "[ɪn`kɝɪdʒmənt]", "音節": ["en", "cour", "age", "ment"], "中文意思": "鼓勵;鼓舞", "例句": "My mom's encouragement helped me feel less nervous before the school play.", "記憶法": "[字根記法] en (使) + courage (勇氣) + ment -> 使有勇氣" },
+    { "單字": "encourage", "詞性": "vt.", "KK音標": "[ɪn`kɝɪdʒ]", "音節": ["en", "cour", "age"], "中文意思": "鼓勵", "例句": "Sarah's friends encouraged her to improve her health by jogging every morning and eating more fruit and vegetables.", "記憶法": "[字根記法] en (使) + courage (勇氣) -> 賦予勇氣" },
+    { "單字": "discourage", "詞性": "vt.", "KK音標": "[dɪs`kɝɪdʒ]", "音節": ["dis", "cour", "age"], "中文意思": "阻止;勸阻", "例句": "Because Lisa's parents worried about her safety, they discouraged her from staying out late at night.", "記憶法": "[字根記法] dis (剝奪) + courage (勇氣) -> 讓人沒有勇氣去做" },
+    { "單字": "concert", "詞性": "n. [C]", "KK音標": "[`kɑnsɚt]", "音節": ["con", "cert"], "中文意思": "音樂會", "例句": "Tom and Karen went to a classical concert to celebrate one year of marriage.", "記憶法": "[字根記法] con (一起) + cert (確信/爭取) -> 共同演出" },
+    { "單字": "receive", "詞性": "vt.", "KK音標": "[rɪ`siv]", "音節": ["re", "ceive"], "中文意思": "收到;獲得", "例句": "Andy received a pair of gloves from his girlfriend as a Christmas gift.", "記憶法": "[字根記法] re (回) + ceive (拿) -> 拿回來 -> 收到" },
+    { "單字": "dazzle", "詞性": "vt.", "KK音標": "[`dæzḷ]", "音節": ["daz", "zle"], "中文意思": "使讚嘆;使傾倒", "例句": "During his performance, the guitar player dazzled the audience with his unbelievable skills.", "記憶法": "[諧音記法] 呆坐(dazzle) -> 被強光或美景閃到呆坐" },
+    { "單字": "potential", "詞性": "n. [U], adj.", "KK音標": "[pə`tɛnʃəl]", "音節": ["po", "ten", "tial"], "中文意思": "潛力;潛在的", "例句": "With the help of their new coach, the baseball players are able to reach their full potential in games.", "記憶法": "[字根記法] potent (力量) + ial -> 潛在的力量" },
+    { "單字": "scream", "詞性": "n. [C], vi.", "KK音標": "[skrim]", "音節": ["scream"], "中文意思": "尖叫", "例句": "The children let out screams of delight during the roller-coaster ride.", "記憶法": "[諧音記法] 死鬼(scream) -> 嚇到大叫死鬼" },
+    { "單字": "dizzy", "詞性": "adj.", "KK音標": "[`dɪzɪ]", "音節": ["diz", "zy"], "中文意思": "頭暈目眩的", "例句": "When my favorite band announced that they were coming to perform in my hometown, I felt dizzy with excitement.", "記憶法": "[諧音記法] 地震(dizzy) -> 震到頭暈目眩" },
+    { "單字": "overseas", "詞性": "adv., adj.", "KK音標": "[ˌovɚ`siz]", "音節": ["o", "ver", "seas"], "中文意思": "在海外;海外的", "例句": "After Tina quit her job, she lived overseas in South America for a year to experience life in a different culture.", "記憶法": "[字根記法] over (越過) + seas (海洋) -> 海外" },
+    { "單字": "determination", "詞性": "n. [U]", "KK音標": "[dɪˌtɝmə`neʃən]", "音節": ["de", "ter", "mi", "na", "tion"], "中文意思": "決心", "例句": "Kevin showed strong determination to improve his swimming skills by taking lessons every week and practicing hard in his free time.", "記憶法": "[字根記法] determine (決定) + ation -> 決心" },
+    { "單字": "determine", "詞性": "vt.", "KK音標": "[dɪ`tɝmɪn]", "音節": ["de", "ter", "mine"], "中文意思": "決定;影響", "例句": "The meeting will determine when we can start hiring new workers.", "記憶法": "[字根記法] de (向下) + termin (邊界) -> 劃定界線 -> 決定" },
+    { "單字": "faith", "詞性": "n. [U]", "KK音標": "[feθ]", "音節": ["faith"], "中文意思": "信心;信任", "例句": "Although we were losing at halftime, our teacher had faith in our ability to turn the game around and win.", "記憶法": "[諧音記法] 飛死(faith) -> 充滿信心往前飛" },
+    { "單字": "faithful", "詞性": "adj.", "KK音標": "[`feθfəl]", "音節": ["faith", "ful"], "中文意思": "忠誠的;忠實的", "例句": "At their wedding, Nick and Fiona promised to remain faithful to each other forever.", "記憶法": "[字根記法] faith (信心) + ful (充滿) -> 充滿信心與承諾的" },
+    { "單字": "pursue", "詞性": "vt.", "KK音標": "[pɚ`su]", "音節": ["pur", "sue"], "中文意思": "追求;從事", "例句": "Harriet practices very hard to pursue her goal of becoming a successful dancer.", "記憶法": "[字根記法] pur (向前) + sue (跟隨) -> 追求" },
+    { "單字": "pursuit", "詞性": "n. [U]", "KK音標": "[pɚ`sut]", "音節": ["pur", "suit"], "中文意思": "追求", "例句": "Many young people are leaving this poor village in pursuit of a better job.", "記憶法": "[字根記法] pursue (追求) 的名詞形" },
+    
+    // 以下為片語
+    { "單字": "tons of", "詞性": "phr.", "KK音標": "", "音節": [], "中文意思": "大量;許多", "例句": "Emily spends little time with her family because she has tons of work to do every day.", "記憶法": "[創意記法] ton (噸) -> 一噸一噸的 -> 大量" },
+    { "單字": "look for", "詞性": "phr.", "KK音標": "", "音節": [], "中文意思": "尋找", "例句": "David looked for his lost phone all over the house but couldn't find it.", "記憶法": "[創意記法] look (看) + for (為了) -> 為了某物而看 -> 尋找" },
+    { "單字": "make a living", "詞性": "phr.", "KK音標": "", "音節": [], "中文意思": "謀生", "例句": "Joe makes a living by working as a cook in an Italian restaurant.", "記憶法": "[創意記法] make (創造) + a living (生活) -> 謀生" },
+    { "單字": "look forward to", "詞性": "phr.", "KK音標": "", "音節": [], "中文意思": "期待", "例句": "Betsy is really looking forward to her first trip to Europe this summer.", "記憶法": "[創意記法] look (看) + forward (向前) + to -> 向前看 -> 期待" },
+    { "單字": "be carried away", "詞性": "phr.", "KK音標": "", "音節": [], "中文意思": "陶醉;激動得無法自持", "例句": "During the movie, I was carried away by the touching love story between the two main characters.", "記憶法": "[創意記法] 被(be)帶走(carried away) -> 情緒被帶走 -> 陶醉" },
+    { "單字": "come out of", "詞性": "phr.", "KK音標": "", "音節": [], "中文意思": "由…產生", "例句": "The athlete's victory at the swim meet came out of many months of hard work.", "記憶法": "[創意記法] 從...出來 -> 產生" },
+    { "單字": "as soon as", "詞性": "phr.", "KK音標": "", "音節": [], "中文意思": "一…就…", "例句": "As soon as the rain stopped, the children rushed outside to play in the sunny park.", "記憶法": "[創意記法] 盡快如同 -> 一...就..." }
+  ];
+
+  try {
+    const wordsData = allData.filter(item => !item.詞性.includes('phr'));
+    const phrasesData = allData.filter(item => item.詞性.includes('phr'));
+
+    wordsData.sort((a, b) => a.單字.localeCompare(b.單字));
+    phrasesData.sort((a, b) => a.單字.localeCompare(b.單字));
+
+    const wordList = document.getElementById('word-list');
+    const phraseList = document.getElementById('phrase-list');
+
+    let globalIndex = 1;
+
+    function createRow(item) {
+      const tr = document.createElement('tr');
+      
+      const word = item.單字 || item.word || item.Vocab || "";
+      const kk = item.KK音標 || item.kk || item.KK || "";
+      const pos = item.詞性 || item.pos || item.POS || "";
+      const meaning = item.中文意思 || item.meaning || item.Chinese || "";
+      let mnemonic = item.記憶法 || item.mnemonic || item.Mnemonic || "";
+      const sentence = item.例句 || item.sentence || item.Example || "";
+      const syllables = item.音節 || item.syllables || item.Syllables || [];
+
+      let syllablesHtml = '';
+      if (Array.isArray(syllables) && syllables.length > 0) {
+        syllables.forEach((syl, i) => {
+          let colorClass = `syl-${(i % 5) + 1}`; 
+          syllablesHtml += `<span class="${colorClass}">${syl}</span>`;
+          if (i < syllables.length - 1) {
+            syllablesHtml += `<span class="separator">·</span>`;
+          }
+        });
+      } else {
+        syllablesHtml = `<span class="phrase-text">${word}</span>`;
+      }
+
+      let posHtml = pos ? `<span class="pos-text">${pos}</span>` : '';
+
+      if (mnemonic.includes('[字根記法]')) {
+        mnemonic = mnemonic.replace('[字根記法]', '<span class="mnemonic-tag">字根</span>');
+      } else if (mnemonic.includes('[諧音記法]')) {
+        mnemonic = mnemonic.replace('[諧音記法]', '<span class="mnemonic-tag sound">諧音</span>');
+      } else if (mnemonic.includes('[創意記法]')) {
+        mnemonic = mnemonic.replace('[創意記法]', '<span class="mnemonic-tag creative">創意</span>');
+      }
+
+      let highlightedSentence = sentence;
+      if (highlightedSentence && word) {
+        try {
+          const targetWord = word.trim().split(/\s+/)[0]; 
+          const escapedWord = targetWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const wordRegex = new RegExp(`\\b(${escapedWord}[a-zA-Z]*)\\b`, 'gi');
+          highlightedSentence = highlightedSentence.replace(wordRegex, '<b>$1</b>');
+        } catch (err) {
+          highlightedSentence = sentence;
+        }
+      }
+
+      tr.innerHTML = `
+        <td class="col-id">#${globalIndex++}</td>
+        <td class="word-cell col-word">
+          ${syllablesHtml}
+          <button class="btn-audio play-word" data-text="${word}" title="發音">🔊</button>
+        </td>
+        <td class="kk-text col-kk">${kk}</td>
+        <td class="meaning-text col-meaning">${posHtml}${meaning}</td>
+        <td class="mnemonic-text col-mnemonic">${mnemonic}</td>
+        <td class="sentence-text col-sentence">
+          ${highlightedSentence} 
+          ${sentence ? `<button class="btn-audio play-sentence" data-text="${sentence}" title="例句發音">🔊</button>` : ''}
+        </td>
+      `;
+      return tr;
+    }
+
+    wordsData.forEach(item => { wordList.appendChild(createRow(item)); });
+    phrasesData.forEach(item => { phraseList.appendChild(createRow(item)); });
+
+    // --- 音效處理區塊 (手機解鎖 + 共用 Audio) ---
+    const globalAudio = new Audio();
+    let audioUnlocked = false;
+
+    function unlockAudio() {
+      if (!audioUnlocked) {
+        globalAudio.play().then(() => {
+          globalAudio.pause();
+          globalAudio.currentTime = 0;
+          audioUnlocked = true;
+        }).catch(err => { /* 忽略自動播放阻擋錯誤 */ });
+        document.removeEventListener('touchstart', unlockAudio);
+        document.removeEventListener('click', unlockAudio);
+      }
+    }
+    
+    document.addEventListener('touchstart', unlockAudio, { once: true });
+    document.addEventListener('click', unlockAudio, { once: true });
+
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('play-word')) {
+        speakText(e.target.getAttribute('data-text'), 0.9);
+      } else if (e.target.classList.contains('play-sentence')) {
+        speakText(e.target.getAttribute('data-text'), 1.0);
+      }
+    });
+
+    function speakText(text, rate) {
+      if (!text) return;
+      window.speechSynthesis.cancel();
+      
+      const encodedText = encodeURIComponent(text);
+      const googleTtsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en-US&q=${encodedText}`;
+      
+      globalAudio.src = googleTtsUrl;
+      globalAudio.playbackRate = rate;
+      
+      globalAudio.onerror = function() { fallbackToSpeech(text, rate); };
+      globalAudio.play().catch(function(error) { fallbackToSpeech(text, rate); });
+    }
+
+    function fallbackToSpeech(text, rate) {
+      window.speechSynthesis.cancel();
+      let utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      utterance.rate = rate;
+      window.speechSynthesis.speak(utterance);
+    }
+
+  } catch (error) {
+    alert("執行發生錯誤：" + error);
+  }
+</script>
+</body>
+</html>

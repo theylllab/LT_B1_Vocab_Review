@@ -16,8 +16,13 @@
       margin: 0;
       text-align: center;
       box-sizing: border-box;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
     .container {
+      width: 100%;
       max-width: 800px;
       margin: 0 auto;
       background-color: #fff;
@@ -42,6 +47,8 @@
       gap: 15px;
       align-items: center;
     }
+    
+    /* 主按鈕樣式 */
     .tab-link {
       display: inline-block;
       width: 80%;
@@ -56,6 +63,8 @@
       border: 2px solid transparent;
       transition: all 0.2s ease;
       box-sizing: border-box;
+      cursor: pointer;
+      font-family: inherit;
     }
     .tab-link:hover {
       background-color: #e6d8be;
@@ -67,20 +76,71 @@
       transform: translateY(0);
     }
 
+    /* 子選單與子按鈕樣式 */
+    .sub-menu {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      align-items: center;
+      margin-top: -5px;
+      margin-bottom: 15px;
+    }
+    .sub-link {
+      background-color: #f8f1e4;
+      width: 75%;
+      max-width: 350px;
+      font-size: 1.05em;
+      padding: 12px 18px;
+    }
+    .sub-link:hover {
+      background-color: #efe3ce;
+      border-color: #d6c6ad;
+    }
+
+    /* 下方中間：總瀏覽人次樣式 */
+    .footer-counter {
+      margin-top: 30px;
+      padding-bottom: 10px;
+      text-align: center;
+      color: #5a4a42;
+      font-size: 0.95rem;
+    }
+    #busuanzi_value_site_pv {
+      color: #000000; /* 黑色數字 */
+      font-weight: bold;
+      font-size: 1.05rem;
+      margin: 0 4px;
+    }
+
+    /* 最右下角固定文字：LYGSHYL */
+    .corner-signature {
+      position: fixed;
+      right: 14px;
+      bottom: 10px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      color: #5a4a42;
+      letter-spacing: 1px;
+      opacity: 0.85;
+      user-select: none;
+      z-index: 999;
+    }
+
     /* =========================================================
-       【新增】：手機螢幕自適應排版（螢幕寬度 768px 以下自動生效）
+       手機螢幕自適應排版（螢幕寬度 768px 以下自動生效）
        ========================================================= */
     @media (max-width: 768px) {
       body {
-        padding: 20px 12px; /* 縮減邊距，留給內容更多空間 */
+        padding: 20px 12px 36px 12px;
       }
       .container {
-        padding: 24px 16px; /* 減少白色卡片內距，避免畫面太長 */
+        padding: 24px 16px;
         border-radius: 8px;
         box-shadow: 0 2px 6px rgba(0,0,0,0.06);
       }
       h1 {
-        font-size: 1.35rem; /* 標題縮小，防止手機上拆成多行 */
+        font-size: 1.35rem;
         margin-bottom: 15px;
         letter-spacing: 1px;
       }
@@ -89,13 +149,27 @@
         margin-bottom: 20px;
       }
       .menu {
-        gap: 12px; /* 按鈕之間的間隔微調 */
+        gap: 12px;
       }
       .tab-link {
-        width: 100%; /* 按鈕在手機上撐滿卡片，更好點擊 */
+        width: 100%;
         max-width: none;
         font-size: 1.05em;
         padding: 14px 16px;
+      }
+      .sub-link {
+        width: 90%;
+        font-size: 1em;
+        padding: 12px 16px;
+      }
+      .footer-counter {
+        margin-top: 24px;
+        font-size: 0.9rem;
+      }
+      .corner-signature {
+        right: 10px;
+        bottom: 8px;
+        font-size: 0.78rem;
       }
     }
   </style>
@@ -104,16 +178,57 @@
 
 <div class="container">
   <h1>📚 高中英文單字複習</h1>
-  <p class="intro-text">請選擇你要複習的單元（點擊開啟新分頁）：</p>
+  <p class="intro-text">請選擇你要複習的單元：</p>
   
   <div class="menu">
-    <a href="B1L4.html" class="tab-link" target="_blank">📖 龍騰 B1L4 單字與片語</a>
-    <a href="B1L5.html" class="tab-link" target="_blank">📖 龍騰 B1L5 單字與片語</a>
-    <a href="B1L6.html" class="tab-link" target="_blank">📖 龍騰 B1L6 單字與片語</a>
-    <a href="VOC_U3.html" class="tab-link" target="_blank">📖 高頻單字 U3 單字與片語</a>
-    <a href="VOC_U4.html" class="tab-link" target="_blank">📖 高頻單字 U4 單字與片語</a>
+    
+    <!-- 第二次期中考 (點擊展開) -->
+    <button class="tab-link" onclick="toggleMenu('midterm2')">🎯 第二次期中考 ▾</button>
+    <div id="midterm2" class="sub-menu">
+      <a href="B1L4 VOC.html" class="tab-link sub-link">📖 龍騰 B1L4 單字與片語</a>
+      <a href="B1L5 VOC.html" class="tab-link sub-link">📖 龍騰 B1L5 單字與片語</a>
+      <a href="B1L6 VOC.html" class="tab-link sub-link">📖 龍騰 B1L6 單字與片語</a>
+      <a href="VOC_U3.html" class="tab-link sub-link">📖 高頻單字 U3 單字與片語</a>
+      <a href="VOC_U4.html" class="tab-link sub-link">📖 高頻單字 U4 單字與片語</a>
+    </div>
+
+    <!-- 期末考 (點擊展開) -->
+    <button class="tab-link" onclick="toggleMenu('final')">🏆 期末考 ▾</button>
+    <div id="final" class="sub-menu">
+      <a href="B1L7 VOC.html" class="tab-link sub-link">📖 龍騰 B1L7 單字與片語</a>
+      <a href="B1L8 VOC.html" class="tab-link sub-link">📖 龍騰 B1L8 單字與片語</a>
+      <a href="B1L9 VOC.html" class="tab-link sub-link">📖 龍騰 B1L9 單字與片語</a>
+      <a href="VOC_U5.html" class="tab-link sub-link">📖 高頻單字 U5 單字與片語</a>
+      <a href="VOC_U6.html" class="tab-link sub-link">📖 高頻單字 U6 單字與片語</a>
+    </div>
+    
   </div>
 </div>
+
+<!-- 首頁下方中間：總瀏覽人次（黑色數字） -->
+<footer class="footer-counter">
+  <span id="busuanzi_container_site_pv">
+    總瀏覽人次：<span id="busuanzi_value_site_pv">--</span>
+  </span>
+</footer>
+
+<!-- 最右下角固定署名 -->
+<div class="corner-signature">LYGSHYL</div>
+
+<!-- 不蒜子免費靜態網站計數器（適合 GitHub Pages） -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script>
+  // 控制子選單展開與收合的腳本
+  function toggleMenu(menuId) {
+    const menu = document.getElementById(menuId);
+    if (menu.style.display === 'none' || menu.style.display === '') {
+      menu.style.display = 'flex';
+    } else {
+      menu.style.display = 'none';
+    }
+  }
+</script>
 
 </body>
 </html>

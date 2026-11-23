@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B1L9 Fighting for or against Graffiti 單字與片語 </title>
+  <style>
+    body {
+      font-family: "Microsoft JhengHei", sans-serif;
+      background-color: #fcf9f2;
+      color: #333;
+      padding: 20px;
+      margin: 0;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      min-width: 800px;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: top;
+    }
+    th {
+      background-color: #f0e6d2;
+      font-weight: bold;
+      color: #5a4a42;
+    }
+    .word-cell {
+      font-size: 1.2em;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    .syl-1 { color: #d32f2f; }
+    .syl-2 { color: #1976d2; }
+    .syl-3 { color: #388e3c; }
+    .syl-4 { color: #f57c00; }
+    .syl-5 { color: #7b1fa2; }
+    .separator {
+      color: #b0bec5;
+      margin: 0 2px;
+      font-weight: normal;
+    }
+    .phrase-text {
+      color: #1565c0;
+    }
+    .btn-audio {
+      background: none;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      padding: 3px 8px;
+      margin-left: 6px;
+      font-size: 0.85em;
+      transition: background 0.2s;
+    }
+    .btn-audio:hover {
+      background-color: #f0f0f0;
+    }
+    .kk-text {
+      color: #555;
+      font-family: Arial, sans-serif;
+      white-space: nowrap;
+    }
+    .meaning-text {
+      color: #333;
+    }
+    .pos-text {
+      color: #777;
+      font-style: italic;
+      margin-right: 5px;
+    }
+    .sentence-text {
+      color: #1a5276;
+      font-size: 0.9em;
+      line-height: 1.4;
+    }
+    .sentence-text b {
+      color: #0d47a1;
+      font-weight: bold;
+    }
+    .mnemonic-text {
+      font-size: 0.9em;
+      line-height: 1.5;
+      color: #4a4a4a;
+    }
+    .mnemonic-tag {
+      display: inline-block;
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      margin-right: 5px;
+      font-weight: bold;
+    }
+    .mnemonic-tag.sound {
+      background-color: #fff3e0;
+      color: #ef6c00;
+    }
+    .mnemonic-tag.creative {
+      background-color: #e3f2fd;
+      color: #1565c0;
+    }
+    .section-title {
+      background-color: #bbdefb;
+      color: #0d47a1;
+      font-size: 1.2em;
+      font-weight: bold;
+      text-align: center;
+      padding: 15px;
+      letter-spacing: 2px;
+    }
+
+    /* 手機螢幕 RWD 自適應卡片樣式 */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px 8px;
+      }
+      h2 {
+        font-size: 1.25rem;
+        margin: 10px 4px;
+        text-align: center;
+      }
+      .table-wrapper {
+        box-shadow: none;
+        overflow-x: visible;
+      }
+      table {
+        min-width: 100% !important;
+        display: block;
+      }
+      thead {
+        display: none;
+      }
+      tbody, tr, td {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      tr {
+        background: #ffffff;
+        margin-bottom: 12px;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        border: 1px solid #ebe5d8;
+        padding: 12px;
+      }
+      td {
+        border-bottom: none;
+        padding: 4px 0;
+      }
+      td.col-id {
+        display: inline-block;
+        background-color: #f0e6d2;
+        color: #795548;
+        font-size: 0.75rem;
+        font-weight: bold;
+        padding: 2px 8px;
+        border-radius: 12px;
+        margin-bottom: 4px;
+      }
+      td.col-word {
+        font-size: 1.3em;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      td.col-kk {
+        font-size: 0.9em;
+        color: #666;
+        padding-bottom: 6px;
+      }
+      td.col-meaning {
+        font-size: 1.05em;
+        color: #212121;
+        font-weight: 500;
+        padding-bottom: 8px;
+        border-bottom: 1px dashed #eee;
+      }
+      .section-title {
+        border-radius: 8px;
+        margin-bottom: 12px;
+        font-size: 1.05em;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>📖 L09 Fighting for or against Graffiti</h2>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th width="5%">序號</th>
+          <th width="18%">單字 / 片語</th>
+          <th width="12%">KK音標</th>
+          <th width="15%">中文意思</th>
+          <th width="25%">記憶法 / 備註</th>
+          <th width="25%">英文例句</th>
+        </tr>
+      </thead>
+      <tbody id="word-list"></tbody>
+      <tbody>
+        <tr>
+          <td colspan="6" class="section-title">✨ Idioms and Phrases ✨</td>
+        </tr>
+      </tbody>
+      <tbody id="phrase-list"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  const allData = [
+    { "單字": "detailed", "詞性": "adj.", "KK音標": "[`diteld]", "音節": ["de", "tailed"], "中文意思": "詳細的;細緻的", "例句": "The art college students were asked to write a detailed description of their favorite work of art.", "記憶法": "[字根記法] detail (細節) + ed (形容詞字尾) -> 詳細的" },
+    { "單字": "detail", "詞性": "n. [C, U]", "KK音標": "[`ditel]", "音節": ["de", "tail"], "中文意思": "細節", "例句": "Zushi Temple in Sanxia, New Taipei City is famous for the details on its walls and roofs.", "記憶法": "[字根記法] de (向下) + tail (切割) -> 切割得很細 -> 細節" },
+    { "單字": "mess", "詞性": "n. sing.", "KK音標": "[mɛs]", "音節": ["mess"], "中文意思": "凌亂;髒亂", "例句": "A week after the typhoon left the country, many areas were in a mess.", "記憶法": "[創意記法] 東西亂丟造成的凌亂狀態" },
+    { "單字": "messy", "詞性": "adj.", "KK音標": "[`mɛsɪ]", "音節": ["mess", "y"], "中文意思": "凌亂的;髒亂的", "例句": "The teacher refused to accept Brian's report because his handwriting was too messy.", "記憶法": "[字根記法] mess (髒亂) + y (形容詞字尾) -> 髒亂的" },
+    { "單字": "express", "詞性": "vt.", "KK音標": "[ɪk`sprɛs]", "音節": ["ex", "press"], "中文意思": "表達", "例句": "Lady Gaga uses music to express her view that people are different but equal.", "記憶法": "[字根記法] ex (向外) + press (壓/擠) -> 把心裡的話擠出來 -> 表達" },
+    { "單字": "expression", "詞性": "n. [U, C]", "KK音標": "[ɪk`sprɛʃən]", "音節": ["ex", "pres", "sion"], "中文意思": "表達", "例句": "David wrote a poem as an expression of his love for his mother on her birthday.", "記憶法": "[字根記法] express (表達) + ion (名詞字尾) -> 表達" },
+    { "單字": "opinion", "詞性": "n. [C]", "KK音標": "[ə`pɪnjən]", "音節": ["o", "pin", "ion"], "中文意思": "想法;意見", "例句": "In Cassandra's opinion, borrowing books from the library is smarter than buying them because we usually only read them once.", "記憶法": "[創意記法] 對事情的看法或意見" },
+    { "單字": "contrast", "詞性": "vt.", "KK音標": "[kən`træst]", "音節": ["con", "trast"], "中文意思": "對比;對照", "例句": "The video contrasted a picture of a heavy smoker's lungs with that of a non-smoker's to discourage people from smoking.", "記憶法": "[字根記法] contra (相反) + st (站立) -> 站在對立面 -> 對比" },
+    { "單字": "contrast", "詞性": "n. [C, U]", "KK音標": "[`kɑnˌtræst]", "音節": ["con", "trast"], "中文意思": "對比;對照", "例句": "There are many contrasts between my two favorite movies; one is a light musical and the other is a serious drama.", "記憶法": "[字根記法] contra (相反) + st (站立) -> 站在對立面 -> 對比" },
+    { "單字": "horror", "詞性": "n. [U]", "KK音標": "[`hɔrɚ]", "音節": ["hor", "ror"], "中文意思": "可怕;恐怖;恐懼", "例句": "The kids watched in horror as the lions tore the deer to pieces on a wildlife TV show.", "記憶法": "[創意記法] 讓人嚇到發抖的恐怖事物" },
+    { "單字": "horrible", "詞性": "adj.", "KK音標": "[`hɔrəbḷ]", "音節": ["hor", "ri", "ble"], "中文意思": "可怕的;令人害怕的", "例句": "The whole world was shocked by the horrible news that the World Trade Center in New York was under attack.", "記憶法": "[字根記法] horror (恐懼) + ible (能...的) -> 令人害怕的" },
+    { "單字": "horrify", "詞性": "vt.", "KK音標": "[`hɔrəˌfaɪ]", "音節": ["hor", "ri", "fy"], "中文意思": "使人恐懼;驚嚇", "例句": "It horrified Orlando to find out how much garbage is floating around in the ocean.", "記憶法": "[字根記法] horror (恐懼) + fy (使...) -> 使恐懼" },
+    { "單字": "innocence", "詞性": "n. [U]", "KK音標": "[`ɪnəsṇs]", "音節": ["in", "no", "cence"], "中文意思": "無辜;純真", "例句": "The salesman was good at getting customers to buy his products because he had a look of innocence.", "記憶法": "[字根記法] in (不) + noc (傷害) + ence -> 不會傷害人的 -> 純真" },
+    { "單字": "innocent", "詞性": "adj.", "KK音標": "[`ɪnəsṇt]", "音節": ["in", "no", "cent"], "中文意思": "無辜的;純真的", "例句": "The young travelers were so innocent that they didn't realize they needed to lock their hotel room.", "記憶法": "[字根記法] in (不) + noc (傷害) + ent -> 無辜的/純真的" },
+    { "單字": "violence", "詞性": "n. [U]", "KK音標": "[`vaɪələns]", "音節": ["vi", "o", "lence"], "中文意思": "暴力", "例句": "Most people would agree that the use of violence against children is not right in any situation.", "記憶法": "[創意記法] 使用武力去傷害他人的行為" },
+    { "單字": "violent", "詞性": "adj.", "KK音標": "[`vaɪələnt]", "音節": ["vi", "o", "lent"], "中文意思": "暴力的", "例句": "The football player was removed from the game due to his repeated violent behavior on the field.", "記憶法": "[字根記法] violence (暴力) 的形容詞型態" },
+    { "單字": "visual", "詞性": "adj.", "KK音標": "[`vɪʒʊəl]", "音節": ["vis", "u", "al"], "中文意思": "視覺的", "例句": "Debra loves all kinds of visual arts, including pottery, paintings, drawings, and films.", "記憶法": "[字根記法] vis (看) + ual (形容詞字尾) -> 視覺的" },
+    { "單字": "pollution", "詞性": "n. [U]", "KK音標": "[pə`luʃən]", "音節": ["pol", "lu", "tion"], "中文意思": "汙染", "例句": "This machine can check the level of air pollution in your apartment and help reduce it.", "記憶法": "[字根記法] pollute (汙染) + ion (名詞字尾) -> 汙染" },
+    { "單字": "pollute", "詞性": "vt.", "KK音標": "[pə`lut]", "音節": ["pol", "lute"], "中文意思": "汙染", "例句": "The seaside factory was polluting the ocean with poisonous chemicals.", "記憶法": "[創意記法] 把環境弄髒的行為" },
+    { "單字": "permission", "詞性": "n. [U]", "KK音標": "[pɚ`mɪʃən]", "音節": ["per", "mis", "sion"], "中文意思": "許可;准許", "例句": "Excuse me, sir. You need to get special permission for the video camera in the museum.", "記憶法": "[字根記法] permit (許可) + sion (名詞字尾) -> 許可" },
+    { "單字": "permit", "詞性": "vt.", "KK音標": "[pɚ`mɪt]", "音節": ["per", "mit"], "中文意思": "許可;准許", "例句": "When the seat belt signs are on, passengers on the airplane are not permitted to stand up.", "記憶法": "[字根記法] per (完全) + mit (送出) -> 允許送出 -> 許可" },
+    { "單字": "effort", "詞性": "n. [U, C]", "KK音標": "[`ɛfɚt]", "音節": ["ef", "fort"], "中文意思": "努力", "例句": "Cassandra put a lot of effort into her science project and her teacher praised it in the end.", "記憶法": "[字根記法] ef (向外) + fort (力量) -> 釋放力量 -> 努力" },
+    { "單字": "community", "詞性": "n. [C]", "KK音標": "[kə`mjunətɪ]", "音節": ["com", "mu", "ni", "ty"], "中文意思": "社區", "例句": "Leaders of various local communities are meeting today to express their ideas about how to clean up their streets.", "記憶法": "[字根記法] com (共同) + mun (公共的) + ity -> 共同生活的地方 -> 社區" },
+    { "單字": "associate", "詞性": "vt.", "KK音標": "[ə`soʃɪˌet]", "音節": ["as", "so", "ci", "ate"], "中文意思": "聯想", "例句": "Most people in Taiwan associate Beethoven's 'For Elise' with the coming of the garbage truck.", "記憶法": "[字根記法] as (朝向) + soci (同伴) + ate -> 使成為同伴 -> 聯想在一起" },
+    { "單字": "association", "詞性": "n. [C]", "KK音標": "[əˌsosɪ`eʃən]", "音節": ["as", "so", "ci", "a", "tion"], "中文意思": "聯想", "例句": "In order to read, a person must be able to make an association between letters and the sounds they represent.", "記憶法": "[字根記法] associate (聯想) + ion (名詞字尾) -> 聯想" },
+    { "單字": "criminal", "詞性": "adj.", "KK音標": "[`krɪmənḷ]", "音節": ["crim", "i", "nal"], "中文意思": "犯罪的", "例句": "Studies show that better education can lead to a drop in criminal behavior.", "記憶法": "[字根記法] crime (犯罪) + inal -> 犯罪的" },
+    { "單字": "criminal", "詞性": "n. [C]", "KK音標": "[`krɪmənḷ]", "音節": ["crim", "i", "nal"], "中文意思": "罪犯", "例句": "The police are searching the community for a criminal who just beat up two people for no reason.", "記憶法": "[字根記法] crime (犯罪) + inal (人) -> 犯罪的人" },
+    { "單字": "crime", "詞性": "n. [U, C]", "KK音標": "[kraɪm]", "音節": ["crime"], "中文意思": "犯罪行為", "例句": "If you commit a crime, you may have trouble getting a passport in the future.", "記憶法": "[創意記法] 違法的行為" },
+    { "單字": "destructive", "詞性": "adj.", "KK音標": "[dɪ`strʌktɪv]", "音節": ["de", "struc", "tive"], "中文意思": "破壞性的;毀滅性的", "例句": "It is hard for most people to imagine the destructive power of modern bombs.", "記憶法": "[字根記法] destroy (破壞) 的形容詞型態" },
+    { "單字": "destroy", "詞性": "vt.", "KK音標": "[dɪ`strɔɪ]", "音節": ["de", "stroy"], "中文意思": "破壞;毀滅", "例句": "The strong winds completely destroyed the wooden fence around the farmer's land.", "記憶法": "[字根記法] de (向下) + stroy (建造) -> 把建好的弄倒 -> 破壞" },
+    { "單字": "destruction", "詞性": "n. [U]", "KK音標": "[dɪ`strʌkʃən]", "音節": ["de", "struc", "tion"], "中文意思": "破壞;毀滅", "例句": "According to this report, air pollution could result in the destruction of many ancient pieces of art someday.", "記憶法": "[字根記法] destroy (破壞) 的名詞型態" },
+
+    // 以下為片語
+    { "單字": "come in", "詞性": "phr.", "KK音標": "", "音節": [], "中文意思": "具有(形狀、尺寸等)", "例句": "The T-shirt you are trying on right now also comes in white, black, and navy blue.", "記憶法": "[創意記法] 以某種形式進來(come in) -> 具有..." },
+    { "單字": "stand for", "詞性": "phr.", "KK音標": "", "音節": [], "中文意思": "代表", "例句": "In the term WHO, W stands for 'World,' H stands for 'Health,' and O stands for 'Organization.'", "記憶法": "[創意記法] 為了...而站立(stand for) -> 替...出面 -> 代表" },
+    { "單字": "nothing but", "詞性": "phr.", "KK音標": "", "音節": [], "中文意思": "只不過是;僅僅", "例句": "Mr. Rogers wants to have nothing but happiness and a lot of quality time with his family.", "記憶法": "[創意記法] 什麼都沒有(nothing)除了(but) -> 僅僅" },
+    { "單字": "get rid of", "詞性": "phr.", "KK音標": "", "音節": [], "中文意思": "去除;擺脫", "例句": "Betsy asked her husband to get rid of all the disgusting rotten food in the refrigerator.", "記憶法": "[創意記法] 讓自己免除(rid)於... -> 擺脫" },
+    { "單字": "when it comes to", "詞性": "phr.", "KK音標": "", "音節": [], "中文意思": "當談到……時", "例句": "When it comes to decorating the Christmas tree, many families like to put a star or angel on top at the end.", "記憶法": "[創意記法] 當事情來到(comes to)...的時候" }
+  ];
+
+  try {
+    const wordsData = allData.filter(item => !item.詞性.includes('phr'));
+    const phrasesData = allData.filter(item => item.詞性.includes('phr'));
+
+    wordsData.sort((a, b) => a.單字.localeCompare(b.單字));
+    phrasesData.sort((a, b) => a.單字.localeCompare(b.單字));
+
+    const wordList = document.getElementById('word-list');
+    const phraseList = document.getElementById('phrase-list');
+
+    let globalIndex = 1;
+
+    function createRow(item) {
+      const tr = document.createElement('tr');
+      
+      const word = item.單字 || item.word || item.Vocab || "";
+      const kk = item.KK音標 || item.kk || item.KK || "";
+      const pos = item.詞性 || item.pos || item.POS || "";
+      const meaning = item.中文意思 || item.meaning || item.Chinese || "";
+      let mnemonic = item.記憶法 || item.mnemonic || item.Mnemonic || "";
+      const sentence = item.例句 || item.sentence || item.Example || "";
+      const syllables = item.音節 || item.syllables || item.Syllables || [];
+
+      let syllablesHtml = '';
+      if (Array.isArray(syllables) && syllables.length > 0) {
+        syllables.forEach((syl, i) => {
+          let colorClass = `syl-${(i % 5) + 1}`; 
+          syllablesHtml += `<span class="${colorClass}">${syl}</span>`;
+          if (i < syllables.length - 1) {
+            syllablesHtml += `<span class="separator">·</span>`;
+          }
+        });
+      } else {
+        syllablesHtml = `<span class="phrase-text">${word}</span>`;
+      }
+
+      let posHtml = pos ? `<span class="pos-text">${pos}</span>` : '';
+
+      if (mnemonic.includes('[字根記法]')) {
+        mnemonic = mnemonic.replace('[字根記法]', '<span class="mnemonic-tag">字根</span>');
+      } else if (mnemonic.includes('[諧音記法]')) {
+        mnemonic = mnemonic.replace('[諧音記法]', '<span class="mnemonic-tag sound">諧音</span>');
+      } else if (mnemonic.includes('[創意記法]')) {
+        mnemonic = mnemonic.replace('[創意記法]', '<span class="mnemonic-tag creative">創意</span>');
+      }
+
+      let highlightedSentence = sentence;
+      if (highlightedSentence && word) {
+        try {
+          const targetWord = word.trim().split(/\s+/)[0]; 
+          const escapedWord = targetWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const wordRegex = new RegExp(`\\b(${escapedWord}[a-zA-Z]*)\\b`, 'gi');
+          highlightedSentence = highlightedSentence.replace(wordRegex, '<b>$1</b>');
+        } catch (err) {
+          highlightedSentence = sentence;
+        }
+      }
+
+      tr.innerHTML = `
+        <td class="col-id">#${globalIndex++}</td>
+        <td class="word-cell col-word">
+          ${syllablesHtml}
+          <button class="btn-audio play-word" data-text="${word}" title="發音">🔊</button>
+        </td>
+        <td class="kk-text col-kk">${kk}</td>
+        <td class="meaning-text col-meaning">${posHtml}${meaning}</td>
+        <td class="mnemonic-text col-mnemonic">${mnemonic}</td>
+        <td class="sentence-text col-sentence">
+          ${highlightedSentence} 
+          ${sentence ? `<button class="btn-audio play-sentence" data-text="${sentence}" title="例句發音">🔊</button>` : ''}
+        </td>
+      `;
+      return tr;
+    }
+
+    wordsData.forEach(item => { wordList.appendChild(createRow(item)); });
+    phrasesData.forEach(item => { phraseList.appendChild(createRow(item)); });
+
+    // --- 音效處理區塊 (手機解鎖 + 共用 Audio) ---
+    const globalAudio = new Audio();
+    let audioUnlocked = false;
+
+    function unlockAudio() {
+      if (!audioUnlocked) {
+        globalAudio.play().then(() => {
+          globalAudio.pause();
+          globalAudio.currentTime = 0;
+          audioUnlocked = true;
+        }).catch(err => { /* 忽略自動播放阻擋錯誤 */ });
+        document.removeEventListener('touchstart', unlockAudio);
+        document.removeEventListener('click', unlockAudio);
+      }
+    }
+    
+    document.addEventListener('touchstart', unlockAudio, { once: true });
+    document.addEventListener('click', unlockAudio, { once: true });
+
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('play-word')) {
+        speakText(e.target.getAttribute('data-text'), 0.9);
+      } else if (e.target.classList.contains('play-sentence')) {
+        speakText(e.target.getAttribute('data-text'), 1.0);
+      }
+    });
+
+    function speakText(text, rate) {
+      if (!text) return;
+      window.speechSynthesis.cancel();
+      
+      const encodedText = encodeURIComponent(text);
+      const googleTtsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en-US&q=${encodedText}`;
+      
+      globalAudio.src = googleTtsUrl;
+      globalAudio.playbackRate = rate;
+      
+      globalAudio.onerror = function() { fallbackToSpeech(text, rate); };
+      globalAudio.play().catch(function(error) { fallbackToSpeech(text, rate); });
+    }
+
+    function fallbackToSpeech(text, rate) {
+      window.speechSynthesis.cancel();
+      let utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      utterance.rate = rate;
+      window.speechSynthesis.speak(utterance);
+    }
+
+  } catch (error) {
+    alert("執行發生錯誤：" + error);
+  }
+</script>
+</body>
+</html>

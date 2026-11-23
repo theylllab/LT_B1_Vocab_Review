@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>高頻單字</title>
+  <title>高頻單字 U4</title>
   <style>
     body {
       font-family: "Microsoft JhengHei", sans-serif;
@@ -87,6 +87,10 @@
       color: #1a5276;
       font-size: 0.9em;
       line-height: 1.4;
+    }
+    .sentence-text b {
+      color: #0d47a1;
+      font-weight: bold;
     }
     .mnemonic-text {
       font-size: 0.9em;
@@ -194,10 +198,6 @@
         font-size: 1.05em;
         padding: 10px;
       }
-    }
-      .sentence-text b {
-      color: #0d47a1;
-      font-weight: bold;
     }
   </style>
 </head>
@@ -477,13 +477,13 @@
         mnemonic = mnemonic.replace('[創意記法]', '<span class="mnemonic-tag creative">創意</span>');
       }
 
-      // 例句單字粗體化（安全不崩潰處理）
       let highlightedSentence = sentence;
-      if (sentence && word) {
+      if (highlightedSentence && word) {
         try {
-          const target = word.trim().split(" ")[0]; // 若為片語先抓第一個核心字或全字
-          const reg = new RegExp(`\\b(${target}[a-zA-Z]*)\\b`, 'gi');
-          highlightedSentence = sentence.replace(reg, '<b>$1</b>');
+          const targetWord = word.trim().split(/\s+/)[0]; 
+          const escapedWord = targetWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const wordRegex = new RegExp(`\\b(${escapedWord}[a-zA-Z]*)\\b`, 'gi');
+          highlightedSentence = highlightedSentence.replace(wordRegex, '<b>$1</b>');
         } catch (err) {
           highlightedSentence = sentence;
         }
@@ -506,17 +506,28 @@
       return tr;
     }
 
-    // 1. 渲染單字區
-    wordsData.forEach(item => {
-      wordList.appendChild(createRow(item));
-    });
+    wordsData.forEach(item => { wordList.appendChild(createRow(item)); });
+    phrasesData.forEach(item => { phraseList.appendChild(createRow(item)); });
 
-    // 2. 渲染片語區
-    phrasesData.forEach(item => {
-      phraseList.appendChild(createRow(item));
-    });
+    // --- 音效處理區塊 (手機解鎖 + 共用 Audio) ---
+    const globalAudio = new Audio();
+    let audioUnlocked = false;
 
-    // 點擊事件監聽
+    function unlockAudio() {
+      if (!audioUnlocked) {
+        globalAudio.play().then(() => {
+          globalAudio.pause();
+          globalAudio.currentTime = 0;
+          audioUnlocked = true;
+        }).catch(err => { /* 忽略自動播放阻擋錯誤 */ });
+        document.removeEventListener('touchstart', unlockAudio);
+        document.removeEventListener('click', unlockAudio);
+      }
+    }
+    
+    document.addEventListener('touchstart', unlockAudio, { once: true });
+    document.addEventListener('click', unlockAudio, { once: true });
+
     document.addEventListener('click', function(e) {
       if (e.target.classList.contains('play-word')) {
         speakText(e.target.getAttribute('data-text'), 0.9);
@@ -525,36 +536,23 @@
       }
     });
 
-    let currentAudio = null;
-
     function speakText(text, rate) {
       if (!text) return;
-
-      if (currentAudio) {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
-      }
       window.speechSynthesis.cancel();
-
-      // Google Translate TTS 介面
-      const encodedText = encodeURIComponent(text.replace(/\.\.\./g, ' '));
+      
+      const encodedText = encodeURIComponent(text);
       const googleTtsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en-US&q=${encodedText}`;
       
-      currentAudio = new Audio(googleTtsUrl);
-      currentAudio.playbackRate = rate;
-
-      currentAudio.onerror = function() {
-        fallbackToSpeech(text, rate);
-      };
-
-      currentAudio.play().catch(function() {
-        fallbackToSpeech(text, rate);
-      });
+      globalAudio.src = googleTtsUrl;
+      globalAudio.playbackRate = rate;
+      
+      globalAudio.onerror = function() { fallbackToSpeech(text, rate); };
+      globalAudio.play().catch(function(error) { fallbackToSpeech(text, rate); });
     }
 
     function fallbackToSpeech(text, rate) {
       window.speechSynthesis.cancel();
-      let utterance = new SpeechSynthesisUtterance(text.replace(/\.\.\./g, ' '));
+      let utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'en-US';
       utterance.rate = rate;
       window.speechSynthesis.speak(utterance);

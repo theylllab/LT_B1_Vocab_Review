@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>高頻單字U5</title>
+  <style>
+    body {
+      font-family: "Microsoft JhengHei", sans-serif;
+      background-color: #fcf9f2;
+      color: #333;
+      padding: 20px;
+      margin: 0;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      min-width: 800px;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: top;
+    }
+    th {
+      background-color: #f0e6d2;
+      font-weight: bold;
+      color: #5a4a42;
+    }
+    .word-cell {
+      font-size: 1.2em;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    .syl-1 { color: #d32f2f; }
+    .syl-2 { color: #1976d2; }
+    .syl-3 { color: #388e3c; }
+    .syl-4 { color: #f57c00; }
+    .syl-5 { color: #7b1fa2; }
+    .separator {
+      color: #b0bec5;
+      margin: 0 2px;
+      font-weight: normal;
+    }
+    .phrase-text {
+      color: #1565c0;
+    }
+    .btn-audio {
+      background: none;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      padding: 3px 8px;
+      margin-left: 6px;
+      font-size: 0.85em;
+      transition: background 0.2s;
+    }
+    .btn-audio:hover {
+      background-color: #f0f0f0;
+    }
+    .kk-text {
+      color: #555;
+      font-family: Arial, sans-serif;
+      white-space: nowrap;
+    }
+    .meaning-text {
+      color: #333;
+    }
+    .pos-text {
+      color: #777;
+      font-style: italic;
+      margin-right: 5px;
+    }
+    .sentence-text {
+      color: #1a5276;
+      font-size: 0.9em;
+      line-height: 1.4;
+    }
+    .sentence-text b {
+      color: #0d47a1;
+      font-weight: bold;
+    }
+    .mnemonic-text {
+      font-size: 0.9em;
+      line-height: 1.5;
+      color: #4a4a4a;
+    }
+    .mnemonic-tag {
+      display: inline-block;
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      margin-right: 5px;
+      font-weight: bold;
+    }
+    .mnemonic-tag.sound {
+      background-color: #fff3e0;
+      color: #ef6c00;
+    }
+    .mnemonic-tag.creative {
+      background-color: #e3f2fd;
+      color: #1565c0;
+    }
+    .section-title {
+      background-color: #bbdefb;
+      color: #0d47a1;
+      font-size: 1.2em;
+      font-weight: bold;
+      text-align: center;
+      padding: 15px;
+      letter-spacing: 2px;
+    }
+
+    /* 手機螢幕 RWD 自適應卡片樣式 */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px 8px;
+      }
+      h2 {
+        font-size: 1.25rem;
+        margin: 10px 4px;
+        text-align: center;
+      }
+      .table-wrapper {
+        box-shadow: none;
+        overflow-x: visible;
+      }
+      table {
+        min-width: 100% !important;
+        display: block;
+      }
+      thead {
+        display: none;
+      }
+      tbody, tr, td {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      tr {
+        background: #ffffff;
+        margin-bottom: 12px;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        border: 1px solid #ebe5d8;
+        padding: 12px;
+      }
+      td {
+        border-bottom: none;
+        padding: 4px 0;
+      }
+      td.col-id {
+        display: inline-block;
+        background-color: #f0e6d2;
+        color: #795548;
+        font-size: 0.75rem;
+        font-weight: bold;
+        padding: 2px 8px;
+        border-radius: 12px;
+        margin-bottom: 4px;
+      }
+      td.col-word {
+        font-size: 1.3em;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      td.col-kk {
+        font-size: 0.9em;
+        color: #666;
+        padding-bottom: 6px;
+      }
+      td.col-meaning {
+        font-size: 1.05em;
+        color: #212121;
+        font-weight: 500;
+        padding-bottom: 8px;
+        border-bottom: 1px dashed #eee;
+      }
+      .section-title {
+        border-radius: 8px;
+        margin-bottom: 12px;
+        font-size: 1.05em;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>📖 高頻單字學習表</h2>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th width="5%">序號</th>
+          <th width="18%">單字 / 片語</th>
+          <th width="12%">KK音標</th>
+          <th width="15%">中文意思</th>
+          <th width="25%">記憶法 / 備註</th>
+          <th width="25%">英文例句</th>
+        </tr>
+      </thead>
+      <tbody id="word-list"></tbody>
+      
+      <tbody>
+        <tr>
+          <td colspan="6" class="section-title">✨ Idioms and Phrases ✨</td>
+        </tr>
+      </tbody>
+      
+      <tbody id="phrase-list"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  const allData = [
+    { "序號": 1, "單字": "clan", "詞性": "n. [C]", "中文意思": "宗族；氏族；集團；派系", "KK音標": "[klæn]", "音節": ["clan"], "例句": "The people in the village are all from the same clan.", "記憶法": "[創意記法] C 開頭聯想到 circle (圈子)，宗族就是一個大圈子" },
+    { "序號": 2, "單字": "conquer", "詞性": "vt.", "中文意思": "征服；克服", "KK音標": "[`kɑŋkɚ]", "音節": ["con", "quer"], "例句": "I wanted to stop, but I conquered my tiredness and kept going.", "記憶法": "[字根記法] con (完全) + quer (尋求) -> 完全尋求並取得 -> 征服" },
+    { "序號": 3, "單字": "crush", "詞性": "vt., n. [C]", "中文意思": "壓碎；徹底擊敗；擁擠的人群", "KK音標": "[krʌʃ]", "音節": ["crush"], "例句": "The boys crushed the empty cups under their feet.", "記憶法": "[諧音記法] 喀啦 (cr) 一聲被壓扁 (ush) -> 壓碎" },
+    { "序號": 4, "單字": "empire", "詞性": "n. [U, C]", "中文意思": "帝國；大企業；軍權", "KK音標": "[`ɛmpaɪr]", "音節": ["em", "pire"], "例句": "At its height, the British empire included more than twenty percent of the world's land area.", "記憶法": "[字根記法] em (進入/強調) + pire (準備) -> 準備好統治一切 -> 帝國" },
+    { "序號": 5, "單字": "endure", "詞性": "vt., vi.", "中文意思": "忍耐；忍受；持久；持續", "KK音標": "[ɪn`djʊr]", "音節": ["en", "dure"], "例句": "The soldier endured long hours in the desert during the war.", "記憶法": "[字根記法] en (使) + dure (持久) -> 使自己持久撐下去 -> 忍受" },
+    { "序號": 6, "單字": "expansion", "詞性": "n. [U, C]", "中文意思": "擴展；擴張；擴大物", "KK音標": "[ɪk`spænʃən]", "音節": ["ex", "pan", "sion"], "例句": "The expansion of the company led to the hiring of many new employees.", "記憶法": "[字根記法] ex (向外) + pan (展開) + sion (名詞) -> 向外展開 -> 擴張" },
+    { "序號": 7, "單字": "hemisphere", "詞性": "n. [U]", "中文意思": "（地球、球體的）半球", "KK音標": "[`hɛməˌsfɪr]", "音節": ["hem", "i", "sphere"], "例句": "In the southern hemisphere, winter takes place from June through August.", "記憶法": "[字根記法] hemi (一半) + sphere (球體) -> 半球" },
+    { "序號": 8, "單字": "invade", "詞性": "vt., vi.", "中文意思": "入侵；侵略", "KK音標": "[ɪn`ved]", "音節": ["in", "vade"], "例句": "The movie is about little blue men from Jupiter who invade our planet.", "記憶法": "[字根記法] in (進入) + vade (走) -> 走進別人的領地 -> 入侵" },
+    { "序號": 9, "單字": "oppose", "詞性": "vt.", "中文意思": "對抗；反對", "KK音標": "[ə`poz]", "音節": ["op", "pose"], "例句": "Some people opposed the chairperson's decision, while others agreed with it.", "記憶法": "[字根記法] op (反向) + pose (放置) -> 放在對立面 -> 反對" },
+    { "序號": 10, "單字": "Pacific", "詞性": "adj., n. [C]", "中文意思": "太平洋的；太平洋", "KK音標": "[pə`sɪfɪk]", "音節": ["Pa", "cif", "ic"], "例句": "The Pacific is the world's largest ocean.", "記憶法": "[字根記法] pac (和平) + ific (形容詞) -> 和平的海洋 -> 太平洋" },
+    { "序號": 11, "單字": "resemble", "詞性": "vt.", "中文意思": "與……像；類似", "KK音標": "[rɪ`zɛmbəl]", "音節": ["re", "sem", "ble"], "例句": "Many people say that I closely resemble my mother.", "記憶法": "[字根記法] re (一再) + sem (相同) + ble -> 一再呈現相同的樣子 -> 類似" },
+    { "序號": 12, "單字": "reside", "詞性": "vi.", "中文意思": "居住", "KK音標": "[rɪ`zaɪd]", "音節": ["re", "side"], "例句": "Peter used to live in Taiwan, but he now resides in a small town in France.", "記憶法": "[字根記法] re (再/強調) + side (坐/待著) -> 一直待在某處 -> 居住" },
+    { "序號": 13, "單字": "scatter", "詞性": "vt., vi.", "中文意思": "散布在各處；分散；撒在……上", "KK音標": "[`skætɚ]", "音節": ["scat", "ter"], "例句": "The criminals scattered when the police car drove up.", "記憶法": "[諧音記法] 發音似「死開特」-> 叫大家死開、散開 -> 分散" },
+    { "序號": 14, "單字": "slavery", "詞性": "n. [U]", "中文意思": "奴隸身分；奴隸制度", "KK音標": "[`slevəri]", "音節": ["slav", "er", "y"], "例句": "In the United States, slavery was made illegal during the Civil War.", "記憶法": "[字根記法] slave (奴隸) + ry (狀態/制度) -> 奴隸制度" },
+    { "序號": 15, "單字": "submit", "詞性": "vi., vt.", "中文意思": "順從；屈服；投降；提交", "KK音標": "[səb`mɪt]", "音節": ["sub", "mit"], "例句": "The fighter knew he had lost, and he shouted, \"I submit! I submit!\"", "記憶法": "[字根記法] sub (在下方) + mit (送出) -> 由下往上送出 -> 提交/順從" },
+    { "序號": 16, "單字": "tribal", "詞性": "adj.", "中文意思": "部落的", "KK音標": "[`traɪbəl]", "音節": ["tri", "bal"], "例句": "The guide was dressed in traditional tribal clothing.", "記憶法": "[字根記法] tribe (部落) + al (形容詞字尾) -> 部落的" },
+    { "序號": 17, "單字": "vast", "詞性": "adj.", "中文意思": "巨大的；廣大的", "KK音標": "[væst]", "音節": ["vast"], "例句": "The rock concert took place in a vast hall that held 10,000 people.", "記憶法": "[諧音記法] 發音似「哇死」-> 看到廣大空間發出哇的讚嘆" },
+    { "序號": 18, "單字": "violent", "詞性": "adj.", "中文意思": "暴力的", "KK音標": "[`vaɪələnt]", "音節": ["vi", "o", "lent"], "例句": "Tina wouldn't let her children play the violent video game.", "記憶法": "[字根記法] viol (暴力) + ent (形容詞字尾) -> 暴力的" },
+    { "序號": 19, "單字": "warrior", "詞性": "n. [C]", "中文意思": "武士；戰士", "KK音標": "[`wɔriɚ]", "音節": ["war", "ri", "or"], "例句": "The warriors fought a long battle against their enemy.", "記憶法": "[字根記法] war (戰爭) + ri + or (人) -> 參與戰爭的人 -> 戰士" }
+  ];
+
+  try {
+    // 依詞性區分單字與片語
+    const wordsData = allData.filter(item => !item.詞性.includes('phr'));
+    const phrasesData = allData.filter(item => item.詞性.includes('phr'));
+
+    // 進行 A 到 Z 排序
+    wordsData.sort((a, b) => a.單字.localeCompare(b.單字));
+    phrasesData.sort((a, b) => a.單字.localeCompare(b.單字));
+
+    const wordList = document.getElementById('word-list');
+    const phraseList = document.getElementById('phrase-list');
+
+    let globalIndex = 1;
+
+    // 建立表格列
+    function createRow(item) {
+      const tr = document.createElement('tr');
+      
+      const word = item.單字 || item.word || item.Vocab || "";
+      const kk = item.KK音標 || item.kk || item.KK || "";
+      const pos = item.詞性 || item.pos || item.POS || "";
+      const meaning = item.中文意思 || item.meaning || item.Chinese || "";
+      let mnemonic = item.記憶法 || item.mnemonic || item.Mnemonic || "";
+      const sentence = item.例句 || item.sentence || item.Example || "";
+      const syllables = item.音節 || item.syllables || item.Syllables || [];
+
+      let syllablesHtml = '';
+      if (Array.isArray(syllables) && syllables.length > 0) {
+        syllables.forEach((syl, i) => {
+          let colorClass = `syl-${(i % 5) + 1}`; 
+          syllablesHtml += `<span class="${colorClass}">${syl}</span>`;
+          if (i < syllables.length - 1) {
+            syllablesHtml += `<span class="separator">·</span>`;
+          }
+        });
+      } else {
+        syllablesHtml = `<span class="phrase-text">${word}</span>`;
+      }
+
+      let posHtml = pos ? `<span class="pos-text">${pos}</span>` : '';
+
+      if (mnemonic.includes('[字根記法]')) {
+        mnemonic = mnemonic.replace('[字根記法]', '<span class="mnemonic-tag">字根</span>');
+      } else if (mnemonic.includes('[諧音記法]')) {
+        mnemonic = mnemonic.replace('[諧音記法]', '<span class="mnemonic-tag sound">諧音</span>');
+      } else if (mnemonic.includes('[創意記法]')) {
+        mnemonic = mnemonic.replace('[創意記法]', '<span class="mnemonic-tag creative">創意</span>');
+      }
+
+      let highlightedSentence = sentence;
+      if (highlightedSentence && word) {
+        try {
+          const targetWord = word.trim().split(/\s+/)[0]; 
+          const escapedWord = targetWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const wordRegex = new RegExp(`\\b(${escapedWord}[a-zA-Z]*)\\b`, 'gi');
+          highlightedSentence = highlightedSentence.replace(wordRegex, '<b>$1</b>');
+        } catch (err) {
+          highlightedSentence = sentence;
+        }
+      }
+
+      tr.innerHTML = `
+        <td class="col-id">#${globalIndex++}</td>
+        <td class="word-cell col-word">
+          ${syllablesHtml}
+          <button class="btn-audio play-word" data-text="${word}" title="發音">🔊</button>
+        </td>
+        <td class="kk-text col-kk">${kk}</td>
+        <td class="meaning-text col-meaning">${posHtml}${meaning}</td>
+        <td class="mnemonic-text col-mnemonic">${mnemonic}</td>
+        <td class="sentence-text col-sentence">
+          ${highlightedSentence} 
+          ${sentence ? `<button class="btn-audio play-sentence" data-text="${sentence}" title="例句發音">🔊</button>` : ''}
+        </td>
+      `;
+      return tr;
+    }
+
+    wordsData.forEach(item => { wordList.appendChild(createRow(item)); });
+    phrasesData.forEach(item => { phraseList.appendChild(createRow(item)); });
+
+    // --- 音效處理區塊 (手機解鎖 + 共用 Audio) ---
+    const globalAudio = new Audio();
+    let audioUnlocked = false;
+
+    function unlockAudio() {
+      if (!audioUnlocked) {
+        globalAudio.play().then(() => {
+          globalAudio.pause();
+          globalAudio.currentTime = 0;
+          audioUnlocked = true;
+        }).catch(err => { /* 忽略自動播放阻擋錯誤 */ });
+        document.removeEventListener('touchstart', unlockAudio);
+        document.removeEventListener('click', unlockAudio);
+      }
+    }
+    
+    document.addEventListener('touchstart', unlockAudio, { once: true });
+    document.addEventListener('click', unlockAudio, { once: true });
+
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('play-word')) {
+        speakText(e.target.getAttribute('data-text'), 0.9);
+      } else if (e.target.classList.contains('play-sentence')) {
+        speakText(e.target.getAttribute('data-text'), 1.0);
+      }
+    });
+
+    function speakText(text, rate) {
+      if (!text) return;
+      window.speechSynthesis.cancel();
+      
+      const encodedText = encodeURIComponent(text);
+      const googleTtsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en-US&q=${encodedText}`;
+      
+      globalAudio.src = googleTtsUrl;
+      globalAudio.playbackRate = rate;
+      
+      globalAudio.onerror = function() { fallbackToSpeech(text, rate); };
+      globalAudio.play().catch(function(error) { fallbackToSpeech(text, rate); });
+    }
+
+    function fallbackToSpeech(text, rate) {
+      window.speechSynthesis.cancel();
+      let utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      utterance.rate = rate;
+      window.speechSynthesis.speak(utterance);
+    }
+
+  } catch (error) {
+    alert("執行發生錯誤：" + error);
+  }
+</script>
+</body>
+</html>

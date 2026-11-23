@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> B1L8 單字與片語</title>
+  <style>
+    body {
+      font-family: "Microsoft JhengHei", sans-serif;
+      background-color: #fcf9f2;
+      color: #333;
+      padding: 20px;
+      margin: 0;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+      min-width: 800px;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: top;
+    }
+    th {
+      background-color: #f0e6d2;
+      font-weight: bold;
+      color: #5a4a42;
+    }
+    .word-cell {
+      font-size: 1.2em;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    .syl-1 { color: #d32f2f; }
+    .syl-2 { color: #1976d2; }
+    .syl-3 { color: #388e3c; }
+    .syl-4 { color: #f57c00; }
+    .syl-5 { color: #7b1fa2; }
+    .separator {
+      color: #b0bec5;
+      margin: 0 2px;
+      font-weight: normal;
+    }
+    .phrase-text {
+      color: #1565c0;
+    }
+    .btn-audio {
+      background: none;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      padding: 3px 8px;
+      margin-left: 6px;
+      font-size: 0.85em;
+      transition: background 0.2s;
+    }
+    .btn-audio:hover {
+      background-color: #f0f0f0;
+    }
+    .kk-text {
+      color: #555;
+      font-family: Arial, sans-serif;
+      white-space: nowrap;
+    }
+    .meaning-text {
+      color: #333;
+    }
+    .pos-text {
+      color: #777;
+      font-style: italic;
+      margin-right: 5px;
+    }
+    .sentence-text {
+      color: #1a5276;
+      font-size: 0.9em;
+      line-height: 1.4;
+    }
+    .sentence-text b {
+      color: #0d47a1;
+      font-weight: bold;
+    }
+    .mnemonic-text {
+      font-size: 0.9em;
+      line-height: 1.5;
+      color: #4a4a4a;
+    }
+    .mnemonic-tag {
+      display: inline-block;
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      margin-right: 5px;
+      font-weight: bold;
+    }
+    .mnemonic-tag.sound {
+      background-color: #fff3e0;
+      color: #ef6c00;
+    }
+    .mnemonic-tag.creative {
+      background-color: #e3f2fd;
+      color: #1565c0;
+    }
+    .section-title {
+      background-color: #bbdefb;
+      color: #0d47a1;
+      font-size: 1.2em;
+      font-weight: bold;
+      text-align: center;
+      padding: 15px;
+      letter-spacing: 2px;
+    }
+
+    /* 手機螢幕 RWD 自適應卡片樣式 */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px 8px;
+      }
+      h2 {
+        font-size: 1.25rem;
+        margin: 10px 4px;
+        text-align: center;
+      }
+      .table-wrapper {
+        box-shadow: none;
+        overflow-x: visible;
+      }
+      table {
+        min-width: 100% !important;
+        display: block;
+      }
+      thead {
+        display: none;
+      }
+      tbody, tr, td {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      tr {
+        background: #ffffff;
+        margin-bottom: 12px;
+        border-radius: 8px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        border: 1px solid #ebe5d8;
+        padding: 12px;
+      }
+      td {
+        border-bottom: none;
+        padding: 4px 0;
+      }
+      td.col-id {
+        display: inline-block;
+        background-color: #f0e6d2;
+        color: #795548;
+        font-size: 0.75rem;
+        font-weight: bold;
+        padding: 2px 8px;
+        border-radius: 12px;
+        margin-bottom: 4px;
+      }
+      td.col-word {
+        font-size: 1.3em;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      td.col-kk {
+        font-size: 0.9em;
+        color: #666;
+        padding-bottom: 6px;
+      }
+      td.col-meaning {
+        font-size: 1.05em;
+        color: #212121;
+        font-weight: 500;
+        padding-bottom: 8px;
+        border-bottom: 1px dashed #eee;
+      }
+      .section-title {
+        border-radius: 8px;
+        margin-bottom: 12px;
+        font-size: 1.05em;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>📖 L08 Convenience Stores</h2>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th width="5%">序號</th>
+          <th width="18%">單字 / 片語</th>
+          <th width="12%">KK音標</th>
+          <th width="15%">中文意思</th>
+          <th width="25%">記憶法 / 備註</th>
+          <th width="25%">英文例句</th>
+        </tr>
+      </thead>
+      <tbody id="word-list"></tbody>
+      <tbody>
+        <tr>
+          <td colspan="6" class="section-title">✨ Idioms and Phrases ✨</td>
+        </tr>
+      </tbody>
+      <tbody id="phrase-list"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  const allData = [
+    { "單字": "familiar", "詞性": "adj.", "KK音標": "[fə`mɪljɚ]", "音節": ["fa", "mil", "i", "ar"], "中文意思": "熟悉的", "例句": "Japanese cartoon characters such as Doraemon, Pikachu, and Totoro are familiar to kids all over the world.", "記憶法": "[字根記法] family (家庭) -> 像家人一樣熟悉的" },
+    { "單字": "urge", "詞性": "n. [C]", "KK音標": "[ɝdʒ]", "音節": ["urge"], "中文意思": "衝動", "例句": "Jason had an urge to change his daily routine, so he went swimming after work instead of going straight home.", "記憶法": "[諧音記法] 餓死(urge) -> 餓死前會有一股吃東西的衝動" },
+    { "單字": "urge", "詞性": "vt.", "KK音標": "[ɝdʒ]", "音節": ["urge"], "中文意思": "催促", "例句": "Many people were urging the country's leaders to do a better job of helping the homeless.", "記憶法": "[諧音記法] 餓死(urge) -> 餓死了，催促上菜" },
+    { "單字": "strategy", "詞性": "n. [C]", "KK音標": "[`strætədʒɪ]", "音節": ["strat", "e", "gy"], "中文意思": "策略", "例句": "The salesman's strategy for closing a deal is to describe the features that make his products better than other companies'.", "記憶法": "[創意記法] 將軍想出的戰略或策略" },
+    { "單字": "visible", "詞性": "adj.", "KK音標": "[`vɪzəbḷ]", "音節": ["vis", "i", "ble"], "中文意思": "看得見的", "例句": "In the sky there are 9,096 stars that are visible to the naked eye.", "記憶法": "[字根記法] vis (看) + ible (可以的) -> 可以看見的" },
+    { "單字": "purchase", "詞性": "vt.", "KK音標": "[`pɝtʃəs]", "音節": ["pur", "chase"], "中文意思": "購買", "例句": "Many people like to purchase goods inside international airports because they don't need to pay taxes.", "記憶法": "[創意記法] 為(pur)了追逐(chase)想要的物品而購買" },
+    { "單字": "purchase", "詞性": "n. [C]", "KK音標": "[`pɝtʃəs]", "音節": ["pur", "chase"], "中文意思": "購買", "例句": "It is the café's policy that each customer must make a purchase of at least one food or drink item.", "記憶法": "[創意記法] 為了追逐想要的物品而購買(的動作)" },
+    { "單字": "profitable", "詞性": "adj.", "KK音標": "[`prɑfɪtəbḷ]", "音節": ["prof", "it", "a", "ble"], "中文意思": "有利潤的", "例句": "The locals that live near this harbor have opened several highly profitable seafood restaurants.", "記憶法": "[字根記法] profit (利潤) + able (可以的) -> 可以產生利潤的" },
+    { "單字": "profit", "詞性": "vi.", "KK音標": "[`prɑfɪt]", "音節": ["prof", "it"], "中文意思": "獲得好處", "例句": "The students really profited from the teacher's story because they had a good laugh and learned something new.", "記憶法": "[字根記法] pro (向前) + fit (做) -> 往前做出成績 -> 獲得好處" },
+    { "單字": "profit", "詞性": "n. [C]", "KK音標": "[`prɑfɪt]", "音節": ["prof", "it"], "中文意思": "利潤", "例句": "The couple hope to make a profit by selling their house for much more than they paid for it last year.", "記憶法": "[字根記法] pro (向前) + fit (做) -> 往前做出成績 -> 利潤" },
+    { "單字": "similarly", "詞性": "adv.", "KK音標": "[`sɪmələlɪ]", "音節": ["sim", "i", "lar", "ly"], "中文意思": "同樣地;相似地", "例句": "Many Arctic birds fly south when winter approaches. Similarly, monarch butterflies fly to warmer places during the cold season.", "記憶法": "[字根記法] similar (相似的) + ly (副詞) -> 同樣地" },
+    { "單字": "similar", "詞性": "adj.", "KK音標": "[`sɪməlɚ]", "音節": ["sim", "i", "lar"], "中文意思": "相似的", "例句": "These two kinds of fish are similar in appearance but taste quite different.", "記憶法": "[字根記法] sim (相同) + ilar -> 相似的" },
+    { "單字": "similarity", "詞性": "n. [U, C]", "KK音標": "[ˌsɪmə`lærətɪ]", "音節": ["sim", "i", "lar", "i", "ty"], "中文意思": "相似性;相似處", "例句": "When Blake traveled to foreign countries, he noticed the similarity of all people rather than what made them different.", "記憶法": "[字根記法] similar (相似的) + ity (名詞字尾) -> 相似性" },
+    { "單字": "aim", "詞性": "vt.", "KK音標": "[em]", "音節": ["aim"], "中文意思": "針對;對象是", "例句": "This picture book is aimed primarily at children under the age of five.", "記憶法": "[創意記法] 瞄準(aim)某個目標或對象" },
+    { "單字": "aim", "詞性": "n. [C]", "KK音標": "[em]", "音節": ["aim"], "中文意思": "目的;目標", "例句": "The actress likes to watch videos of her performances with the aim of improving her acting skills.", "記憶法": "[創意記法] 瞄準的目標(aim)" },
+    { "單字": "impulse", "詞性": "n. [U, C]", "KK音標": "[`ɪmpʌls]", "音節": ["im", "pulse"], "中文意思": "衝動", "例句": "Kate bought an expensive pair of shoes on impulse but later realized she didn't need them.", "記憶法": "[字根記法] im (內) + pulse (推) -> 內心的一股推力 -> 衝動" },
+    { "單字": "display", "詞性": "vt.", "KK音標": "[dɪ`sple]", "音節": ["dis", "play"], "中文意思": "展示;陳列", "例句": "The scooter shop displays some of its most popular models on the front sidewalk to attract potential buyers.", "記憶法": "[字根記法] dis (展開) + play (折疊) -> 展開不折疊 -> 展示" },
+    { "單字": "display", "詞性": "n. [U, C]", "KK音標": "[dɪ`sple]", "音節": ["dis", "play"], "中文意思": "展覽;陳列", "例句": "Some of Picasso's less famous works will be on display at the Museum of Modern Art this spring.", "記憶法": "[字根記法] dis (展開) + play (折疊) -> 展開不折疊 -> 陳列" },
+    { "單字": "offer", "詞性": "n. [C]", "KK音標": "[`ɔfɚ]", "音節": ["of", "fer"], "中文意思": "特價", "例句": "The buy-two-get-one-free offer on all baked items at this bakery will only last until October 31.", "記憶法": "[創意記法] 商店提供(offer)的特價優惠" },
+    { "單字": "offer", "詞性": "vt.", "KK音標": "[`ɔfɚ]", "音節": ["of", "fer"], "中文意思": "提供", "例句": "The coach offered the best words of encouragement he could think of to each member of the team.", "記憶法": "[字根記法] ob (朝向) + fer (帶來) -> 帶來給別人 -> 提供" },
+    { "單字": "customer", "詞性": "n. [C]", "KK音標": "[`kʌstəmɚ]", "音節": ["cus", "tom", "er"], "中文意思": "顧客;客戶", "例句": "Mrs. Stewart is used to dealing with angry people because she handles all the customer complaints for a large store.", "記憶法": "[字根記法] custom (習慣/光顧) + er (人) -> 經常光顧的人 -> 顧客" },
+    { "單字": "advantage", "詞性": "n. [U, C]", "KK音標": "[əd`væntɪdʒ]", "音節": ["ad", "van", "tage"], "中文意思": "優勢;有利條件", "例句": "It would be to the company's advantage to promote their new product because the public is not familiar with it.", "記憶法": "[字根記法] advance (前進) -> 處於前面的位置 -> 優勢" },
+    { "單字": "eventually", "詞性": "adv.", "KK音標": "[ɪ`vɛntʃʊəlɪ]", "音節": ["e", "ven", "tu", "al", "ly"], "中文意思": "最後", "例句": "Raymond failed the GEPT the first time, but he tried again and eventually got an excellent score.", "記憶法": "[字根記法] eventual (最後的) + ly (副詞)" },
+    { "單字": "eventual", "詞性": "adj.", "KK音標": "[ɪ`vɛntʃʊəl]", "音節": ["e", "ven", "tu", "al"], "中文意思": "最後的", "例句": "Good training and a positive attitude led to Nicole's eventual success as a designer.", "記憶法": "[字根記法] event (事件/結果) + ual -> 最終結果的" },
+    { "單字": "trap", "詞性": "n. [C]", "KK音標": "[træp]", "音節": ["trap"], "中文意思": "圈套", "例句": "When the boy acted like he was crying, the mother fell into his trap and bought the cookies for him.", "記憶法": "[創意記法] 用來捕捉獵物的陷阱(trap)" },
+    { "單字": "trap", "詞性": "vt.", "KK音標": "[træp]", "音節": ["trap"], "中文意思": "困住", "例句": "A tree that fell in front of the main door trapped the people inside the burning building until help arrived.", "記憶法": "[創意記法] 用陷阱(trap)困住" },
+    { "單字": "aware", "詞性": "adj.", "KK音標": "[ə`wɛr]", "音節": ["a", "ware"], "中文意思": "知道;意識到", "例句": "None of the students was aware that their teacher was actually a famous author.", "記憶法": "[創意記法] a (一個) + ware (注意) -> 注意到、意識到" },
+    { "單字": "awareness", "詞性": "n. [U], sing.", "KK音標": "[ə`wɛrnɪs]", "音節": ["a", "ware", "ness"], "中文意思": "意識;認識", "例句": "The main aim of World AIDS Day is to raise our awareness of AIDS.", "記憶法": "[字根記法] aware (意識到) + ness (名詞字尾) -> 意識" },
+    { "單字": "clever", "詞性": "adj.", "KK音標": "[`klɛvɚ]", "音節": ["clev", "er"], "中文意思": "聰明的", "例句": "The teacher was really impressed with the students' clever ideas in their reports.", "記憶法": "[創意記法] 腦筋轉得快、聰明的(clever)" },
+
+    // 以下為片語
+    { "單字": "be likely to", "詞性": "phr.", "KK音標": "", "音節": [], "中文意思": "有可能會", "例句": "The home team is likely to beat the visiting team with the support of all their fans.", "記憶法": "[創意記法] like (像) + ly -> 像會發生的 -> 有可能" },
+    { "單字": "within (...) reach", "詞性": "phr.", "KK音標": "", "音節": [], "中文意思": "在( )伸手可及的範圍內", "例句": "Parents should never leave scissors or other dangerous items within arm's reach of their young children.", "記憶法": "[創意記法] 在...能碰觸到(reach)的範圍內(within)" },
+    { "單字": "line up", "詞性": "phr.", "KK音標": "", "音節": [], "中文意思": "排隊", "例句": "The announcement reminded passengers to line up before they boarded the plane.", "記憶法": "[創意記法] 排成一直線(line)" },
+    { "單字": "take advantage of", "詞性": "phr.", "KK音標": "", "音節": [], "中文意思": "利用", "例句": "Some people took advantage of Eva's kindness by asking her too many favors.", "記憶法": "[創意記法] 取得(take)優勢(advantage) -> 利用" },
+    { "單字": "set up", "詞性": "phr.", "KK音標": "", "音節": [], "中文意思": "設立;設置", "例句": "When it started to rain, the campers set up their tent immediately.", "記憶法": "[創意記法] 建立(set)起來(up)" },
+    { "單字": "start off", "詞性": "phr.", "KK音標": "", "音節": [], "中文意思": "開始", "例句": "Mia and Noah started off their journey in France, then traveled across Europe, and eventually returned home safe and sound to England.", "記憶法": "[創意記法] 出發(start)離開(off)起點 -> 開始" }
+  ];
+
+  try {
+    const wordsData = allData.filter(item => !item.詞性.includes('phr'));
+    const phrasesData = allData.filter(item => item.詞性.includes('phr'));
+
+    wordsData.sort((a, b) => a.單字.localeCompare(b.單字));
+    phrasesData.sort((a, b) => a.單字.localeCompare(b.單字));
+
+    const wordList = document.getElementById('word-list');
+    const phraseList = document.getElementById('phrase-list');
+
+    let globalIndex = 1;
+
+    function createRow(item) {
+      const tr = document.createElement('tr');
+      
+      const word = item.單字 || item.word || item.Vocab || "";
+      const kk = item.KK音標 || item.kk || item.KK || "";
+      const pos = item.詞性 || item.pos || item.POS || "";
+      const meaning = item.中文意思 || item.meaning || item.Chinese || "";
+      let mnemonic = item.記憶法 || item.mnemonic || item.Mnemonic || "";
+      const sentence = item.例句 || item.sentence || item.Example || "";
+      const syllables = item.音節 || item.syllables || item.Syllables || [];
+
+      let syllablesHtml = '';
+      if (Array.isArray(syllables) && syllables.length > 0) {
+        syllables.forEach((syl, i) => {
+          let colorClass = `syl-${(i % 5) + 1}`; 
+          syllablesHtml += `<span class="${colorClass}">${syl}</span>`;
+          if (i < syllables.length - 1) {
+            syllablesHtml += `<span class="separator">·</span>`;
+          }
+        });
+      } else {
+        syllablesHtml = `<span class="phrase-text">${word}</span>`;
+      }
+
+      let posHtml = pos ? `<span class="pos-text">${pos}</span>` : '';
+
+      if (mnemonic.includes('[字根記法]')) {
+        mnemonic = mnemonic.replace('[字根記法]', '<span class="mnemonic-tag">字根</span>');
+      } else if (mnemonic.includes('[諧音記法]')) {
+        mnemonic = mnemonic.replace('[諧音記法]', '<span class="mnemonic-tag sound">諧音</span>');
+      } else if (mnemonic.includes('[創意記法]')) {
+        mnemonic = mnemonic.replace('[創意記法]', '<span class="mnemonic-tag creative">創意</span>');
+      }
+
+      let highlightedSentence = sentence;
+      if (highlightedSentence && word) {
+        try {
+          const targetWord = word.trim().split(/\s+/)[0]; 
+          const escapedWord = targetWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const wordRegex = new RegExp(`\\b(${escapedWord}[a-zA-Z]*)\\b`, 'gi');
+          highlightedSentence = highlightedSentence.replace(wordRegex, '<b>$1</b>');
+        } catch (err) {
+          highlightedSentence = sentence;
+        }
+      }
+
+      tr.innerHTML = `
+        <td class="col-id">#${globalIndex++}</td>
+        <td class="word-cell col-word">
+          ${syllablesHtml}
+          <button class="btn-audio play-word" data-text="${word}" title="發音">🔊</button>
+        </td>
+        <td class="kk-text col-kk">${kk}</td>
+        <td class="meaning-text col-meaning">${posHtml}${meaning}</td>
+        <td class="mnemonic-text col-mnemonic">${mnemonic}</td>
+        <td class="sentence-text col-sentence">
+          ${highlightedSentence} 
+          ${sentence ? `<button class="btn-audio play-sentence" data-text="${sentence}" title="例句發音">🔊</button>` : ''}
+        </td>
+      `;
+      return tr;
+    }
+
+    wordsData.forEach(item => { wordList.appendChild(createRow(item)); });
+    phrasesData.forEach(item => { phraseList.appendChild(createRow(item)); });
+
+    // --- 音效處理區塊 (手機解鎖 + 共用 Audio) ---
+    const globalAudio = new Audio();
+    let audioUnlocked = false;
+
+    function unlockAudio() {
+      if (!audioUnlocked) {
+        globalAudio.play().then(() => {
+          globalAudio.pause();
+          globalAudio.currentTime = 0;
+          audioUnlocked = true;
+        }).catch(err => { /* 忽略自動播放阻擋錯誤 */ });
+        document.removeEventListener('touchstart', unlockAudio);
+        document.removeEventListener('click', unlockAudio);
+      }
+    }
+    
+    document.addEventListener('touchstart', unlockAudio, { once: true });
+    document.addEventListener('click', unlockAudio, { once: true });
+
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('play-word')) {
+        speakText(e.target.getAttribute('data-text'), 0.9);
+      } else if (e.target.classList.contains('play-sentence')) {
+        speakText(e.target.getAttribute('data-text'), 1.0);
+      }
+    });
+
+    function speakText(text, rate) {
+      if (!text) return;
+      window.speechSynthesis.cancel();
+      
+      const encodedText = encodeURIComponent(text);
+      const googleTtsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en-US&q=${encodedText}`;
+      
+      globalAudio.src = googleTtsUrl;
+      globalAudio.playbackRate = rate;
+      
+      globalAudio.onerror = function() { fallbackToSpeech(text, rate); };
+      globalAudio.play().catch(function(error) { fallbackToSpeech(text, rate); });
+    }
+
+    function fallbackToSpeech(text, rate) {
+      window.speechSynthesis.cancel();
+      let utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      utterance.rate = rate;
+      window.speechSynthesis.speak(utterance);
+    }
+
+  } catch (error) {
+    alert("執行發生錯誤：" + error);
+  }
+</script>
+</body>
+</html>
