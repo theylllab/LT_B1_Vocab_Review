@@ -195,7 +195,7 @@
         padding: 10px;
       }
     }
-      .sentence-text b {
+    .sentence-text b {
       color: #0d47a1;
       font-weight: bold;
     }
@@ -234,7 +234,7 @@
 </div>
 
 <script>
-  // 【資料區改為原生 JS 陣列，徹底解決 JSON 格式錯誤問題】
+  // 【資料區原生 JS 陣列】
   const allData = [
     {"序號": 1, "單字": "ability", "詞性": "n.", "中文意思": "能力", "KK音標": "[ə`bɪlətɪ]", "音節": ["a", "bil", "i", "ty"], "例句": "Eagles have the ability to fly without landing for over three hours.", "記憶法": "[字根記法] able (有能力的) 字尾變化 + -ity (名詞) -> 能力"}, 
     {"序號": 2, "單字": "accomplish", "詞性": "vt.", "中文意思": "達成", "KK音標": "[ə`kɑmplɪʃ]", "音節": ["ac", "com", "plish"], "例句": "Albert respects those who have accomplished something great in their lives.", "記憶法": "[字根記法] ac- (加強) + compl (滿的) + -ish (動詞) -> 努力達到圓滿 -> 達成"}, 
@@ -276,11 +276,9 @@
   ];
 
   try {
-    // 把資料拆成兩半：「單字」與「片語」
     const wordsData = allData.filter(item => item.詞性 !== 'phr.');
     const phrasesData = allData.filter(item => item.詞性 === 'phr.');
 
-    // 分別將兩區進行 A 到 Z 排序
     wordsData.sort((a, b) => a.單字.localeCompare(b.單字));
     phrasesData.sort((a, b) => a.單字.localeCompare(b.單字));
 
@@ -289,17 +287,16 @@
 
     let globalIndex = 1;
 
-    // 畫出表格列的共用函式
     function createRow(item) {
       const tr = document.createElement('tr');
       
-      const word = item.單字 || item.word || item.Vocab || "";
-      const kk = item.KK音標 || item.kk || item.KK || "";
-      const pos = item.詞性 || item.pos || item.POS || "";
-      const meaning = item.中文意思 || item.meaning || item.Chinese || "";
-      let mnemonic = item.記憶法 || item.mnemonic || item.Mnemonic || "";
-      const sentence = item.例句 || item.sentence || item.Example || "";
-      const syllables = item.音節 || item.syllables || item.Syllables || [];
+      const word = item.單字 || "";
+      const kk = item.KK音標 || "";
+      const pos = item.詞性 || "";
+      const meaning = item.中文意思 || "";
+      let mnemonic = item.記憶法 || "";
+      const sentence = item.例句 || "";
+      const syllables = item.音節 || [];
 
       let syllablesHtml = '';
       if (Array.isArray(syllables) && syllables.length > 0) {
@@ -324,13 +321,12 @@
         mnemonic = mnemonic.replace('[創意記法]', '<span class="mnemonic-tag creative">創意</span>');
       }
 
-      // 例句單字粗體化（安全不崩潰處理）
       let highlightedSentence = sentence;
-      if (sentence && word) {
+      if (highlightedSentence && word) {
         try {
-          const target = word.trim().split(" ")[0]; // 若為片語先抓第一個核心字或全字
+          const target = word.trim().split(" ")[0]; 
           const reg = new RegExp(`\\b(${target}[a-zA-Z]*)\\b`, 'gi');
-          highlightedSentence = sentence.replace(reg, '<b>$1</b>');
+          highlightedSentence = highlightedSentence.replace(reg, '<b>$1</b>');
         } catch (err) {
           highlightedSentence = sentence;
         }
@@ -353,17 +349,15 @@
       return tr;
     }
 
-    // 1. 渲染單字區
     wordsData.forEach(item => {
       wordList.appendChild(createRow(item));
     });
 
-    // 2. 渲染片語區
     phrasesData.forEach(item => {
       phraseList.appendChild(createRow(item));
     });
 
-    // 綁定發音事件
+    // 綁定點擊事件（必須在點擊當下立刻同步觸發發音，否則會被手機 Safari 阻擋）
     document.addEventListener('click', function(e) {
       if (e.target.classList.contains('play-word')) {
         speakText(e.target.getAttribute('data-text'), 0.9);
@@ -372,63 +366,36 @@
       }
     });
 
-    // 【新增：手機版音訊全域解鎖與共用播放器機制】
-    const globalAudio = new Audio();
-    let audioUnlocked = false;
-
-    function unlockAudio() {
-      if (audioUnlocked) return;
-      // 默默播放一次空音訊以通過瀏覽器互動限制
-      globalAudio.play().then(() => {
-        globalAudio.pause();
-        globalAudio.currentTime = 0;
-      }).catch(() => {});
-      
-      // 同時解鎖內建的 Web Speech API
-      let unlockSpeech = new SpeechSynthesisUtterance('');
-      window.speechSynthesis.speak(unlockSpeech);
-      
-      audioUnlocked = true;
-      // 解鎖後即可移除監聽
-      document.removeEventListener('touchstart', unlockAudio);
-      document.removeEventListener('click', unlockAudio);
+    // 預先載入語音引擎資源 (解決部分手機第一次點擊抓不到聲音的問題)
+    if (window.speechSynthesis) {
+        window.speechSynthesis.onvoiceschanged = function() {
+            window.speechSynthesis.getVoices();
+        };
     }
 
-    // 當使用者在手機上觸碰或點擊螢幕任意處時，立即觸發解鎖
-    document.addEventListener('touchstart', unlockAudio, { once: true });
-    document.addEventListener('click', unlockAudio, { once: true });
-
+    // 【100% 原生手機語音修復】
+    // 捨棄會被擋掉的網路連線，直接呼叫手機系統本身內建的語音助理 (Web Speech API)
     function speakText(text, rate) {
-      if (!text) return;
+      if (!text || !window.speechSynthesis) return;
 
-      // 停止正在播放的音訊
-      globalAudio.pause();
-      globalAudio.currentTime = 0;
+      // 停止上一句還沒念完的話
       window.speechSynthesis.cancel();
 
-      // 使用 Google Translate TTS 擷取音檔
-      const encodedText = encodeURIComponent(text);
-      const googleTtsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en-US&q=${encodedText}`;
-      
-      // 直接把網址餵給共用的 globalAudio 播放器
-      globalAudio.src = googleTtsUrl;
-      globalAudio.playbackRate = rate;
-
-      globalAudio.onerror = function() {
-        fallbackToSpeech(text, rate);
-      };
-
-      globalAudio.play().catch(function(error) {
-        fallbackToSpeech(text, rate);
-      });
-    }
-
-    // 降級備用：瀏覽器內建發音 API
-    function fallbackToSpeech(text, rate) {
-      window.speechSynthesis.cancel();
       let utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'en-US';
-      utterance.rate = rate;
+      utterance.rate = rate; // 控制語速
+
+      // 嘗試為手機挑選比較好聽/自然的聲音 (例如 Siri 的英文聲音)
+      let voices = window.speechSynthesis.getVoices();
+      if (voices.length > 0) {
+        let preferredVoice = voices.find(v => v.lang === 'en-US' && (v.name.includes('Siri') || v.name.includes('Google'))) 
+                             || voices.find(v => v.lang === 'en-US');
+        if (preferredVoice) {
+          utterance.voice = preferredVoice;
+        }
+      }
+
+      // 立即發出聲音（同步執行，完全不受 iOS 自動播放政策限制）
       window.speechSynthesis.speak(utterance);
     }
 
