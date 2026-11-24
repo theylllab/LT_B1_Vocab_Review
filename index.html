@@ -213,19 +213,19 @@
 <!-- 防短時間刷新計數腳本 + 不蒜子免費靜態網站計數器 -->
 <script>
   (function() {
-    const COOLDOWN_MS = 10 * 60 * 1000; // 設定 10 分鐘內重複刷新不重複向伺服器發送計數
+    const COOLDOWN_MS = 1 * 60 * 1000; // 設定 1分鐘內重複刷新不重複向伺服器發送計數
     const lastVisit = localStorage.getItem('lygshyl_last_visit');
     const cachedCount = localStorage.getItem('lygshyl_cached_uv');
     const now = Date.now();
 
-    // 若在 10 分鐘內重複刷新且已有快取數字，直接顯示快取數字、不載入計數器腳本
-    if (lastVisit && (now - parseInt(lastVisit, 10) < COOLDOWN_MS) && cachedCount) {
+    // 若在 1 分鐘內重複刷新且已有快取數字，直接顯示快取數字、不載入計數器腳本
+    if (lastVisit && (now - parseInt(lastVisit, 1) < COOLDOWN_MS) && cachedCount) {
       document.addEventListener('DOMContentLoaded', function() {
         const uvSpan = document.getElementById('busuanzi_value_site_uv');
         if (uvSpan) uvSpan.textContent = cachedCount;
       });
     } else {
-      // 超過 10 分鐘或首次造訪，載入計數器並更新時間戳記
+      // 超過 1 分鐘或首次造訪，載入計數器並更新時間戳記
       localStorage.setItem('lygshyl_last_visit', now.toString());
       const bszScript = document.createElement('script');
       bszScript.async = true;
